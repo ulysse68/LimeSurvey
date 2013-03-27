@@ -3,11 +3,13 @@
     {
         public function run()
         {
+
             $surveys = Survey::model()->findAllByAttributes(array(
            //     'active' => 'Y',
                 'listpublic' => 'Y'
             ));
-            debug('Public survey list here.');
+            $this->getController()->layout = false;
+            $this->getController()->render('publiclist', compact('surveys'));
         }
     }
 ?>

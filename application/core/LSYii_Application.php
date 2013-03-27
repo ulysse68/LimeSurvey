@@ -131,7 +131,6 @@ class LSYii_Application extends CWebApplication
         $this->initPluginManager(); 
         
         $this->initSurveySession();
-        
     }
     
     /**

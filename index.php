@@ -2,7 +2,7 @@
 
 // change the following paths if necessary
 $yii=dirname(__FILE__).'/framework/yii.php';
-$config=dirname(__FILE__).'/application/config/config.php';
+$config=dirname(__FILE__).'/application/config/internal.php';
 
 // remove the following lines when in production mode
 defined('YII_DEBUG') or define('YII_DEBUG',true);

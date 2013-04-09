@@ -41,7 +41,7 @@
                 
             $group = Groups::model()->findByAttributes(array(
                 'gid' => $id
-            ))->attributes;
+            ));
             
             $this->navData['groupId'] = $id;
             $this->navData['surveyId'] = $group['sid'];

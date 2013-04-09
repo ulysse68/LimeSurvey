@@ -145,12 +145,23 @@ CKEDITOR.plugins.add( 'dialogadvtab',
 						{
 							var styles = this.getValue();
 
-							var tmp = editor.document.createElement( 'span' );
-							tmp.setAttribute( 'style', styles );
-							tmp.setStyle( name, value );
-							styles = CKEDITOR.tools.normalizeCssText( tmp.getAttribute( 'style' ) );
+							// Remove the current value.
+							if ( styles )
+							{
+								styles = styles
+									.replace( new RegExp( '\\s*' + name + '\s*:[^;]*(?:$|;\s*)', 'i' ), '' )
+									.replace( /^[;\s]+/, '' )
+									.replace( /\s+$/, '' );
+							}
+
+							if ( value )
+							{
+								styles && !(/;\s*$/).test( styles ) && ( styles += '; ' );
+								styles += name + ': ' + value;
+							}
 
 							this.setValue( styles, 1 );
+
 						},
 
 						setup : setupAdvParams,

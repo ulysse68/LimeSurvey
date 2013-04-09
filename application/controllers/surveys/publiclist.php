@@ -4,12 +4,19 @@
         public function run()
         {
 
-            $surveys = Survey::model()->findAllByAttributes(array(
+            $surveys = Survey::model()->with(
+              array(
+                'languagesettings' => array(
+                    'condition' => "languagesettings.surveyls_language = '" . substr(App()->language, 0, 2) . "'"
+                )
+              )
+               
+            )->findAllByAttributes(array(
            //     'active' => 'Y',
-                'listpublic' => 'Y'
+                'listpublic' => 'Y',
             ));
             $this->getController()->layout = false;
-            $this->getController()->render('publiclist', compact('surveys'));
+            $this->getController()->render('publiclist_twig', compact('surveys'));
         }
     }
 ?>

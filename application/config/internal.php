@@ -36,8 +36,29 @@ $internalConfig = array(
             'class' => 'LSWebUser',
         ),
         'viewRenderer' => array(
-            'class' => 'ext.PolyViewRenderer.PolyViewRenderer'
-        )
+            'class' => 'ext.PolyViewRenderer.PolyViewRenderer',
+            'renderers' => array(
+                'twig' => array(
+                    'class' => 'ext.TwigRenderer.ETwigViewRenderer',
+                    'twigPathAlias' => 'application.third_party.Twig'
+                )
+            )
+
+        ),
+        'log'=>array(
+			'class'=>'CLogRouter',
+			'routes'=>array(
+				array(
+					'class'=>'CFileLogRoute',
+					'levels'=>'error, warning',
+				),
+				// uncomment the following to show log messages on web pages
+				array(
+					'class'=>'CWebLogRoute',
+				),
+
+			),
+		),
         
 	)
 );

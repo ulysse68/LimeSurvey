@@ -347,38 +347,50 @@ CKEDITOR.dom.range = function( document )
 
 	// Creates the appropriate node evaluator for the dom walker used inside
 	// check(Start|End)OfBlock.
-	function getCheckStartEndBlockEvalFunction()
+	function getCheckStartEndBlockEvalFunction( isStart )
 	{
 		var skipBogus = false,
-			whitespaces = CKEDITOR.dom.walker.whitespaces(),
 			bookmarkEvaluator = CKEDITOR.dom.walker.bookmark( true ),
-			isBogus = CKEDITOR.dom.walker.bogus();
+			nbspRegExp = /^[\t\r\n ]*(?:&nbsp;|\xa0)$/;
 
 		return function( node )
 		{
-			// First skip empty nodes.
-			if ( bookmarkEvaluator( node ) || whitespaces( node ) )
+			// First ignore bookmark nodes.
+			if ( bookmarkEvaluator( node ) )
 				return true;
 
-			// Skip the bogus node at the end of block.
-			if ( isBogus( node ) &&
-				 !skipBogus )
+			if ( node.type == CKEDITOR.NODE_TEXT )
 			{
-				skipBogus = true;
-				return true;
+				// Skip the block filler NBSP.
+				if ( CKEDITOR.env.ie &&
+					 nbspRegExp.test( node.getText() ) &&
+					 !skipBogus &&
+					 !( isStart && node.getNext() ) )
+				{
+					skipBogus = true;
+				}
+				// If there's any visible text, then we're not at the start.
+				else if ( node.hasAscendant( 'pre' ) || CKEDITOR.tools.trim( node.getText() ).length )
+					return false;
 			}
-
-			// If there's any visible text, then we're not at the start.
-			if ( node.type == CKEDITOR.NODE_TEXT &&
-					 ( node.hasAscendant( 'pre' ) ||
-						 CKEDITOR.tools.trim( node.getText() ).length ) )
-				return false;
-
-			// If there are non-empty inline elements (e.g. <img />), then we're not
-			// at the start.
-			if ( node.type == CKEDITOR.NODE_ELEMENT && !inlineChildReqElements[ node.getName() ] )
-				return false;
-
+			else if ( node.type == CKEDITOR.NODE_ELEMENT )
+			{
+				// If there are non-empty inline elements (e.g. <img />), then we're not
+				// at the start.
+				if ( !inlineChildReqElements[ node.getName() ] )
+				{
+					// Skip the padding block br.
+					if ( !CKEDITOR.env.ie &&
+						 node.is( 'br' ) &&
+						 !skipBogus &&
+						 !( isStart && node.getNext() ) )
+					{
+						skipBogus = true;
+					}
+					else
+						return false;
+				}
+			}
 			return true;
 		};
 	}
@@ -389,28 +401,21 @@ CKEDITOR.dom.range = function( document )
 	// text node and non-empty elements unless it's being bookmark text.
 	function elementBoundaryEval( checkStart )
 	{
-		var whitespaces = CKEDITOR.dom.walker.whitespaces(),
-			bookmark = CKEDITOR.dom.walker.bookmark( 1 );
-
 		return function( node )
 		{
-			// First skip empty nodes.
-			if ( bookmark( node ) || whitespaces( node ) )
-				return true;
-
 			// Tolerant bogus br when checking at the end of block.
 			// Reject any text node unless it's being bookmark
 			// OR it's spaces.
 			// Reject any element unless it's being invisible empty. (#3883)
 			return !checkStart && isBogus( node ) ||
-						 node.type == CKEDITOR.NODE_ELEMENT &&
-						 node.getName() in CKEDITOR.dtd.$removeEmpty;
+					( node.type == CKEDITOR.NODE_TEXT ?
+				   	   !CKEDITOR.tools.trim( node.getText() ) || !!node.getParent().data( 'cke-bookmark' )
+				   	   : node.getName() in CKEDITOR.dtd.$removeEmpty );
 		};
 	}
 
 	var whitespaceEval = new CKEDITOR.dom.walker.whitespaces(),
-		bookmarkEval = new CKEDITOR.dom.walker.bookmark(),
-		nbspRegExp = /^[\t\r\n ]*(?:&nbsp;|\xa0)$/;
+		bookmarkEval = new CKEDITOR.dom.walker.bookmark();
 
 	function nonWhitespaceOrBookmarkEval( node )
 	{
@@ -1829,13 +1834,13 @@ CKEDITOR.dom.range = function( document )
 			var startContainer = this.startContainer,
 				startOffset = this.startOffset;
 
-			// [IE] Special handling for range start in text with a leading NBSP,
-			// we it to be isolated, for bogus check.
-			if ( CKEDITOR.env.ie && startOffset && startContainer.type == CKEDITOR.NODE_TEXT )
+			// If the starting node is a text node, and non-empty before the offset,
+			// then we're surely not at the start of block.
+			if ( startOffset && startContainer.type == CKEDITOR.NODE_TEXT )
 			{
 				var textBefore = CKEDITOR.tools.ltrim( startContainer.substring( 0, startOffset ) );
-				if ( nbspRegExp.test( textBefore ) )
-					this.trim( 0, 1 );
+				if ( textBefore.length )
+					return false;
 			}
 
 			// We need to grab the block element holding the start boundary, so
@@ -1848,7 +1853,7 @@ CKEDITOR.dom.range = function( document )
 			walkerRange.setStartAt( path.block || path.blockLimit, CKEDITOR.POSITION_AFTER_START );
 
 			var walker = new CKEDITOR.dom.walker( walkerRange );
-			walker.evaluator = getCheckStartEndBlockEvalFunction();
+			walker.evaluator = getCheckStartEndBlockEvalFunction( true );
 
 			return walker.checkBackward();
 		},
@@ -1858,13 +1863,13 @@ CKEDITOR.dom.range = function( document )
 			var endContainer = this.endContainer,
 				endOffset = this.endOffset;
 
-			// [IE] Special handling for range end in text with a following NBSP,
-			// we it to be isolated, for bogus check.
-			if ( CKEDITOR.env.ie && endContainer.type == CKEDITOR.NODE_TEXT )
+			// If the ending node is a text node, and non-empty after the offset,
+			// then we're surely not at the end of block.
+			if ( endContainer.type == CKEDITOR.NODE_TEXT )
 			{
 				var textAfter = CKEDITOR.tools.rtrim( endContainer.substring( endOffset ) );
-				if ( nbspRegExp.test( textAfter ) )
-					this.trim( 1, 0 );
+				if ( textAfter.length )
+					return false;
 			}
 
 			// We need to grab the block element holding the start boundary, so
@@ -1877,53 +1882,15 @@ CKEDITOR.dom.range = function( document )
 			walkerRange.setEndAt( path.block || path.blockLimit, CKEDITOR.POSITION_BEFORE_END );
 
 			var walker = new CKEDITOR.dom.walker( walkerRange );
-			walker.evaluator = getCheckStartEndBlockEvalFunction();
+			walker.evaluator = getCheckStartEndBlockEvalFunction( false );
 
 			return walker.checkForward();
 		},
 
 		/**
-		 * Traverse with {@link CKEDITOR.dom.walker} to retrieve the previous element before the range start.
-		 * @param {Function} evaluator Function used as the walker's evaluator.
-		 * @param {Function} [guard] Function used as the walker's guard.
-		 * @param {CKEDITOR.dom.element} [boundary] A range ancestor element in which the traversal is limited,
-		 * default to the root editable if not defined.
-		 *
-		 * @return {CKEDITOR.dom.element|null} The returned node from the traversal.
+		 * Check if elements at which the range boundaries anchor are read-only,
+		 * with respect to "contenteditable" attribute.
 		 */
-		getPreviousNode : function( evaluator, guard, boundary ) {
-
-			var walkerRange = this.clone();
-			walkerRange.collapse( 1 );
-			walkerRange.setStartAt( boundary || this.document.getBody(), CKEDITOR.POSITION_AFTER_START );
-
-			var walker = new CKEDITOR.dom.walker( walkerRange );
-			walker.evaluator = evaluator;
-			walker.guard = guard;
-			return walker.previous();
-		},
-
-		/**
-		 * Traverse with {@link CKEDITOR.dom.walker} to retrieve the next element before the range start.
-		 * @param {Function} evaluator Function used as the walker's evaluator.
-		 * @param {Function} [guard] Function used as the walker's guard.
-		 * @param {CKEDITOR.dom.element} [boundary] A range ancestor element in which the traversal is limited,
-		 * default to the root editable if not defined.
-		 *
-		 * @return {CKEDITOR.dom.element|null} The returned node from the traversal.
-		 */
-		getNextNode: function( evaluator, guard, boundary )
-		{
-			var walkerRange = this.clone();
-			walkerRange.collapse();
-			walkerRange.setEndAt( boundary || this.document.getBody(), CKEDITOR.POSITION_BEFORE_END );
-
-			var walker = new CKEDITOR.dom.walker( walkerRange );
-			walker.evaluator = evaluator;
-			walker.guard = guard;
-			return walker.next();
-		},
-
 		checkReadOnly : ( function()
 		{
 			function checkNodesEditable( node, anotherEnd )
@@ -1972,6 +1939,8 @@ CKEDITOR.dom.range = function( document )
 		 */
 		moveToElementEditablePosition : function( el, isMoveToEnd )
 		{
+			var nbspRegExp = /^[\t\r\n ]*(?:&nbsp;|\xa0)$/;
+
 			function nextDFS( node, childOnly )
 			{
 				var next;

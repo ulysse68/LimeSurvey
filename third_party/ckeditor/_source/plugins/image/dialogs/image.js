@@ -846,7 +846,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 																element.setStyle( 'border-style', 'solid' );
 															}
 															else if ( !value && this.isChanged() )
-																element.removeStyle( 'border' );
+															{
+																element.removeStyle( 'border-width' );
+																element.removeStyle( 'border-style' );
+																element.removeStyle( 'border-color' );
+															}
 
 															if ( !internalCommit && type == IMAGE )
 																element.removeAttribute( 'border' );

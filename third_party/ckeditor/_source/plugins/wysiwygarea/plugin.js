@@ -46,17 +46,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				selIsLocked && this.getSelection().lock();
 
-				var that = this;
 				// Save snaps after the whole execution completed.
 				// This's a workaround for make DOM modification's happened after
 				// 'insertElement' to be included either, e.g. Form-based dialogs' 'commitContents'
 				// call.
-				setTimeout( function()
+				CKEDITOR.tools.setTimeout( function()
 				   {
-						 try { that.fire( 'saveSnapshot' ); }
-						 // IEs < 9 may requires a further delay to save snapshot, after pasting. (#9132)
-						 catch ( e ) { setTimeout( function(){ that.fire( 'saveSnapshot' ); }, 200 ); }
-					 }, 0 );
+					   this.fire( 'saveSnapshot' );
+				   }, 0, this );
 			}
 		};
 	}
@@ -341,7 +338,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	isNotWhitespace = CKEDITOR.dom.walker.whitespaces( true );
 
 	// Gecko need a key event to 'wake up' the editing
-	// ability when document is empty.(#3864)
+	// ability when document is empty.(#3864, #5781)
 	function activateEditing( editor )
 	{
 		var win = editor.window,
@@ -397,6 +394,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		if ( CKEDITOR.env.gecko )
 		{
+			activateEditing( editor );
+
 			// Ensure bogus br could help to move cursor (out of styles) to the end of block. (#7041)
 			var pathBlock = path.block || path.blockLimit,
 				lastNode = pathBlock && pathBlock.getLast( isNotEmpty );
@@ -768,12 +767,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 						domDocument.getDocumentElement().addClass( domDocument.$.compatMode );
 						// Override keystroke behaviors.
-						editor.on( 'key', function( evt )
+						editable && domDocument.on( 'keydown', function( evt )
 						{
-							if ( editor.mode != 'wysiwyg' )
-								return;
-
-							var keyCode = evt.data.keyCode;
+							var keyCode = evt.data.getKeystroke();
 
 							// Backspace OR Delete.
 							if ( keyCode in { 8 : 1, 46 : 1 } )
@@ -803,9 +799,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 									editor.fire( 'saveSnapshot' );
 
-									evt.cancel();
+									evt.data.preventDefault();
 								}
-								else if ( range.collapsed )
+								else
 								{
 									// Handle the following special cases: (#6217)
 									// 1. Del/Backspace key before/after table;
@@ -827,7 +823,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 										editor.fire( 'saveSnapshot' );
 
-										evt.cancel();
+										evt.data.preventDefault();
 									}
 									else if ( path.blockLimit.is( 'td' ) &&
 											  ( parent = path.blockLimit.getAscendant( 'table' ) ) &&
@@ -847,7 +843,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 										editor.fire( 'saveSnapshot' );
 
-										evt.cancel();
+										evt.data.preventDefault();
 									}
 
 								}
@@ -869,7 +865,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 										range = new CKEDITOR.dom.range( domDocument );
 										range[ keyCode == 33 ? 'moveToElementEditStart' : 'moveToElementEditEnd']( body );
 										range.select();
-										evt.cancel();
+										evt.data.preventDefault();
 									}
 								}
 
@@ -1271,6 +1267,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				editor.addCss( 'html { height: 100% !important; }' );
 				editor.addCss( 'img:-moz-broken { -moz-force-broken-image-icon : 1;	min-width : 24px; min-height : 24px; }' );
 			}
+			// Remove the margin to avoid mouse confusion. (#8835)
+			else if ( CKEDITOR.env.ie && CKEDITOR.env.version < 8 && editor.config.contentsLangDirection == 'ltr' )
+				editor.addCss( 'body{margin-right:0;}' );
 
 			/* #3658: [IE6] Editor document has horizontal scrollbar on long lines
 			To prevent this misbehavior, we show the scrollbar always */

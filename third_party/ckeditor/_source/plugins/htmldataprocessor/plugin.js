@@ -21,11 +21,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		return last;
 	}
 
-	function getNodeIndex( node ) {
-		var parent = node.parent;
-		return parent ? CKEDITOR.tools.indexOf( parent.children, node ) : -1;
-	}
-
 	function trimFillers( block, fromSource )
 	{
 		// If the current node is a block, and if we're converting from source or
@@ -164,29 +159,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				// The contents of table should be in correct order (#4809).
 				table : function( element )
 				{
-					// Clone the array as it would become empty during the sort call.
-					var children = element.children.slice( 0 );
+					var children = element.children;
 					children.sort( function ( node1, node2 )
 								   {
-										 var index1, index2;
-
-										 // Compare in the predefined order.
-										 if ( node1.type == CKEDITOR.NODE_ELEMENT &&
-													node2.type == node1.type )
-										 {
-											 index1 = CKEDITOR.tools.indexOf( tableOrder, node1.name );
-											 index2 = CKEDITOR.tools.indexOf( tableOrder, node2.name );
-										 }
-
-										 // Make sure the sort is stable, if no order can be established above.
-										 if ( !( index1 > -1 && index2 > -1 && index1 != index2 ) )
-										 {
-											 index1 = getNodeIndex( node1 );
-											 index2 = getNodeIndex( node2 );
-										 }
-
-										 return index1 > index2 ? 1 : -1;
-									 } );
+									   return node1.type == CKEDITOR.NODE_ELEMENT && node2.type == node1.type ?
+											CKEDITOR.tools.indexOf( tableOrder, node1.name )  > CKEDITOR.tools.indexOf( tableOrder, node2.name ) ? 1 : -1 : 0;
+								   } );
 				},
 
 				embed : function( element )
@@ -310,7 +288,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		defaultHtmlFilterRules.elements[ i ] = unprotectReadyOnly;
 	}
 
-	var protectElementRegex = /<(a|area|img|input|source)\b([^>]*)>/gi,
+	var protectElementRegex = /<(a|area|img|input)\b([^>]*)>/gi,
 		protectAttributeRegex = /\b(on\w+|href|src|name)\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|(?:[^ "'>]+))/gi;
 
 	var protectElementsRegex = /(?:<style(?=[ >])[^>]*>[\s\S]*<\/style>)|(?:<(:?link|meta|base)[^>]*>)/gi,

@@ -124,10 +124,6 @@ span.basic {
 /* Start menubar */
 div.menubar {
     background-color: #fefefe;
-    clear:left;
-    padding:0;
-    margin:0 auto 58px auto !important;
-    width: 99%;
 }
 
 div.menubar .ui-widget-header
@@ -142,14 +138,6 @@ div.menubar .ui-widget-header
     border-style: solid;
     border-width: 1px;
     padding:0 0.2%;
-}
-
-.menubar img {
-    vertical-align: middle;
-    max-height:40px;
-    border:0;
-    margin:0;
-    padding:0;
 }
 
 .menubar-title {
@@ -192,20 +180,8 @@ div.menubar .ui-widget-header
 
 }
 
-.menubar-left img{
-    float:left;
-    border:0;
-    padding:3px 1px;
-}
-
-.menubar-right > img{
-    border:0;
-    padding:2px 1px;
-}
-
 .menubar-right {
     float: right;
-    line-height: 1em;
     white-space: nowrap;
 }
 

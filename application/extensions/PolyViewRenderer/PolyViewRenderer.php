@@ -1,22 +1,73 @@
 <?php
-    class PolyViewRenderer extends CViewRenderer
+    class PolyViewRenderer implements IViewRenderer, IApplicationComponent
     {
+        /**
+         * Contains list of renderers that should be loaded.
+         * Index is the type, value is the configuration array.
+         * @var array
+         */
         public $renderers = array();
         /**
-         *
-         * @param type $sourceFile
-         * @param type $viewFile
+         * Stores the initialized renderers.
+         * Index is the type, value is the renderer object.
+         * @var array
          */
-        protected function generateViewFile($sourceFile, $viewFile) 
-        {
-            var_dump($sourceFile);
-            var_dump($viewFile);
+        protected $_renderers = array();
+        
+        public $fileExtension='.view';
 
-            die('ok');
-            copy($sourceFile, $viewFile);
+        /**
+         *
+         * @param type $type
+         * @param type $createIfNull
+         * @return CViewRenderer
+         */
+        protected function getRenderer($type, $createIfNull = true)
+        {
+            if (!isset($this->_renderers[$type]))
+            {
+                if (isset($this->renderers[$type]) && $createIfNull)
+                {
+                    $config = $this->renderers[$type];
+                    $config['fileExtension'] = '.view';
+                    $this->_renderers[$type] = Yii::createComponent($config);
+                    $this->_renderers[$type]->init();
+                }
+                else
+                {
+                    return;
+                }
+            }
+            return $this->_renderers[$type];
         }
 
+        /**
+         * Gets the type of renderer to use based on the filename.
+         * @param string $filename
+         * @return string
+         */
+        protected function getType($filename)
+        {
+            $matches = array();
+            preg_match('/^[^_]*(?:_(.*))?\.(?:.*)$/', $filename, $matches);
+            if (count($matches) == 2)
+            {
+                $type = $matches[1];
+            }
+            else
+            {
+                $type = 'php';
+            }
+            return $type;
+        }
 
+        public function getIsInitialized() {
+            return true;
+        }
+
+        public function init() {
+
+        }
         /**
          * Renders a view file.
          * This method is required by {@link IViewRenderer}.
@@ -30,13 +81,18 @@
         {
             if(!is_file($sourceFile) || ($file=realpath($sourceFile))===false)
                 throw new CException(Yii::t('yii','View file "{file}" does not exist.',array('{file}'=>$sourceFile)));
-            $viewFile=$this->getViewFile($sourceFile);
-            if(@filemtime($sourceFile)>@filemtime($viewFile))
+
+            $type = $this->getType($sourceFile);
+            if ($this->getRenderer($type) === null)
             {
-                $this->generateViewFile($sourceFile,$viewFile);
-                @chmod($viewFile,$this->filePermission);
+                return $context->renderInternal($sourceFile,$data,$return);
             }
-            return $context->renderInternal($viewFile,$data,$return);
+            else
+            {
+                return $this->getRenderer($type)->renderFile($context, $sourceFile, $data, $return);
+            }
         }
+
+
     }
 

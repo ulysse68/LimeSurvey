@@ -26,7 +26,11 @@
             }
             return false;
         }
-        
+
+
+        public function __construct() {
+    
+        }
         /**
          * This function initializes a new session for a survey.
          * If reset = true any existing session for the survey is first removed.
@@ -34,7 +38,7 @@
          * @param boolean $reset
          * @return boolean True if a new session was started.
          */
-        public function create($surveyId, $reset = false, $language = null)
+        public function create($surveyId, $reset = false, $language = null, $preview = false)
         {
             if ($reset || !$this->exists($surveyId))
             {
@@ -119,7 +123,7 @@
             asort($mapGroupOrder);
             return array_flip($mapGroupOrder);
         }
-        
+
         /**
          * This function initializes an empty survey session.
          * @param int $surveyId
@@ -182,7 +186,7 @@
                 return $array;
             }
         }
-        
+
         protected function write($surveyId, $key, $value)
         {
             if ($this->exists($surveyId))

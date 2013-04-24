@@ -444,21 +444,25 @@
             {
                 $listData = $item['values'];
             }
-            $result .= $this->widget('ext.bootstrap.widgets.TbSelect2', array(
-                'name' => $item['name'],
-                'value' => $item['value'],
-                'data' => $listData,
-                'options' => array(
-                    'minimumResultsForSearch' => 20,
-                    'placeholder' => gT('Please choose...')
-                ),
-                'htmlOptions' => array(
-                    'class' => 'select',
-                    'id' => $item['name'],
-                    'prompt' => '' // Required for placeholder to work.
-                )
-            ), true);
-            return $result;
+            if (!empty($listData))
+            {
+                $result .= $this->widget('ext.bootstrap.widgets.TbSelect2', array(
+                    'name' => $item['name'],
+                    'value' => $item['value'],
+                    'data' => $listData,
+                    'options' => array(
+                        'minimumResultsForSearch' => 20,
+                        'placeholder' => gT('Please choose...')
+                    ),
+                    'htmlOptions' => array(
+                        'class' => 'select',
+                        'id' => $item['name'],
+                        'prompt' => '' // Required for placeholder to work.
+                    )
+                ), true);
+                return $result;
+            }
+            
         }
         
         protected function renderSub($item, $imageUrl, $level)

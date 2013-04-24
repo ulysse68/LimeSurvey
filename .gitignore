@@ -2,7 +2,7 @@
 /upload/surveys/*
 /styles/gringegreen/images/Thumbs.db
 /upload/templates/*
-/tmp/runtime/HTML
+/tmp/runtime/*
 /application/controllers/admin/updater.php
 /tmp/*.html
 /tmp/*.lss

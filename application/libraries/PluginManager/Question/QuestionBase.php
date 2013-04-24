@@ -212,7 +212,15 @@
             // We use json_encode because it is faster than serialize.
             return md5(json_encode(static::$signature));
         }
-        
+
+        public static function getJavascript() {
+            $functions = array(
+                'get' => 'js:function(variable) { return $(this).val(); }',
+                'set' => 'js:function(variable, value) { return $(this).val(value); }',
+                'bindChange' => 'js:function(callback) { $(this).bind("change", callback) }'
+            );
+            return $functions;
+        }
         /**
          * Gets the response for the current response id.
          * @return type
@@ -239,12 +247,10 @@
         {
             if (isset($this->questionId))
             {
+                $code = $this->get('code');
                 return array(
-                    $this->get('code') => array(
-                        'id' => $this->questionId,
-                        'relevance' => $this->get('relevance')
-                    )
                 );
+                
             }
             return array();
         }
@@ -266,6 +272,14 @@
             }
         }
         
+        /**
+         * Renders a view file.
+         * @param type $file
+         */
+        protected function renderFile($file)
+        {
+
+        }
         public function saveAttributes(array $attributeValues, $qid = null) 
         {
             $attributes = $this->getAttributes();

@@ -5,6 +5,8 @@
     Yii::import('application.helpers.PluginSettingsHelper');
     $PluginSettings = new PluginSettingsHelper();
     
+    echo CHtml::beginForm('', 'post', array('id' => $form, 'class' => 'form-horizontal'));
+
     // Render basic and advanced non localized settings.
     $this->renderPartial('/questions/update_nonlocalized', compact('basicSettings', 'question', 'survey', 'groups', 'questions', 'questiontypes', 'form', 'attributes', 'PluginSettings'));
     
@@ -31,7 +33,7 @@
 </div>
 
 <?php
-    echo CHtml::beginForm('', 'post', array('id' => $form, 'class' => 'modern'));
+    
     echo CHtml::submitButton(gT('Save'));
     echo CHtml::endForm();
     

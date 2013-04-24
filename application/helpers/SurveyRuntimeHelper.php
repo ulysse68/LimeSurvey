@@ -13,11 +13,6 @@
 
 class SurveyRuntimeHelper {
 
-    /**
-     *
-     * @var Twig_Environment;
-     */
-    private $twig;
     private $context = array();
     /**
     * Main function

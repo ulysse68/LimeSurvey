@@ -25,20 +25,20 @@
          */
         public static function getGUID();
         
+        public static function getJavascript();
         /**
          * Returns the variables exposed by this question. 
          * The returned array contains a key for each variable name and the value is an array with meta data.
          * @return array
          */
         public function getVariables();
+        
         /**
-         * @param Twig_Environment $twig A reference to configured Twig Environment.
-         * This Twig environment will have a correctly configured translation environment.
-         * This Twig environment will have the plugin view path configured in its loader.
+         * @param string $name The name (or name prefix) the inputs rendered must use.
+         * @param string $language The language code.
          * @param bool $return If true, return the content instead of outputting it.
          */
         public function render($name, $language, $return = false);
-        
         
         /**
          * This function must save the custom question attributes for a question.

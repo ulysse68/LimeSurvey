@@ -26,7 +26,8 @@
          */
         public function EMevaluateExpression($expression)
         {
-            $result = LimeExpressionManager::ProcessString($expression);
+            return $expression;
+            //$result = LimeExpressionManager::ProcessString($expression);
             return $result;
         }
         

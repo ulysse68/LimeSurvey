@@ -1,34 +1,53 @@
-<div id="nonlocalized" class="nonlocalized tabs">
-    <ul>
-        <li><a href="#basic"><span><?php echo gT('Basic settings'); ?></span></a></li>
-        <li><a href="#advanced"><span><?php echo gT('Advanced settings'); ?></span></a></li>
-    </ul>
-    <div id="basic" class="settings">
-        <ul>
-            <?php
-               
-               foreach ($attributes as $name => $setting)
-               {
-                   if (!$setting['localized'] && !$setting['advanced'])
-                   {
-                    echo CHtml::tag('li', array(), $PluginSettings->renderSetting($name, $setting, $form, true)); 
-                   }
-               }
-            ?>
-           
-        </ul>
-    </div>
-    <div id="advanced" class="settings">
-        <ul>
-        <?php
-        foreach ($attributes as $name => $setting)
+<?php
+    $advanced = array();
+    $basic = array();
+    foreach ($attributes as $name => $setting)
+    {
+        if (!$setting['localized'] && !$setting['advanced'])
         {
-            if (!$setting['localized'] && $setting['advanced'])
-            {
-                echo CHtml::tag('li', array(), $PluginSettings->renderSetting($name, $setting, $form, true));
-            }
+            $basic[$name] = $setting;
         }
-        ?>
-        </ul>
-    </div>
-</div>
+        elseif (!$setting['localized'] && $setting['advanced'])
+        {
+            $advanced[$name] = $setting;
+        }
+    }
+
+    $class[] = "localized";
+
+    // Decide if we need basic / advanced tab.
+    $out = '';
+    if (!empty($basic) && !empty($advanced))
+    {
+        $class[] = "tabs";
+        $tabs[] = CHtml::link(CHtml::tag('span', array(), gT('Basic settings')), '#basic');
+        $tabs[] = CHtml::link(CHtml::tag('span', array(), gT('Advanced settings')), '#advanced');
+        $out .= CHtml::openTag('ul');
+        foreach ($tabs as $tab)
+        {
+            $out .= CHtml::tag('li', array(), $tab);
+
+
+        }
+        $out.= CHtml::closeTag('ul');
+    }
+    echo CHtml::openTag('div', array(
+        'class' => explode(' ', $class)
+    ));
+    echo $out;
+    $this->renderPartial('/questions/settingsblock', array(
+        'id' => 'basic',
+        'settings' => $basic,
+        'language' => $language,
+        'form' => $form,
+        'PluginSettings' => $PluginSettings
+    ));
+    $this->renderPartial('/questions/settingsblock', array(
+        'id' => 'advanced',
+        'settings' => $advanced,
+        'language' => $language,
+        'form' => $form,
+        'PluginSettings' => $PluginSettings
+    ));
+    echo CHtml::closeTag('div');
+?>

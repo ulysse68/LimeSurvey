@@ -21,7 +21,8 @@
                 'type' =>  'select',
                 'options' => array(
                     'radio' => 'Radio buttons',
-                    'dropdown' => 'Dropdown list'
+                    'dropdown' => 'Dropdown list',
+                    'checkbox' => 'Checkbox'
                     
                 ),
                 'localized' => false,
@@ -49,9 +50,29 @@
             'originalName' => 'Yes / No',
             'startDev' => '2013-30-1'
         );
-        
+
+
+        public static function getJavascript()
+        {
+            $functions = parent::getJavascript();
+            // Override get and set if using checkbox layout.
+            $functions['get'] =
+            'js:function(variable) {
+                if (!($(this).prop("type") == "checkbox")) {
+                return $(this).val();
+                } else {
+                var a = $("input[name=" + $(this).prop("name") + "]").serializeArray(); return a[a.length-1].value;}
+            }';
+            $functions['set'] = 'js:function(variable, value) { 
+                if (!($(this).prop("type") == "checkbox")) {$(this).val(value);
+                } else {
+                $(this).prop("checked", $(this).prop("value") == value)}
+                }';
+            return $functions;
+        }
         /**
-         * 
+         * Renders the question object. The question object MUST create an element
+         * with an id equal to $name.
          * @param boolean $return
          * @param string $name Unique string prefix to be used for all elements with a name and or id attribute.
          * @return null|html
@@ -70,23 +91,25 @@
                 1 => 'Yes',
                 0 => 'No'
             );
-            if ($this->get('display') == 'dropdown')
-            {
-                $out .= CHtml::dropDownList($name, $value, $data);
-                
+            switch ($this->get('display')) {
+                case 'dropdown':
+                    $out .= CHtml::dropDownList($name, $value, $data);
+                    break;
+                case 'checkbox':
+                    $out .= CHtml::checkBox($name, $value, array('uncheckValue' => 0, 'value' => 1));
+                    break;
+                case 'radio' :
+                default:
+                    $out .= CHtml::radioButtonList($name, $value, $data);
+
             }
-            else
-            {
-                $out .= CHtml::radioButtonList($name, $value, $data);
-            }
-            
             if ($return)
             {
-                return CHtml::tag('div', array('class' => 'question'), $out);
+                return $out;
             }
             else
             {
-                echo CHtml::tag('div', array('class' => 'question'), $out);
+                echo $out;
             }
         }
     }

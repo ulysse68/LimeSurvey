@@ -10,14 +10,20 @@ $internalConfig = array(
 	'runtimePath' => dirname(dirname(dirname(__FILE__))).DIRECTORY_SEPARATOR.'tmp'.DIRECTORY_SEPARATOR.'runtime',
 	'name' => 'LimeSurvey',
 	'defaultController' => 'survey',
-	
+	'theme' => 'default',
 	'import' => array(
 		'application.core.*',
 		'application.models.*',
 		'application.controllers.*',
 		'application.modules.*',
 	),
+    'preload' => array(
+        'limescript'
+    ),
 	'components' => array(
+        'limescript' => array(
+            'class' => 'ext.LimeScript.LimeScript'
+        ),
         'bootstrap' => array(
             'class' => 'ext.bootstrap.components.Bootstrap',
             'responsiveCss' => false,

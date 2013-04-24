@@ -7,7 +7,10 @@
         {
             $defaults = array(
                 'class' => array(),
-                'type' => 'string'
+                'type' => 'string',
+                'labelOptions' => array(
+                    'class' => 'control-label'
+                )
             );
             $metaData = array_merge($defaults, $metaData);
             if (is_string($metaData['class']))
@@ -69,7 +72,7 @@
             $value = isset($metaData['current']) ? $metaData['current'] : '';
             if (isset($metaData['label']))
             {
-                $out .= CHtml::label($metaData['label'], $id);
+                $out .= CHtml::label($metaData['label'], $id, $metaData['labelOptions']);
             }
             $out .= CHtml::textField($id, $value, array(
                 'id' => $id, 
@@ -91,7 +94,7 @@
             $readOnly = isset($metaData['readOnly']) ? $metaData['readOnly'] : false;
             if (isset($metaData['label']))
             {
-                $out .= CHtml::label($metaData['label'], $id);
+                $out .= CHtml::label($metaData['label'], $id, $metaData['labelOptions']);
             }
             $out .= Chtml::tag('div', array('class' => implode(' ', $metaData['class'])), CHtml::textArea($id, $value, array('id' => $id, 'form' => $form, 'readonly' => $readOnly)));
             return $out;
@@ -104,7 +107,7 @@
             $value = isset($metaData['current']) ? $metaData['current'] : '';
             if (isset($metaData['label']))
             {
-                $out .= CHtml::label($metaData['label'], $id);
+                $out .= CHtml::label($metaData['label'], $id, $metaData['labelOptions']);
             }
             $out .= CHtml::textField($id, $value, array(
                 'id' => $id, 
@@ -128,7 +131,7 @@
             
             if (isset($metaData['label']))
             {
-                $out .= CHtml::label($metaData['label'], $id);
+                $out .= CHtml::label($metaData['label'], $id, $metaData['labelOptions']);
             }
             $value = isset($metaData['current']) ? $metaData['current'] : '';
             
@@ -144,7 +147,7 @@
             $value = isset($metaData['current']) ? $metaData['current'] : (isset($metaData['default']) ? $metaData['default'] : null);
             if (isset($metaData['label']))
             {
-                $out .= CHtml::label($metaData['label'], $id);
+                $out .= CHtml::label($metaData['label'], $id, $metaData['labelOptions']);
             }
             $out .= CHtml::dropDownList($name, $value, $metaData['options'], array('form' => $form));
             
@@ -159,7 +162,7 @@
             $readOnly = isset($metaData['readOnly']) ? $metaData['readOnly'] : false;
             if (isset($metaData['label']))
             {
-                $out .= CHtml::label($metaData['label'], $id);
+                $out .= CHtml::label($metaData['label'], $id, $metaData['labelOptions']);
             }
             $out .= CHtml::textField($id, $value, array('id' => $id, 'form' => $form, 'class' => implode(' ', $metaData['class']), 'readonly' => $readOnly));
             
@@ -173,7 +176,7 @@
             $value = isset($metaData['current']) ? $metaData['current'] : '';
             if (isset($metaData['label']))
             {
-                $out .= CHtml::label($metaData['label'], $id);
+                $out .= CHtml::label($metaData['label'], $id, $metaData['labelOptions']);
             }
             $out .= CHtml::passwordField($id, $value, array('id' => $id, 'form' => $form));
             

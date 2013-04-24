@@ -1,0 +1,6 @@
+/*
+During testing we add big red borders around irrelevant questions.
+*/
+div.question.irrelevant {
+    border: 5px solid red;
+}

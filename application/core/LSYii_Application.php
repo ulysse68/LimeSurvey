@@ -109,7 +109,7 @@ class LSYii_Application extends CWebApplication
 
         parent::__construct($config);
         // Load the default and environmental settings from different files into self.
-        
+        Yii::setPathOfAlias('bootstrap' , Yii::getPathOfAlias('ext.bootstrap'));
         $ls_config = require(Yii::getPathOfAlias('application.config') . '/config-defaults.php');
         $email_config = require(Yii::getPathOfAlias('application.config') . '/email.php');
         $version_config = require(Yii::getPathOfAlias('application.config') . '/version.php');
@@ -253,7 +253,15 @@ class LSYii_Application extends CWebApplication
     {
         $this->lang = $lang;
     }
-    
+
+    /**
+     * Get the script manager.
+     * @return LimeScript
+     */
+    public function getLimeScript()
+    {
+        return $this->getComponent('limescript');
+    }
     /**
      * Get the pluginManager
      * 

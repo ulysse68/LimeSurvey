@@ -33,7 +33,15 @@
             'originalName' => 'Free Text',
             'startDev' => '2013-30-1'
         );
-        
+
+
+        public static function getJavascript()
+        {
+            $functions = parent::getJavascript();
+            // Override get and set if using checkbox layout.
+            $functions['bindChange'] = 'js:function(callback) { $(this).bind("change keyup", callback) }';
+            return $functions;
+        }
         /**
          * 
          * @param Twig_Environment $twig
@@ -41,20 +49,23 @@
          * @param string $name Unique string prefix to be used for all elements with a name and or id attribute.
          * @return null|html
          */
-        
-        public function render($name, $language, $return = false) 
+        public function render($name, $language, $return = false)
         {
-            $context = array(
-                'default' => $this->default,
-                'name' => $name                
-            );
-            if (!$return)
+            $questionText = $this->get('question', '', $language);
+
+            $value = $this->getResponse();
+
+
+            $out = CHtml::label($this->api->EMevaluateExpression($questionText), $name);
+
+            $out .= CHtml::textField($name, $value, $data);
+            if ($return)
             {
-                $twig->display('default.twig', $context);
+                return $out;
             }
             else
             {
-                return $twig->render('default.twig', $context);
+                echo $out;
             }
         }
     }

@@ -113,6 +113,7 @@
                     // Always redirect to prevent reloading from resubmitting.
                     $this->redirect(array($this->route, 'id' => $id));
                 }
+
                 /**
                  * @todo Add support for save & close button; in case of close redirect to overview page.
                  */
@@ -121,8 +122,13 @@
                 $this->navData['surveyId'] = $question['sid'];
                 $this->navData['groupId'] = $question['gid'];
                 $this->navData['questionId'] = $id;
+                
+
                 $survey = Survey::model()->findByPk($question['sid']);
+                                
+
                 $languages = $survey->getLanguages();
+
                 $groups = Groups::model()->findListByAttributes(array('sid' => $question['sid']), 'group_name');
                 $questions = Questions::model()->findListByAttributes(array('sid' => $question['sid']), 'code', null, array('order'=> 'sortorder'));
                 if (App()->request->getIsAjaxRequest())

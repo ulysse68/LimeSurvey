@@ -11,11 +11,11 @@
 <div class='header ui-widget-header'>
     <?php 
     if ($adding) { ?>
-        <?php $clang->eT("Add a new question"); ?>
+        <?php eT("Add a new question"); ?>
         <?php } elseif ($copying) { ?>
-        <?php $clang->eT("Copy question"); ?>
+        <?php eT("Copy question"); ?>
         <?php } else { ?>
-        <?php $clang->eT("Edit question"); ?>
+        <?php eT("Edit question"); ?>
         <?php } ?>
 
 </div>
@@ -35,26 +35,26 @@
         echo CHtml::form(array("questions/create"), 'post',array(
             'id'=> $form,
             'name'=> $form,
-            'onsubmit'=>"return isEmpty(document.getElementById('title'), '".$clang->gT("Error: You have to enter a question code.",'js')."');"
+            'onsubmit'=>"return isEmpty(document.getElementById('title'), '".gT("Error: You have to enter a question code.",'js')."');"
         ));
         echo CHtml::endForm();
 
         if (hasSurveyPermission($surveyid,'surveycontent','import'))
         { ?>
-        <br /><div class='header ui-widget-header'><?php $clang->eT("...or import a question"); ?></div>
-        <?php echo CHtml::form(array("admin/question/sa/import"), 'post', array('id'=>'importquestion', 'name'=>'importquestion', 'enctype'=>'multipart/form-data','onsubmit'=>"return validatefilename(this, '".$clang->gT("Please select a file to import!",'js')."');")); ?>
+        <br /><div class='header ui-widget-header'><?php eT("...or import a question"); ?></div>
+        <?php echo CHtml::form(array("admin/question/sa/import"), 'post', array('id'=>'importquestion', 'name'=>'importquestion', 'enctype'=>'multipart/form-data','onsubmit'=>"return validatefilename(this, '".gT("Please select a file to import!",'js')."');")); ?>
             <ul>
                 <li>
-                    <label for='the_file'><?php $clang->eT("Select LimeSurvey question file (*.lsq/*.csv)"); ?>:</label>
+                    <label for='the_file'><?php eT("Select LimeSurvey question file (*.lsq/*.csv)"); ?>:</label>
                     <input name='the_file' id='the_file' type="file"/>
                 </li>
                 <li>
-                    <label for='translinksfields'><?php $clang->eT("Convert resource links?"); ?></label>
+                    <label for='translinksfields'><?php eT("Convert resource links?"); ?></label>
                     <input name='translinksfields' id='translinksfields' type='checkbox' checked='checked'/>
                 </li>
             </ul>
             <p>
-            <input type='submit' value='<?php $clang->eT("Import question"); ?>' />
+            <input type='submit' value='<?php eT("Import question"); ?>' />
             <input type='hidden' name='action' value='importquestion' />
             <input type='hidden' name='sid' value='<?php echo $surveyid; ?>' />
             <input type='hidden' name='gid' value='<?php echo $gid; ?>' />

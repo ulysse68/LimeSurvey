@@ -42,7 +42,7 @@ class CommentListQuestion extends ListQuestion
         $anscount = $ansresult->getRowCount();
 
 
-        $hint_comment = $clang->gT('Please enter your comment here');
+        $hint_comment = gT('Please enter your comment here');
         if ($aQuestionAttributes['use_dropdown']!=1)
         {
             $answer .= '<div class="list">
@@ -75,7 +75,7 @@ class CommentListQuestion extends ListQuestion
                 }
                 $answer .= '        <li class="answer-item radio-item noanswer-item">
                 <input class="radio" type="radio" name="'.$this->fieldname.'" id="answer'.$this->fieldname.'" value=" " onclick="'.$checkconditionFunction.'(this.value, this.name, this.type)"'.$check_ans.' />
-                <label for="answer'.$this->fieldname.'" class="answertext">'.$clang->gT('No answer').'</label>
+                <label for="answer'.$this->fieldname.'" class="answertext">'.gT('No answer').'</label>
                 </li>
                 ';
             }
@@ -136,7 +136,7 @@ class CommentListQuestion extends ListQuestion
                 {
                     $check_ans = '';
                 }
-                $answer .= '<option class="noanswer-item" value=""'.$check_ans.'>'.$clang->gT('No answer')."</option>\n";
+                $answer .= '<option class="noanswer-item" value=""'.$check_ans.'>'.gT('No answer')."</option>\n";
             }
             $answer .= '    </select>
             </p>
@@ -168,7 +168,7 @@ class CommentListQuestion extends ListQuestion
         $output = "\t<select name='{$this->fieldname}'>\n"
         ."<option value=''";
         if ($idrow[$this->fieldname] == "") {$output .= " selected='selected'";}
-        $output .= ">".$clang->gT("Please choose")."..</option>\n";
+        $output .= ">".gT("Please choose")."..</option>\n";
 
         foreach ($lresult->readAll() as $llrow)
         {
@@ -186,13 +186,13 @@ class CommentListQuestion extends ListQuestion
 
     public function createFieldmap()
     {
-        $clang = Yii::app()->lang;
+        
         $map = QuestionModule::createFieldmap();
         $q = clone $map[$this->fieldname];
         unset($q->default);
         $q->fieldname .= 'comment';
         $q->aid='comment';
-        $q->sq=$clang->gT("Comment");
+        $q->sq=gT("Comment");
         $map[$q->fieldname]=$q;
         return $map;
     }
@@ -435,7 +435,7 @@ class CommentListQuestion extends ListQuestion
     public function questionProperties($prop = false)
     {
         $clang=Yii::app()->lang;
-        $props=array('description' => $clang->gT("List with comment"),'group' => $clang->gT("Single choice questions"),'subquestions' => 0,'class' => 'list-with-comment','hasdefaultvalues' => 1,'assessable' => 1,'answerscales' => 1,'enum' => 1);
+        $props=array('description' => gT("List with comment"),'group' => gT("Single choice questions"),'subquestions' => 0,'class' => 'list-with-comment','hasdefaultvalues' => 1,'assessable' => 1,'answerscales' => 1,'enum' => 1);
         return $prop?$props[$prop]:$props;
     }
 }

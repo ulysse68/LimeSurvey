@@ -5,7 +5,7 @@ class NumericalQuestion extends QuestionModule
     {
         global $thissurvey;
 
-        $clang = Yii::app()->lang;
+        
         $extraclass ="";
         $answertypeclass = "numeric";
         $checkconditionFunction = "fixnum_checkconditions";
@@ -79,13 +79,13 @@ class NumericalQuestion extends QuestionModule
         }
         // --> START NEW FEATURE - SAVE
         $answer = "<p class='question answer-item text-item numeric-item {$extraclass}'>"
-        . " <label for='answer{$this->fieldname}' class='hide label'>{$clang->gT('Answer')}</label>\n$prefix\t"
-        . "<input class='text {$answertypeclass}' type=\"text\" size=\"$tiwidth\" name=\"$this->fieldname\"  title=\"".$clang->gT('Only numbers may be entered in this field.')."\" "
+        . " <label for='answer{$this->fieldname}' class='hide label'>{gT('Answer')}</label>\n$prefix\t"
+        . "<input class='text {$answertypeclass}' type=\"text\" size=\"$tiwidth\" name=\"$this->fieldname\"  title=\"".gT('Only numbers may be entered in this field.')."\" "
         . "id=\"answer{$this->fieldname}\" value=\"{$fValue}\" onkeyup=\"{$checkconditionFunction}(this.value, this.name, this.type,'onchange',{$integeronly})\" "
         . " {$maxlength} />\t{$suffix}\n</p>\n";
         if ($aQuestionAttributes['hide_tip']==0)
         {
-            $answer .= "<p class=\"tip\">".$clang->gT('Only numbers may be entered in this field.')."</p>\n";
+            $answer .= "<p class=\"tip\">".gT('Only numbers may be entered in this field.')."</p>\n";
         }
 
         // --> END NEW FEATURE - SAVE
@@ -290,7 +290,7 @@ class NumericalQuestion extends QuestionModule
     public function questionProperties($prop = false)
     {
         $clang=Yii::app()->lang;
-        $props=array('description' => $clang->gT("Numerical Input"),'group' => $clang->gT("Mask questions"),'subquestions' => 0,'class' => 'numeric','hasdefaultvalues' => 1,'assessable' => 0,'answerscales' => 0,'enum' => 0);
+        $props=array('description' => gT("Numerical Input"),'group' => gT("Mask questions"),'subquestions' => 0,'class' => 'numeric','hasdefaultvalues' => 1,'assessable' => 0,'answerscales' => 0,'enum' => 0);
         return $prop?$props[$prop]:$props;
     }
 }

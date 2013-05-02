@@ -9,8 +9,8 @@ class NumberArrayQuestion extends ArrayQuestion
         $minrepeatheadings = Yii::app()->getConfig("minrepeatheadings");
         $extraclass ="";
         $answertypeclass = "";
-        $clang = Yii::app()->lang;
-        $caption=$clang->gT("An array of sub-question on each cell. The sub-question text are in the table header and concerns line header. ");
+        
+        $caption=gT("An array of sub-question on each cell. The sub-question text are in the table header and concerns line header. ");
         $checkconditionFunction = "fixnum_checkconditions";
         //echo '<pre>'; print_r($_POST); echo '</pre>';
         $defaultvaluescript = '';
@@ -70,19 +70,19 @@ class NumberArrayQuestion extends ArrayQuestion
             $maxvalue=1;
             $checkboxlayout=true;
             $answertypeclass =" checkbox";
-            $caption.=$clang->gT("Check or uncheck the answer for each subquestion. ");
+            $caption.=gT("Check or uncheck the answer for each subquestion. ");
         }
         elseif ($aQuestionAttributes['input_boxes']!=0 )
         {
             $inputboxlayout=true;
             $answertypeclass =" numeric-item text";
             $extraclass.=" numberonly";
-            $caption.=$clang->gT("Each answers are a number. ");
+            $caption.=gT("Each answers are a number. ");
         }
         else
         {
             $answertypeclass =" dropdown";
-            $caption.=$clang->gT("Select the answer for each subquestion. ");
+            $caption.=gT("Select the answer for each subquestion. ");
         }
         if(ctype_digit(trim($aQuestionAttributes['repeat_headings'])) && trim($aQuestionAttributes['repeat_headings']!=""))
         {
@@ -143,7 +143,7 @@ class NumberArrayQuestion extends ArrayQuestion
             {
                 $right_exists=true;
                 $answerwidth=$answerwidth/2;
-                $caption.=$clang->gT("The last cell give some information. ");
+                $caption.=gT("The last cell give some information. ");
             }
             else
             {
@@ -186,7 +186,7 @@ class NumberArrayQuestion extends ArrayQuestion
                 $answer_head_line .= "\t<td>&nbsp;</td>";
                 $odd_even = alternation($odd_even);
                 $mycols .= "<col class=\"answertextright $odd_even\" width=\"$answerwidth%\" />\n";
-                $caption.=$clang->gT("The last cell give some information. ");
+                $caption.=gT("The last cell give some information. ");
             }
             $answer_head = "\n\t<thead>\n<tr>\n"
             . $answer_head_line
@@ -272,7 +272,7 @@ class NumberArrayQuestion extends ArrayQuestion
                             $answer .= "\t<select class=\"multiflexiselect\" name=\"$myfname2\" id=\"answer{$myfname2}\" title=\""
                             . HTMLEscape($labelans[$thiskey]).'"'
                             . " onchange=\"$checkconditionFunction(this.value, this.name, this.type)\">\n"
-                            . "<option value=\"\">".$clang->gT('...')."</option>\n";
+                            . "<option value=\"\">".gT('...')."</option>\n";
 
                             for($ii=$minvalue; ($reverse? $ii>=$maxvalue:$ii<=$maxvalue); $ii+=$stepvalue) {
                                 $answer .= "<option value=\"$ii\"";
@@ -351,7 +351,7 @@ class NumberArrayQuestion extends ArrayQuestion
         }
         else
         {
-            $answer = "\n<p class=\"error\">".$clang->gT("Error: There are no answer options for this question and/or they don't exist in this language.")."</p>\n";
+            $answer = "\n<p class=\"error\">".gT("Error: There are no answer options for this question and/or they don't exist in this language.")."</p>\n";
         }
         return $answer;
     }
@@ -631,11 +631,11 @@ class NumberArrayQuestion extends ArrayQuestion
         $attributes = $this->getAttributeValues();
         if ($attributes['multiflexible_checkbox'] == 1)
         {
-            return $clang->gT('Please check at least one box per row').'.';
+            return gT('Please check at least one box per row').'.';
         }
         else
         {
-            return $clang->gT('Please complete all parts').'.';
+            return gT('Please complete all parts').'.';
         }
     }
 
@@ -1028,7 +1028,7 @@ class NumberArrayQuestion extends ArrayQuestion
     public function questionProperties($prop = false)
     {
         $clang=Yii::app()->lang;
-        $props=array('description' => $clang->gT("Array (Numbers)"),'group' => $clang->gT('Arrays'),'subquestions' => 2,'class' => 'array-multi-flexi','hasdefaultvalues' => 0,'assessable' => 1,'answerscales' => 0,'enum' => 0);
+        $props=array('description' => gT("Array (Numbers)"),'group' => gT('Arrays'),'subquestions' => 2,'class' => 'array-multi-flexi','hasdefaultvalues' => 0,'assessable' => 1,'answerscales' => 0,'enum' => 0);
         return $prop?$props[$prop]:$props;
     }
 }

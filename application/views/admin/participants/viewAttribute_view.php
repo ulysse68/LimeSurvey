@@ -4,14 +4,14 @@
 <script src="<?php echo Yii::app()->getConfig('adminscripts') . "viewAttribute.js" ?>" type="text/javascript"></script>
 <script type="text/javascript">
     var url = "<?php echo Yii::app()->getController()->createUrl("admin/participants/sa/getAttributeBox"); ?>";
-    var attname = "<?php $clang->eT("Attribute name:"); ?>";
+    var attname = "<?php eT("Attribute name:"); ?>";
     removeitem = new Array(); // Array to hold values that are to be removed from langauges option
 </script>
-<div class='header ui-widget-header'><strong><?php $clang->eT("Attribute settings"); ?></strong></div><br/>
+<div class='header ui-widget-header'><strong><?php eT("Attribute settings"); ?></strong></div><br/>
 <?php
 
 $options = array();
-$options[''] = $clang->gT('Select...');
+$options[''] = gT('Select...');
 foreach (getLanguageData(false, Yii::app()->session['adminlang']) as $langkey2 => $langname)
 {
     $options[$langkey2] = $langname['description'];
@@ -26,7 +26,7 @@ echo CHtml::beginForm(Yii::app()->getController()->createUrl('admin/participants
         <tr>
             <th colspan='2'>
                 <label for='atttype' id='atttype'>
-                    <?php $clang->eT('Attribute type:'); ?>
+                    <?php eT('Attribute type:'); ?>
                  </label>
             </th>
         </tr>
@@ -46,7 +46,7 @@ echo CHtml::beginForm(Yii::app()->getController()->createUrl('admin/participants
         <tr>
             <th colspan=2>
                 <label for='attvisible' id='attvisible'>
-                    <?php $clang->eT('Attribute visible:') ?>
+                    <?php eT('Attribute visible:') ?>
                 </label>
             </th>
         </tr>
@@ -69,7 +69,7 @@ echo CHtml::beginForm(Yii::app()->getController()->createUrl('admin/participants
     </table>
     <table width='400' id='ddtable' class='hovertable' style='display: none'>
         <tr>
-            <th colspan='2'><?php $clang->eT('Values:'); ?></th>
+            <th colspan='2'><?php eT('Values:'); ?></th>
         </tr>
         <?php
         foreach ($attributevalues as $row => $value)
@@ -86,19 +86,19 @@ echo CHtml::beginForm(Yii::app()->getController()->createUrl('admin/participants
                 <td class='actions'>
                     <?php
                     $edit = array('src' => Yii::app()->getConfig('adminimageurl') . 'edit_16.png',
-                        'alt' => $clang->gT("Edit value"),
+                        'alt' => gT("Edit value"),
                         'width' => '15',
                         'class' => 'edit',
                         'name' => $value['value_id'],
                         'height' => '15',
-                        'title' => $clang->gT("Edit value"));
+                        'title' => gT("Edit value"));
                     echo CHtml::image($edit['src'], $edit['alt'], array_slice($edit, 2));
                     $del = array('src' => Yii::app()->getConfig('adminimageurl') . 'delete.png',
-                        'alt' => $clang->gT("Delete value"),
+                        'alt' => gT("Delete value"),
                         'width' => '15',
                         'height' => '15',
                         'class'=> 'edit',
-                        'title' => $clang->gT("Delete value"));
+                        'title' => gT("Delete value"));
                     echo CHtml::link(CHtml::image($del['src'], $del['alt'], array_slice($del, 2)), $this->createUrl('admin/participants/sa/delAttributeValues/aid/' . $attributes['attribute_id'] . '/vid/' . $value['value_id']));
                     ?></td>
             </tr>
@@ -110,7 +110,7 @@ echo CHtml::beginForm(Yii::app()->getController()->createUrl('admin/participants
         <td></td>
         <td class='actions'>
             <a href='#' class='add'>
-                <img src = "<?php echo Yii::app()->getConfig('adminimageurl'); ?>plus.png" alt='<?php $clang->eT("Add value") ?>' title='<?php $clang->eT("Add value") ?>' id='addsign' name='addsign'>
+                <img src = "<?php echo Yii::app()->getConfig('adminimageurl'); ?>plus.png" alt='<?php eT("Add value") ?>' title='<?php eT("Add value") ?>' id='addsign' name='addsign'>
             </a>
         </td>
     </table>
@@ -119,15 +119,15 @@ echo CHtml::beginForm(Yii::app()->getController()->createUrl('admin/participants
     <table width='400' >
         <tr>
             <th colspan='2'>
-                <?php $clang->eT('Add a language:'); ?>
+                <?php eT('Add a language:'); ?>
             </th>
         </tr>
         <tr>
             <td class='data'>
         <?php
             $plus = array('src' => Yii::app()->getConfig('adminimageurl') . "plus.png",
-                        'alt' => $clang->gT('Add language'),
-                        'title' => $clang->gT('Add language'),
+                        'alt' => gT('Add language'),
+                        'title' => gT('Add language'),
                         'id' => 'add',
                         'hspace' => 2,
                         'vspace' => -6);
@@ -171,7 +171,7 @@ echo CHtml::beginForm(Yii::app()->getController()->createUrl('admin/participants
             <tr>
                 <th>
                     <label for='attname' id='attname'>
-                        <?php $clang->eT('Attribute name:'); ?>
+                        <?php eT('Attribute name:'); ?>
                     </label>
                 </th>
             </tr>
@@ -194,7 +194,7 @@ echo CHtml::beginForm(Yii::app()->getController()->createUrl('admin/participants
 <br/>
 <p>
     <?php
-    echo CHtml::submitButton('submit', array('value' => $clang->gT('Save')));
+    echo CHtml::submitButton('submit', array('value' => gT('Save')));
     echo CHtml::endForm();
     ?>
 </p>

@@ -9,7 +9,6 @@
         
         public function __construct($id, $module = null) {
             parent::__construct($id, $module);
-            Yii::import('application.libraries.Limesurvey_lang');
             Yii::import('application.helpers.surveytranslator_helper', true);
             
             
@@ -76,7 +75,6 @@
         
         public function actionPreview($id, $language = 'en')
         {
-            App()->setLang(new Limesurvey_lang($language));
             $question = Questions::model()->findByPk($id);
             $template = Survey::model()->findFieldByPk($question->sid, 'template');
             if (isset($question))

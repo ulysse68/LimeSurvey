@@ -6,8 +6,8 @@ class IDRadioArrayQuestion extends RadioArrayQuestion
         global $thissurvey;
         global $notanswered;
         $extraclass ="";
-        $clang = Yii::app()->lang;
-        $caption=$clang->gT("An array with sub-question on each line. The answers are increase, same, decrease and are contained in the table header. ");
+        
+        $caption=gT("An array with sub-question on each line. The answers are increase, same, decrease and are contained in the table header. ");
         $checkconditionFunction = "checkconditions";
 
         $qquery = "SELECT other FROM {{questions}} WHERE qid=".$this->id." AND language='".$_SESSION['survey_'.$this->surveyid]['s_lang']."'";
@@ -25,7 +25,7 @@ class IDRadioArrayQuestion extends RadioArrayQuestion
         if ($this->mandatory != 'Y' && SHOW_NO_ANSWER == 1) //Question is not mandatory
         {
             ++$cellwidth; // add another column
-            $caption.=$clang->gT("The last cell are for no answer. ");
+            $caption.=gT("The last cell are for no answer. ");
         }
         $cellwidth = round((( 100 - $answerwidth ) / $cellwidth) , 1); // convert number of columns to percentage of table width
 
@@ -58,12 +58,12 @@ class IDRadioArrayQuestion extends RadioArrayQuestion
         . "\t<thead>\n"
         . "<tr>\n"
         . "\t<td>&nbsp;</td>\n"
-        . "\t<th>".$clang->gT('Increase')."</th>\n"
-        . "\t<th>".$clang->gT('Same')."</th>\n"
-        . "\t<th>".$clang->gT('Decrease')."</th>\n";
+        . "\t<th>".gT('Increase')."</th>\n"
+        . "\t<th>".gT('Same')."</th>\n"
+        . "\t<th>".gT('Decrease')."</th>\n";
         if ($this->mandatory != 'Y' && SHOW_NO_ANSWER == 1) //Question is not mandatory
         {
-            $answer .= "\t<th>".$clang->gT('No answer')."</th>\n";
+            $answer .= "\t<th>".gT('No answer')."</th>\n";
         }
         $answer .= "</tr>\n"
         ."\t</thead>\n";
@@ -99,7 +99,7 @@ class IDRadioArrayQuestion extends RadioArrayQuestion
             $answer_body .= "\" />\n\t</th>\n";
 
             $answer_body .= "\t<td class=\"answer_cell_I answer-item radio-item\">\n"
-            . "<label for=\"answer$myfname-I\" class=\"hide\">{$clang->gT('Increase')}</label>\n"
+            . "<label for=\"answer$myfname-I\" class=\"hide\">{gT('Increase')}</label>\n"
             ."\t<input class=\"radio\" type=\"radio\" name=\"$myfname\" id=\"answer$myfname-I\" value=\"I\" ";
             if (isset($_SESSION['survey_'.$this->surveyid][$myfname]) && $_SESSION['survey_'.$this->surveyid][$myfname] == 'I')
             {
@@ -110,7 +110,7 @@ class IDRadioArrayQuestion extends RadioArrayQuestion
             . "</label>\n"
             . "\t</td>\n"
             . "\t<td class=\"answer_cell_S answer-item radio-item\">"
-            . "<label for=\"answer$myfname-S\" class=\"hide\">{$clang->gT('Same')}</label>\n"
+            . "<label for=\"answer$myfname-S\" class=\"hide\">{gT('Same')}</label>\n"
             . "\t<input class=\"radio\" type=\"radio\" name=\"$myfname\" id=\"answer$myfname-S\" value=\"S\" ";
 
             if (isset($_SESSION['survey_'.$this->surveyid][$myfname]) && $_SESSION['survey_'.$this->surveyid][$myfname] == 'S')
@@ -122,7 +122,7 @@ class IDRadioArrayQuestion extends RadioArrayQuestion
             . "</label>\n"
             . "\t</td>\n"
             . "\t<td class=\"answer_cell_D answer-item radio-item\">\n"
-            . "<label for=\"answer$myfname-D\" class=\"hide\">{$clang->gT('Decrease')}</label>\n"
+            . "<label for=\"answer$myfname-D\" class=\"hide\">{gT('Decrease')}</label>\n"
             . "\t<input class=\"radio\" type=\"radio\" name=\"$myfname\" id=\"answer$myfname-D\" value=\"D\" ";
             // --> END NEW FEATURE - SAVE
             if (isset($_SESSION['survey_'.$this->surveyid][$myfname]) && $_SESSION['survey_'.$this->surveyid][$myfname] == 'D')
@@ -140,7 +140,7 @@ class IDRadioArrayQuestion extends RadioArrayQuestion
             if ($this->mandatory != 'Y' && SHOW_NO_ANSWER == 1)
             {
                 $answer_body .= "\t<td class=\"answer-item radio-item noanswer-item\">\n"
-                . "<label for=\"answer$myfname-\" class=\"hide\">{$clang->gT('No answer')}</label>\n"
+                . "<label for=\"answer$myfname-\" class=\"hide\">{gT('No answer')}</label>\n"
                 . "\t<input class=\"radio\" type=\"radio\" name=\"$myfname\" id=\"answer$myfname-\" value=\"\" ";
                 if (!isset($_SESSION['survey_'.$this->surveyid][$myfname]) || $_SESSION['survey_'.$this->surveyid][$myfname] == '')
                 {
@@ -217,9 +217,9 @@ class IDRadioArrayQuestion extends RadioArrayQuestion
 
     public function getSPSSAnswers()
     {
-        $answers[] = array('code'=>1, 'value'=>$clang->gT('Increase'));
-        $answers[] = array('code'=>2, 'value'=>$clang->gT('Same'));
-        $answers[] = array('code'=>3, 'value'=>$clang->gT('Decrease'));
+        $answers[] = array('code'=>1, 'value'=>gT('Increase'));
+        $answers[] = array('code'=>2, 'value'=>gT('Same'));
+        $answers[] = array('code'=>3, 'value'=>gT('Decrease'));
         return $answers;
     }
 
@@ -239,8 +239,8 @@ class IDRadioArrayQuestion extends RadioArrayQuestion
 
     public function getAnswerArray($em)
     {
-        $clang = Yii::app()->lang;
-        return array('I' => $clang->gT("Increase"), 'S' => $clang->gT("Same"), 'D' => $clang->gT("Decrease"));
+        
+        return array('I' => gT("Increase"), 'S' => gT("Same"), 'D' => gT("Decrease"));
     }
 
     public function getVarAttributeValueNAOK($name, $default, $gseq, $qseq, $ansArray)
@@ -355,7 +355,7 @@ class IDRadioArrayQuestion extends RadioArrayQuestion
 
     public function getConditionAnswers()
     {
-        $clang = Yii::app()->lang;
+        
         $canswers = array();
 
         $fresult = Answers::model()->findAllByAttributes(array(
@@ -366,13 +366,13 @@ class IDRadioArrayQuestion extends RadioArrayQuestion
 
         foreach ($fresult as $frow)
         {
-            $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id.$arows['title'], "I", $clang->gT("Increase"));
-            $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id.$arows['title'], "S", $clang->gT("Same"));
-            $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id.$arows['title'], "D", $clang->gT("Decrease"));
+            $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id.$arows['title'], "I", gT("Increase"));
+            $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id.$arows['title'], "S", gT("Same"));
+            $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id.$arows['title'], "D", gT("Decrease"));
 
             if ($this->mandatory != 'Y')
             {
-                $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id.$arows['title'], "", $clang->gT("No answer"));
+                $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id.$arows['title'], "", gT("No answer"));
             }
         }
 
@@ -399,7 +399,7 @@ class IDRadioArrayQuestion extends RadioArrayQuestion
     public function questionProperties($prop = false)
     {
         $clang=Yii::app()->lang;
-        $props=array('description' => $clang->gT("Array (Increase/Same/Decrease)"),'group' => $clang->gT('Arrays'),'subquestions' => 1,'class' => 'array-increase-same-decrease','hasdefaultvalues' => 0,'assessable' => 1,'answerscales' => 0,'enum' => 0);
+        $props=array('description' => gT("Array (Increase/Same/Decrease)"),'group' => gT('Arrays'),'subquestions' => 1,'class' => 'array-increase-same-decrease','hasdefaultvalues' => 0,'assessable' => 1,'answerscales' => 0,'enum' => 0);
         return $prop?$props[$prop]:$props;
     }
 }

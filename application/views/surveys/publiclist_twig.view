@@ -1,13 +1,16 @@
 <!doctype html>
 <html>
     <title>{{this.pageTitle}}</title>
-    
     <body>
-        <ul>
-            {% for survey in surveys %}
-            <li>{{ survey.languagesettings[0].surveyls_title }}</li>
-            {% endfor %}
-        </ul>
-
+        test
+        <div class="container">
+            <div class="span12">
+            <ul>
+                {% for survey in surveys %}
+                <li>{{ survey.languagesettings[0].surveyls_title }}</li>
+                {% endfor %}
+            </ul>
+            </div>
+        </div>
     </body>
 </html>

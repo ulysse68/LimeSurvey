@@ -30,13 +30,13 @@
 
     </script>
     <link rel="icon" href="<?php echo Yii::app()->baseUrl; ?>/images/favicon.ico" />
-    <title><?php $clang->eT("LimeSurvey installer"); ?></title>
+    <title><?php eT("LimeSurvey installer"); ?></title>
 </head>
 
 <body class="body">
 
 <div class="container_6">
-<div class="grid_6 header"><?php $clang->eT("LimeSurvey installer"); ?></div>
+<div class="grid_6 header"><?php eT("LimeSurvey installer"); ?></div>
 
 </div>
 <div class="container_6">

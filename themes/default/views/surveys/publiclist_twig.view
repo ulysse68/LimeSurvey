@@ -1,13 +1,32 @@
 <!doctype html>
 <html>
-    <title>Basic template: {{this.pageTitle}}</title>
-    
-    <body>
-        <ul>
-            {% for survey in surveys %}
-            <li>{{ survey.languagesettings[0].surveyls_title }}</li>
-            {% endfor %}
-        </ul>
+    <head>
+        <title>{{this.pageTitle}}</title>
+        <link rel="stylesheet" href="{{App.theme.baseUrl}}/css/style.css">
 
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="span12">
+                    <h1>{{this.pageTitle}}</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="span12">
+                    <ul>
+                        {% for survey in surveys %}
+                        <li>{{ survey.languagesettings[0].surveyls_title }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <div id="poweredby" class="row">
+                <div class="span12">
+                    <img src="{{App.theme.baseUrl}}/images/poweredby.png">
+                </div>
+            </div>
+        </div>
     </body>
 </html>

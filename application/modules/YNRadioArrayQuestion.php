@@ -5,8 +5,8 @@ class YNRadioArrayQuestion extends RadioArrayQuestion
     {
         global $notanswered, $thissurvey;
         $extraclass ="";
-        $clang = Yii::app()->lang;
-        $caption=$clang->gT("An array with sub-question on each line. The answers are yes, no, uncertain and are contained in the table header. ");
+        
+        $caption=gT("An array with sub-question on each line. The answers are yes, no, uncertain and are contained in the table header. ");
         $checkconditionFunction = "checkconditions";
 
         $qquery = "SELECT other FROM {{questions}} WHERE qid=".$this->id." AND language='".$_SESSION['survey_'.$this->surveyid]['s_lang']."'";
@@ -26,7 +26,7 @@ class YNRadioArrayQuestion extends RadioArrayQuestion
         if ($this->mandatory != 'Y' && SHOW_NO_ANSWER == 1) //Question is not mandatory
         {
             ++$cellwidth; // add another column
-            $caption.=$clang->gT("The last cell are for no answer. ");
+            $caption.=gT("The last cell are for no answer. ");
         }
         $cellwidth = round((( 100 - $answerwidth ) / $cellwidth) , 1); // convert number of columns to percentage of table width
 
@@ -51,18 +51,18 @@ class YNRadioArrayQuestion extends RadioArrayQuestion
         $answer .= "\t</colgroup>\n\n"
         . "\t<thead>\n<tr class=\"array1\">\n"
         . "\t<td>&nbsp;</td>\n"
-        . "\t<th>".$clang->gT('Yes')."</th>\n"
-        . "\t<th>".$clang->gT('Uncertain')."</th>\n"
-        . "\t<th>".$clang->gT('No')."</th>\n";
+        . "\t<th>".gT('Yes')."</th>\n"
+        . "\t<th>".gT('Uncertain')."</th>\n"
+        . "\t<th>".gT('No')."</th>\n";
         if ($this->mandatory != 'Y' && SHOW_NO_ANSWER == 1) //Question is not mandatory
         {
-            $answer .= "\t<th>".$clang->gT('No answer')."</th>\n";
+            $answer .= "\t<th>".gT('No answer')."</th>\n";
         }
         $answer .= "</tr>\n\t</thead>";
         $answer_t_content = '<tbody>';
         if ($anscount==0)
         {
-            $answer.="<tr>\t<th class=\"answertext\">".$clang->gT('Error: This question has no answers.')."</th>\n</tr>\n";
+            $answer.="<tr>\t<th class=\"answertext\">".gT('Error: This question has no answers.')."</th>\n</tr>\n";
         }
         else
         {
@@ -87,7 +87,7 @@ class YNRadioArrayQuestion extends RadioArrayQuestion
                 $answer_t_content .= "\t<th class=\"answertext\">\n"
                 . $hiddenfield
                 . "\t\t\t\t$answertext</th>\n"
-                . "\t<td class=\"answer_cell_Y answer-item radio-item\">\n<label for=\"answer$myfname-Y\" class=\"hide\">{$clang->gT('Yes')}</label>\n"
+                . "\t<td class=\"answer_cell_Y answer-item radio-item\">\n<label for=\"answer$myfname-Y\" class=\"hide\">{gT('Yes')}</label>\n"
                 . "\t<input class=\"radio\" type=\"radio\" name=\"$myfname\" id=\"answer$myfname-Y\" value=\"Y\" ";
                 if (isset($_SESSION['survey_'.$this->surveyid][$myfname]) && $_SESSION['survey_'.$this->surveyid][$myfname] == 'Y')
                 {
@@ -95,7 +95,7 @@ class YNRadioArrayQuestion extends RadioArrayQuestion
                 }
                 // --> START NEW FEATURE - SAVE
                 $answer_t_content .= " onclick=\"$checkconditionFunction(this.value, this.name, this.type)\" />\n\t</td>\n"
-                . "\t<td class=\"answer_cell_U answer-item radio-item\">\n<label for=\"answer$myfname-U\" class=\"hide\">{$clang->gT('Uncertain')}</label>\n"
+                . "\t<td class=\"answer_cell_U answer-item radio-item\">\n<label for=\"answer$myfname-U\" class=\"hide\">{gT('Uncertain')}</label>\n"
                 . "<input class=\"radio\" type=\"radio\" name=\"$myfname\" id=\"answer$myfname-U\" value=\"U\" ";
                 // --> END NEW FEATURE - SAVE
 
@@ -105,7 +105,7 @@ class YNRadioArrayQuestion extends RadioArrayQuestion
                 }
                 // --> START NEW FEATURE - SAVE
                 $answer_t_content .= " onclick=\"$checkconditionFunction(this.value, this.name, this.type)\" />\n\t</td>\n"
-                . "\t<td class=\"answer_cell_N answer-item radio-item\">\n<label for=\"answer$myfname-N\" class=\"hide\">{$clang->gT('No')}</label>\n"
+                . "\t<td class=\"answer_cell_N answer-item radio-item\">\n<label for=\"answer$myfname-N\" class=\"hide\">{gT('No')}</label>\n"
                 . "<input class=\"radio\" type=\"radio\" name=\"$myfname\" id=\"answer$myfname-N\" value=\"N\" ";
                 // --> END NEW FEATURE - SAVE
 
@@ -125,7 +125,7 @@ class YNRadioArrayQuestion extends RadioArrayQuestion
 
                 if ($this->mandatory != 'Y' && SHOW_NO_ANSWER == 1)
                 {
-                    $answer_t_content .= "\t<td class=\"answer-item radio-item noanswer-item\">\n\t<label for=\"answer$myfname-\" class=\"hide\">{$clang->gT('No answer')}</label>\n"
+                    $answer_t_content .= "\t<td class=\"answer-item radio-item noanswer-item\">\n\t<label for=\"answer$myfname-\" class=\"hide\">{gT('No answer')}</label>\n"
                     . "\t<input class=\"radio\" type=\"radio\" name=\"$myfname\" id=\"answer$myfname-\" value=\"\" ";
                     if (!isset($_SESSION['survey_'.$this->surveyid][$myfname]) || $_SESSION['survey_'.$this->surveyid][$myfname] == '')
                     {
@@ -145,7 +145,7 @@ class YNRadioArrayQuestion extends RadioArrayQuestion
 
     public function getDataEntry($idrow, &$fnames, $language)
     {
-        $clang = Yii::app()->lang;
+        
         $output = "<table>\n";
         $q = $this;
         while ($q->id == $this->id)
@@ -155,13 +155,13 @@ class YNRadioArrayQuestion extends RadioArrayQuestion
             ."<td>\n"
             ."\t<input type='radio' class='radiobtn' name='{$q->fieldname}' value='Y'";
             if ($idrow[$q->fieldname] == "Y") {$output .= " checked";}
-            $output .= " />".$clang->gT("Yes")."&nbsp;\n"
+            $output .= " />".gT("Yes")."&nbsp;\n"
             ."\t<input type='radio' class='radiobtn' name='{$q->fieldname}' value='U'";
             if ($idrow[$q->fieldname] == "U") {$output .= " checked";}
-            $output .= " />".$clang->gT("Uncertain")."&nbsp;\n"
+            $output .= " />".gT("Uncertain")."&nbsp;\n"
             ."\t<input type='radio' class='radiobtn' name='{$q->fieldname}' value='N'";
             if ($idrow[$q->fieldname] == "N") {$output .= " checked";}
-            $output .= " />".$clang->gT("No")."&nbsp;\n"
+            $output .= " />".gT("No")."&nbsp;\n"
             ."</td>\n"
             ."\t</tr>\n";
             if(!$fname=next($fnames)) break;
@@ -212,16 +212,16 @@ class YNRadioArrayQuestion extends RadioArrayQuestion
 
     public function getSPSSAnswers()
     {
-        $answers[] = array('code'=>1, 'value'=>$clang->gT('Yes'));
-        $answers[] = array('code'=>2, 'value'=>$clang->gT('No'));
-        $answers[] = array('code'=>3, 'value'=>$clang->gT('Uncertain'));
+        $answers[] = array('code'=>1, 'value'=>gT('Yes'));
+        $answers[] = array('code'=>2, 'value'=>gT('No'));
+        $answers[] = array('code'=>3, 'value'=>gT('Uncertain'));
         return $answers;
     }
 
     public function getAnswerArray($em)
     {
-        $clang = Yii::app()->lang;
-        return array('Y' => $clang->gT("Yes"), 'N' => $clang->gT("No"), 'U' => $clang->gT("Uncertain"));
+        
+        return array('Y' => gT("Yes"), 'N' => gT("No"), 'U' => gT("Uncertain"));
     }
 
     public function getVarAttributeValueNAOK($name, $default, $gseq, $qseq, $ansArray)
@@ -336,7 +336,7 @@ class YNRadioArrayQuestion extends RadioArrayQuestion
 
     public function getConditionAnswers()
     {
-        $clang = Yii::app()->lang;
+        
         $canswers = array();
 
         $fresult = Answers::model()->findAllByAttributes(array(
@@ -347,13 +347,13 @@ class YNRadioArrayQuestion extends RadioArrayQuestion
 
         foreach ($fresult as $frow)
         {
-            $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id.$arows['title'], "Y", $clang->gT("Yes"));
-            $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id.$arows['title'], "U", $clang->gT("Uncertain"));
-            $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id.$arows['title'], "N", $clang->gT("No"));
+            $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id.$arows['title'], "Y", gT("Yes"));
+            $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id.$arows['title'], "U", gT("Uncertain"));
+            $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id.$arows['title'], "N", gT("No"));
 
             if ($this->mandatory != 'Y')
             {
-                $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id.$arows['title'], "", $clang->gT("No answer"));
+                $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id.$arows['title'], "", gT("No answer"));
             }
         }
 
@@ -380,7 +380,7 @@ class YNRadioArrayQuestion extends RadioArrayQuestion
     public function questionProperties($prop = false)
     {
         $clang=Yii::app()->lang;
-        $props=array('description' => $clang->gT("Array (Yes/No/Uncertain)"),'group' => $clang->gT('Arrays'),'subquestions' => 1,'class' => 'array-yes-uncertain-no','hasdefaultvalues' => 0,'assessable' => 1,'answerscales' => 0,'enum' => 0);
+        $props=array('description' => gT("Array (Yes/No/Uncertain)"),'group' => gT('Arrays'),'subquestions' => 1,'class' => 'array-yes-uncertain-no','hasdefaultvalues' => 0,'assessable' => 1,'answerscales' => 0,'enum' => 0);
         return $prop?$props[$prop]:$props;
     }
 }

@@ -71,7 +71,7 @@ class Authentication extends Survey_Common_Action
     public function logout()
     {
         Yii::app()->user->logout();
-        $this->_showLoginForm($this->getController()->lang->gT('Logout successful.'));
+        $this->_showLoginForm(gT('Logout successful.'));
     }
 
     /**
@@ -95,7 +95,7 @@ class Authentication extends Survey_Common_Action
             if (count($aFields) < 1)
             {
                 // wrong or unknown username and/or email
-                $aData['errormsg'] = $this->getController()->lang->gT('User name and/or email not found!');
+                $aData['errormsg'] = gT('User name and/or email not found!');
                 $aData['maxattempts'] = '';
                 $this->_renderWrappedTemplate('authentication', 'error', $aData);
             }
@@ -115,20 +115,19 @@ class Authentication extends Survey_Common_Action
     */
     private function _sendPasswordEmail($sEmailAddr, $aFields)
     {
-        $clang = $this->getController()->lang;
         $sFrom = Yii::app()->getConfig('siteadminemail');
         $sTo = $sEmailAddr;
-        $sSubject = $clang->gT('User data');
+        $sSubject = gT('User data');
         $sNewPass = createPassword();
         $sSiteName = Yii::app()->getConfig('sitename');
         $sSiteAdminBounce = Yii::app()->getConfig('siteadminbounce');
 
-        $username = sprintf($clang->gT('Username: %s'), $aFields[0]['users_name']);
-        $email    = sprintf($clang->gT('Email: %s'), $sEmailAddr);
-        $password = sprintf($clang->gT('New password: %s'), $sNewPass);
+        $username = sprintf(gT('Username: %s'), $aFields[0]['users_name']);
+        $email    = sprintf(gT('Email: %s'), $sEmailAddr);
+        $password = sprintf(gT('New password: %s'), $sNewPass);
 
         $body   = array();
-        $body[] = sprintf($clang->gT('Your user data for accessing %s'), Yii::app()->getConfig('sitename'));
+        $body[] = sprintf(gT('Your user data for accessing %s'), Yii::app()->getConfig('sitename'));
         $body[] = $username;
         $body[] = $password;
         $body   = implode("\n", $body);
@@ -136,11 +135,11 @@ class Authentication extends Survey_Common_Action
         if (SendEmailMessage($body, $sSubject, $sTo, $sFrom, $sSiteName, false, $sSiteAdminBounce))
         {
             User::model()->updatePassword($aFields[0]['uid'], hash('sha256', $sNewPass));
-            $sMessage = $username . '<br />' . $email . '<br /><br />' . $clang->gT('An email with your login data was sent to you.');
+            $sMessage = $username . '<br />' . $email . '<br /><br />' . gT('An email with your login data was sent to you.');
         }
         else
         {
-            $sTmp = str_replace("{NAME}", '<strong>' . $aFields[0]['users_name'] . '</strong>', $clang->gT("Email to {NAME} ({EMAIL}) failed."));
+            $sTmp = str_replace("{NAME}", '<strong>' . $aFields[0]['users_name'] . '</strong>', gT("Email to {NAME} ({EMAIL}) failed."));
             $sMessage = str_replace("{EMAIL}", $sEmailAddr, $sTmp) . '<br />';
         }
 
@@ -153,8 +152,9 @@ class Authentication extends Survey_Common_Action
     */
     protected function _showLoginForm($sLogoutSummary = '')
     {
-        $aData['summary'] = $this->_getSummary('logout', $sLogoutSummary);
-        $this->_renderWrappedTemplate('authentication', 'login', $aData);
+        $this->getController()->render('authentication/login');
+        //$aData['summary'] = $this->_getSummary('logout', $sLogoutSummary);
+        //$this->_renderWrappedTemplate('authentication', 'login', $aData);
     }
 
     /**
@@ -170,21 +170,19 @@ class Authentication extends Survey_Common_Action
             return $sSummary;
         }
 
-        $clang = $this->getController()->lang;
-
         switch ($sMethod) {
             case 'logout' :
-                $sSummary = $clang->gT('Please log in first.');
+                $sSummary = gT('Please log in first.');
                 break;
 
             case 'login' :
             default :
-                $sSummary = '<br />' . sprintf($clang->gT('Welcome %s!'), Yii::app()->session['full_name']) . '<br />&nbsp;';
+                $sSummary = '<br />' . gT('Welcome {name}!', array('{name}' => Yii::app()->session['full_name'])) . '<br />&nbsp;';
                 if (!empty(Yii::app()->session['redirect_after_login']) && strpos(Yii::app()->session['redirect_after_login'], 'logout') === FALSE)
                 {
                     Yii::app()->session['metaHeader'] = '<meta http-equiv="refresh"'
                     . ' content="1;URL=' . Yii::app()->session['redirect_after_login'] . '" />';
-                    $sSummary = '<p><font size="1"><i>' . $clang->gT('Reloading screen. Please wait.') . '</i></font>';
+                    $sSummary = '<p><font size="1"><i>' . gT('Reloading screen. Please wait.') . '</i></font>';
                     unset(Yii::app()->session['redirect_after_login']);
                 }
                 break;
@@ -312,7 +310,6 @@ class Authentication extends Survey_Common_Action
         }
 
         Yii::app()->session['adminlang'] = $sLanguage;
-        $this->getController()->lang= new limesurvey_lang($sLanguage);
     }
 
     /**
@@ -320,12 +317,11 @@ class Authentication extends Survey_Common_Action
     */
     private function _checkForUsageOfDefaultPassword()
     {
-        $clang = $this->getController()->lang;
         Yii::app()->session['pw_notify'] = false;
         if (strtolower(Yii::app()->request->getPost('password','') ) === 'password')
         {
             Yii::app()->session['pw_notify'] = true;
-            Yii::app()->session['flashmessage'] = $clang->gT('Warning: You are still using the default password (\'password\'). Please change your password and re-login again.');
+            Yii::app()->session['flashmessage'] = gT('Warning: You are still using the default password (\'password\'). Please change your password and re-login again.');
         }
     }
 
@@ -335,7 +331,6 @@ class Authentication extends Survey_Common_Action
     */
     private function _getAuthenticationFailedErrorMessage()
     {
-        $clang = $this->getController()->lang;
         $aData = array();
 
         $userHostAddress = Yii::app()->request->getUserHostAddress();
@@ -343,7 +338,7 @@ class Authentication extends Survey_Common_Action
 
         if ($bUserNotFound)
         {
-            $aData['errormsg'] = $clang->gT('Incorrect username and/or password!');
+            $aData['errormsg'] = gT('Incorrect username and/or password!');
             $aData['maxattempts'] = '';
         }
 
@@ -352,7 +347,7 @@ class Authentication extends Survey_Common_Action
         if ($bLockedOut)
         {
             $aData['maxattempts'] = sprintf(
-            $clang->gT('You have exceeded the number of maximum login attempts. Please wait %d minutes before trying again.'),
+            gT('You have exceeded the number of maximum login attempts. Please wait %d minutes before trying again.'),
             Yii::app()->getConfig('login_lockout_time') / 60
             );
         }

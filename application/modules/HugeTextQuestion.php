@@ -57,7 +57,7 @@ class HugeTextQuestion extends TextQuestion
         // <-- END ENHANCEMENT - TEXT INPUT WIDTH
 
         // --> START NEW FEATURE - SAVE
-        $answer = "<p class=\"question answer-item text-item {$extraclass}\"><label for='answer{$this->fieldname}' class='hide label'>{$clang->gT('Answer')}</label>";
+        $answer = "<p class=\"question answer-item text-item {$extraclass}\"><label for='answer{$this->fieldname}' class='hide label'>{gT('Answer')}</label>";
         $answer .='<textarea class="textarea '.$kpclass.'" name="'.$this->fieldname.'" id="answer'.$this->fieldname.'" '
         .'rows="'.$drows.'" cols="'.$tiwidth.'" '.$maxlength.' onkeyup="'.$checkconditionFunction.'(this.value, this.name, this.type)" >';
         // --> END NEW FEATURE - SAVE
@@ -147,7 +147,7 @@ class HugeTextQuestion extends TextQuestion
     public function questionProperties($prop = false)
     {
         $clang=Yii::app()->lang;
-        $props=array('description' => $clang->gT("Huge Free Text"),'group' => $clang->gT("Text questions"),'subquestions' => 0,'class' => 'text-huge','hasdefaultvalues' => 1,'assessable' => 0,'answerscales' => 0,'enum' => 0);
+        $props=array('description' => gT("Huge Free Text"),'group' => gT("Text questions"),'subquestions' => 0,'class' => 'text-huge','hasdefaultvalues' => 1,'assessable' => 0,'answerscales' => 0,'enum' => 0);
         return $prop?$props[$prop]:$props;
     }
 }

@@ -38,15 +38,15 @@ class RankingQuestion extends QuestionModule
             $answer .= "\n<li class=\"select-item\">";
             $answer .="<label for=\"answer{$myfname}\">";
             if($i==1){
-                $answer .=$clang->gT('First choice');
+                $answer .=gT('First choice');
             }else{
-                $answer .=$clang->gT('Next choice');
+                $answer .=gT('Next choice');
             }
             $answer .= "</label>";
             $answer .= "<select name=\"{$myfname}\" id=\"answer{$myfname}\">\n";
             if (!$_SESSION['survey_'.Yii::app()->getConfig('surveyID')][$this->fieldname])
             {
-                $answer .= "\t<option value=\"\"".SELECTED.">".$clang->gT('Please choose...')."</option>\n";
+                $answer .= "\t<option value=\"\"".SELECTED.">".gT('Please choose...')."</option>\n";
             }
             foreach ($answers as $ansrow)
             {
@@ -83,7 +83,7 @@ class RankingQuestion extends QuestionModule
         }
         else
         {
-            $choice_title=$clang->gT("Your Choices",'js');
+            $choice_title=gT("Your Choices",'js');
         }
         if(trim($aQuestionAttributes['rank_title'][$clang->langcode]) != '')
         {
@@ -91,7 +91,7 @@ class RankingQuestion extends QuestionModule
         }
         else
         {
-            $rank_title=$clang->gT("Your Ranking",'js');
+            $rank_title=gT("Your Ranking",'js');
         }
         $answer .= "<script type='text/javascript'>\n"
         . "  <!--\n"
@@ -107,13 +107,13 @@ class RankingQuestion extends QuestionModule
 
     public function getHelp()
     {
-        $clang = Yii::app()->lang;
-        return $clang->gT("Click on an item in the list on the left, starting with your highest ranking item, moving through to your lowest ranking item.");
+        
+        return gT("Click on an item in the list on the left, starting with your highest ranking item, moving through to your lowest ranking item.");
     }
 
     public function getDataEntry($idrow, &$fnames, $language)
     {
-        $clang = Yii::app()->lang;
+        
         $myfname=$this->surveyid.'X'.$this->gid.'X'.$this->id;
         $q = $this;
 
@@ -136,12 +136,12 @@ class RankingQuestion extends QuestionModule
             $output .= "\n<li class=\"select-item\">";
             $output .="<label for=\"answer{$fieldname}{$i}\">";
             if($i==1){
-                $output .=$clang->gT('First choice');
+                $output .=gT('First choice');
             }else{
-                $output .=$clang->gT('Next choice');
+                $output .=gT('Next choice');
             }
             $output .= "<select name=\"{$fieldname}{$i}\" id=\"answer{$fieldname}{$i}\">\n";
-            $output .= "\t<option value=\"\">".$clang->gT('None')."</option>\n";
+            $output .= "\t<option value=\"\">".gT('None')."</option>\n";
             foreach ($answers as $ansrow)
             {
                 ($thisanswer==$ansrow['code']) ? $selected=" selected=\"selected\"" : $selected="";
@@ -178,7 +178,7 @@ class RankingQuestion extends QuestionModule
 
     public function createFieldmap()
     {
-        $clang = Yii::app()->lang;
+        
         $data = Answers::model()->findAllByAttributes(array('qid' => $this->id,'scale_id' => '0', 'language' => $this->language));
         $map = array();
         for ($i=1; $i<=count($data); $i++)
@@ -187,7 +187,7 @@ class RankingQuestion extends QuestionModule
             $q = clone $this;
             $q->fieldname = $fieldname;
             $q->aid = $i;
-            $q->sq=sprintf($clang->gT('Rank %s'),$i);
+            $q->sq=sprintf(gT('Rank %s'),$i);
             $map[$fieldname]=$q;
         }
         return $map;
@@ -321,7 +321,7 @@ class RankingQuestion extends QuestionModule
     public function getMandatoryTip()
     {
         $clang=Yii::app()->lang;
-        return $clang->gT('Please rank all items').'.';
+        return gT('Please rank all items').'.';
     }
 
     public function getShownJS()
@@ -416,7 +416,7 @@ class RankingQuestion extends QuestionModule
 
     public function getConditionAnswers()
     {
-        $clang = Yii::app()->lang;
+        
         $canswers = array();
 
         $aresult = Answers::model()->findAllByAttributes(array(
@@ -440,7 +440,7 @@ class RankingQuestion extends QuestionModule
             // Only Show No-Answer if question is not mandatory
             if ($this->mandatory != 'Y')
             {
-                $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id.$i, " ", $clang->gT("No answer"));
+                $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id.$i, " ", gT("No answer"));
             }
         }
 
@@ -488,7 +488,7 @@ class RankingQuestion extends QuestionModule
     public function questionProperties($prop = false)
     {
         $clang=Yii::app()->lang;
-        $props=array('description' => $clang->gT("Ranking"),'group' => $clang->gT("Mask questions"),'subquestions' => 0,'class' => 'ranking','hasdefaultvalues' => 0,'assessable' => 1,'answerscales' => 1,'enum' => 0);
+        $props=array('description' => gT("Ranking"),'group' => gT("Mask questions"),'subquestions' => 0,'class' => 'ranking','hasdefaultvalues' => 0,'assessable' => 1,'answerscales' => 1,'enum' => 0);
         return $prop?$props[$prop]:$props;
     }
 }

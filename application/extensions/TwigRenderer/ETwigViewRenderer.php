@@ -143,8 +143,9 @@ class ETwigViewRenderer extends CApplicationComponent implements IViewRenderer
         $data['this'] = $context;
 
         $sourceFile = substr($sourceFile, $this->_basePathLength);
-        $template = $this->_twig->loadTemplate($sourceFile)->render($data);
+        
 
+        $template = $this->_twig->loadTemplate($sourceFile)->render($data);
         if ($return) {
             return $template;
         }

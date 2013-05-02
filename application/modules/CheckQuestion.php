@@ -6,7 +6,7 @@ class CheckQuestion extends QuestionModule
     {
         global $thissurvey;
 
-        $clang = Yii::app()->lang;
+        
         if ($thissurvey['nokeyboard']=='Y')
         {
             includeKeypad();
@@ -44,7 +44,7 @@ class CheckQuestion extends QuestionModule
         }
         else
         {
-            $othertext=$clang->gT('Other:');
+            $othertext=gT('Other:');
         }
 
         if (trim($aQuestionAttributes['display_columns'])!='')
@@ -183,7 +183,7 @@ class CheckQuestion extends QuestionModule
             }
             $answer .= $startitem;
             $answer .= $hiddenfield.'
-            <input class="checkbox other-checkbox" style="visibility:hidden" type="checkbox" name="'.$myfname.'cbox" alt="'.$clang->gT('Other').'" id="answer'.$myfname.'cbox"';
+            <input class="checkbox other-checkbox" style="visibility:hidden" type="checkbox" name="'.$myfname.'cbox" alt="'.gT('Other').'" id="answer'.$myfname.'cbox"';
             // othercbox can be not display, because only input text goes to database
 
             if (isset($_SESSION['survey_'.$this->surveyid][$myfname]) && trim($_SESSION['survey_'.$this->surveyid][$myfname])!='')
@@ -317,7 +317,7 @@ class CheckQuestion extends QuestionModule
             $minansw=trim($aQuestionAttributes['min_answers']);
             if (!($maxansw || $minansw))
             {
-                return $this->text."<br />\n<span class=\"questionhelp\">".$clang->gT('Check any that apply').'</span>';
+                return $this->text."<br />\n<span class=\"questionhelp\">".gT('Check any that apply').'</span>';
             }
         }
         return $this->text;
@@ -333,7 +333,7 @@ class CheckQuestion extends QuestionModule
             $minansw=trim($aQuestionAttributes['min_answers']);
             if (!($maxansw || $minansw))
             {
-                return $clang->gT('Check any that apply');
+                return gT('Check any that apply');
             }
         }
         return '';
@@ -341,7 +341,7 @@ class CheckQuestion extends QuestionModule
 
     public function createFieldmap()
     {
-        $clang = Yii::app()->lang;
+        
         $map = array();
         $abrows = getSubQuestions($this);
         foreach ($abrows as $abrow)
@@ -370,7 +370,7 @@ class CheckQuestion extends QuestionModule
             }
             $q->fieldname .= 'other';
             $q->aid = 'other';
-            $q->sq = $clang->gT("Other");
+            $q->sq = gT("Other");
             $q->other = $this->isother;
             $map[$q->fieldname]=$q;
         }
@@ -522,8 +522,8 @@ class CheckQuestion extends QuestionModule
     public function getSPSSAnswers()
     {
         if ($this->aid == 'other' || strpos($this->aid,'comment') !== false) return array();
-        $answers[] = array('code'=>1, 'value'=>$clang->gT('Yes'));
-        $answers[] = array('code'=>0, 'value'=>$clang->gT('Not Selected'));
+        $answers[] = array('code'=>1, 'value'=>gT('Yes'));
+        $answers[] = array('code'=>0, 'value'=>gT('Not Selected'));
         return $answers;
     }
 
@@ -620,9 +620,9 @@ class CheckQuestion extends QuestionModule
                 $othertext = trim($qattr['other_replace_text'][$_SESSION['survey_'.$this->surveyid]['s_lang']]);
             }
             else {
-                $othertext = $clang->gT('Other:');
+                $othertext = gT('Other:');
             }
-            return "<br />\n".sprintf($clang->gT("If you choose '%s' you must provide a description."), $othertext);
+            return "<br />\n".sprintf(gT("If you choose '%s' you must provide a description."), $othertext);
         }
         else
         {
@@ -810,7 +810,7 @@ class CheckQuestion extends QuestionModule
 
     public function getConditionAnswers()
     {
-        $clang = Yii::app()->lang;
+        
         $canswers = array();
 
         $aresult = Questions::model()->findAllByAttributes(array(
@@ -823,8 +823,8 @@ class CheckQuestion extends QuestionModule
             $theanswer = addcslashes($arows['question'], "'");
             $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id, $arows['title'], $theanswer);
 
-            $canswers[]=array("+".$this->surveyid.'X'.$this->gid.'X'.$this->id.$arows['title'], 'Y', $clang->gT("checked"));
-            $canswers[]=array("+".$this->surveyid.'X'.$this->gid.'X'.$this->id.$arows['title'], '', $clang->gT("not checked"));
+            $canswers[]=array("+".$this->surveyid.'X'.$this->gid.'X'.$this->id.$arows['title'], 'Y', gT("checked"));
+            $canswers[]=array("+".$this->surveyid.'X'.$this->gid.'X'.$this->id.$arows['title'], '', gT("not checked"));
         }
 
         return $canswers;
@@ -832,10 +832,10 @@ class CheckQuestion extends QuestionModule
 
     public function getConditionQuestions()
     {
-        $clang = Yii::app()->lang;
+        
         $cquestions = array();
 
-        $shortanswer = " [".$clang->gT("Group of checkboxes")."]";
+        $shortanswer = " [".gT("Group of checkboxes")."]";
         $shortquestion = $this->title.":$shortanswer ".strip_tags($this->text);
         $cquestions[] = array($shortquestion, $this->id, true, $this->surveyid.'X'.$this->gid.'X'.$this->id);
 
@@ -847,7 +847,7 @@ class CheckQuestion extends QuestionModule
         foreach ($aresult as $arows)
         {
             $shortanswer = "{$arows['title']}: [" . strip_tags($arows['question']) . "]";
-            $shortanswer .= "[".$clang->gT("Single checkbox")."]";
+            $shortanswer .= "[".gT("Single checkbox")."]";
             $shortquestion=$this->title.":$shortanswer ".strip_tags($this->text);
             $cquestions[]=array($shortquestion, $this->id, true, "+".$this->surveyid.'X'.$this->gid.'X'.$this->id.$arows['title']);
         }
@@ -869,7 +869,7 @@ class CheckQuestion extends QuestionModule
     public function questionProperties($prop = false)
     {
         $clang=Yii::app()->lang;
-        $props=array('description' => $clang->gT("Multiple choice"),'group' => $clang->gT("Multiple choice questions"),'subquestions' => 1,'class' => 'multiple-opt','hasdefaultvalues' => 1,'assessable' => 1,'answerscales' => 0,'enum' => 1);
+        $props=array('description' => gT("Multiple choice"),'group' => gT("Multiple choice questions"),'subquestions' => 1,'class' => 'multiple-opt','hasdefaultvalues' => 1,'assessable' => 1,'answerscales' => 0,'enum' => 1);
         return $prop?$props[$prop]:$props;
     }
 }

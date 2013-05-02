@@ -48,14 +48,14 @@ class question extends Survey_Common_Action
             $sExtension = $aPathInfo['extension'];
 
             if (!@move_uploaded_file($_FILES['the_file']['tmp_name'], $sFullFilepath))
-                $fatalerror = sprintf($clang->gT("An error occurred uploading your file. This may be caused by incorrect permissions in your %s folder."), Yii::app()->getConfig('tempdir'));
+                $fatalerror = sprintf(gT("An error occurred uploading your file. This may be caused by incorrect permissions in your %s folder."), Yii::app()->getConfig('tempdir'));
 
             // validate that we have a SID and GID
             if (!$surveyid)
-                $fatalerror .= $clang->gT("No SID (Survey) has been provided. Cannot import question.");
+                $fatalerror .= gT("No SID (Survey) has been provided. Cannot import question.");
 
             if (!$gid)
-                $fatalerror .= $clang->gT("No GID (Group) has been provided. Cannot import question");
+                $fatalerror .= gT("No GID (Group) has been provided. Cannot import question");
 
             if (isset($fatalerror))
             {
@@ -71,7 +71,7 @@ class question extends Survey_Common_Action
             elseif (strtolower($sExtension) == 'lsq')
                 $aImportResults = XMLImportQuestion($sFullFilepath, $surveyid, $gid);
             else
-                $this->getController()->error($clang->gT('Unknown file extension'));
+                $this->getController()->error(gT('Unknown file extension'));
 
             fixLanguageConsistency($surveyid);
 
@@ -189,7 +189,7 @@ class question extends Survey_Common_Action
 
                     $options = array();
                     if ($q->useCheckboxes())
-                        $options = array('' => $clang->gT('<No default value>'), 'Y' => $clang->gT('Checked'));
+                        $options = array('' => gT('<No default value>'), 'Y' => gT('Checked'));
 
                     foreach ($sqresult as $aSubquestion)
                     {
@@ -316,7 +316,7 @@ class question extends Survey_Common_Action
                 $oAnswer= new Answers;
                 $oAnswer->qid = $qid;
                 $oAnswer->code = 'A1';
-                $oAnswer->answer = $clang->gT('Some example answer option');
+                $oAnswer->answer = gT('Some example answer option');
                 $oAnswer->language = $baselang;
                 $oAnswer->sortorder = 0;
                 $oAnswer->scale_id = $i;
@@ -482,7 +482,7 @@ class question extends Survey_Common_Action
                     'gid' => $gid,
                     'parent_qid' => $qid,
                     'title' => 'SQ001',
-                    'question' => $clang->gT('Some example subquestion'),
+                    'question' => gT('Some example subquestion'),
                     'question_order' => 1,
                     'language' => $baselang,
                     'scale_id' => $iScale,
@@ -814,7 +814,7 @@ class question extends Survey_Common_Action
                 $aData['aqresult'] = $aqresult;
             }
 
-            $aData['clang'] = $clang;
+            
             $aData['action'] = $action;
 
             $sumresult1 = Survey::model()->findByPk($surveyid);
@@ -839,15 +839,15 @@ class question extends Survey_Common_Action
             {
                 $oqresult = Questions::model()->findAllByAttributes(array('sid' => $surveyid, 'gid' => $gid, 'language' => $baselang, 'parent_qid'=> 0), array('order' => 'question_order'));
                 $questionOrderList = array(
-                    'first' => $clang->gT("At beginning")
+                    'first' => gT("At beginning")
                 );
                 foreach ($oqresult as $oqr)
                 {
-                    $questionOrderList[$oqr->attributes['question_order']] = $clang->gT('After:') . ' '. $oqr->attributes['title'];
+                    $questionOrderList[$oqr->attributes['question_order']] = gT('After:') . ' '. $oqr->attributes['title'];
                     
                 }
                 // Change text of last entry.
-                $questionOrderList['last'] = $clang->gT("At end");
+                $questionOrderList['last'] = gT("At end");
                 $aData['questionOrderList'] = $questionOrderList;
             }
             $this->getController()->_js_admin_includes(Yii::app()->getConfig('adminscripts') . 'questions.js');
@@ -899,8 +899,8 @@ class question extends Survey_Common_Action
                 }
                 if (isset($qidarray))
                     $qidlist = implode(", ", $qidarray);
-                $message =$clang->gT("Question could not be deleted. There are conditions for other questions that rely on this question. You cannot delete this question until those conditions are removed.");
-                $message .="<br /><a href='". $this->getController()->createUrl("admin/expressions/sa/survey_logic_file/sid/{$surveyid}")."' >".$clang->gT("Look at survey logic files")."</a>.";
+                $message =gT("Question could not be deleted. There are conditions for other questions that rely on this question. You cannot delete this question until those conditions are removed.");
+                $message .="<br /><a href='". $this->getController()->createUrl("admin/expressions/sa/survey_logic_file/sid/{$surveyid}")."' >".gT("Look at survey logic files")."</a>.";
                 $this->getController()->error(
                     $message,
                     $this->getController()->createUrl("admin/survey/sa/view/surveyid/{$surveyid}/gid/{$gid}/qid/{$qid}")
@@ -933,13 +933,13 @@ class question extends Survey_Common_Action
                 $_GET['qid'] = "";
             }
 
-            Yii::app()->session['flashmessage'] = $clang->gT("Question was successfully deleted.");
+            Yii::app()->session['flashmessage'] = gT("Question was successfully deleted.");
 
             $this->getController()->redirect($this->getController()->createUrl('admin/survey/sa/view/surveyid/' . $surveyid . '/gid/' . $gid));
         }
         else
         {
-            Yii::app()->session['flashmessage'] = $clang->gT("You are not authorized to delete questions.");
+            Yii::app()->session['flashmessage'] = gT("You are not authorized to delete questions.");
             $this->getController()->redirect($this->getController()->createUrl('admin/survey/sa/view/surveyid/' . $surveyid . '/gid/' . $gid));
         }
     }
@@ -1148,8 +1148,6 @@ class question extends Survey_Common_Action
             if (isset($q->default))
                 $_SESSION['survey_'.$surveyid][$q->fieldname] = $q->default;
         }
-        $clang = new limesurvey_lang($language);
-
         $thissurvey = getSurveyInfo($surveyid);
 
         setNoAnswerMode($thissurvey);

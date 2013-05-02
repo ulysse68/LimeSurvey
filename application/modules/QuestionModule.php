@@ -131,7 +131,7 @@ abstract class QuestionModule extends CComponent
 
     public function getPopup($notanswered=null)
     {
-        $clang = Yii::app()->lang;
+        
 
         if (is_array($notanswered) && Yii::app()->getConfig('showpopups')) //ADD WARNINGS TO QUESTIONS IF THEY WERE MANDATORY BUT NOT ANSWERED
         {
@@ -140,7 +140,7 @@ abstract class QuestionModule extends CComponent
 
             return $popup="<script type=\"text/javascript\">\n
             <!--\n $(document).ready(function(){
-            alert(\"".$clang->gT("One or more mandatory questions have not been answered. You cannot proceed until these have been completed.", "js")."\");});\n //-->\n
+            alert(\"".gT("One or more mandatory questions have not been answered. You cannot proceed until these have been completed.", "js")."\");});\n //-->\n
             </script>\n";
         }
         return false;
@@ -524,12 +524,12 @@ abstract class QuestionModule extends CComponent
 
     public function getConditionAnswers()
     {
-        $clang = Yii::app()->lang;
+        
 
         // Only Show No-Answer if question is not mandatory
         if ($this->mandatory != 'Y')
         {
-            return array(array($this->surveyid.'X'.$this->gid.'X'.$this->id, " ", $clang->gT("No answer")));
+            return array(array($this->surveyid.'X'.$this->gid.'X'.$this->id, " ", gT("No answer")));
         }
 
         return array();

@@ -90,11 +90,9 @@
     {
         return;
         $js_admin_includes = Yii::app()->getConfig("js_admin_includes");
-        $clang = Yii::app()->lang;
-        $data['clang'] = $clang;
+        
         $js_admin_includes[]=Yii::app()->getConfig('sCKEditorURL').'/ckeditor.js';
         $js_admin_includes[]=Yii::app()->getConfig('sCKEditorURL').'/adapters/jquery.js';
-        Yii::app()->setConfig("js_admin_includes", $js_admin_includes);
         if ($controller == null)
         {
             $controller = Yii::app()->getController();
@@ -164,7 +162,7 @@
 
     function getPopupEditor($fieldtype,$fieldname,$fieldtext, $surveyID=null,$gID=null,$qID=null,$action=null)
     {
-        $clang = Yii::app()->lang;
+        
         $htmlcode = '';
         $imgopts = '';
         $toolbarname = 'Basic';
@@ -179,8 +177,8 @@
 
         $htmlcode .= ""
         . "<a href=\"javascript:start_popup_editor('".$fieldname."','".$fieldtext."','".$surveyID."','".$gID."','".$qID."','".$fieldtype."','".$action."')\" id='".$fieldname."_ctrl' class='editorLink'>\n"
-        . "\t<img alt=\"".$clang->gT("Start HTML editor in a popup window")."\" id='".$fieldname."_popupctrlena' src='".Yii::app()->getConfig('adminimageurl')."edithtmlpopup.png' $imgopts class='btneditanswerena' />\n"
-        . "\t<img alt=\"".$clang->gT("Give focus to the HTML editor popup window")."\" id='".$fieldname."_popupctrldis' src='".Yii::app()->getConfig('adminimageurl')."edithtmlpopup_disabled.png' style='display:none' $imgopts class='btneditanswerdis' />\n"
+        . "\t<img alt=\"".gT("Start HTML editor in a popup window")."\" id='".$fieldname."_popupctrlena' src='".Yii::app()->getConfig('adminimageurl')."edithtmlpopup.png' $imgopts class='btneditanswerena' />\n"
+        . "\t<img alt=\"".gT("Give focus to the HTML editor popup window")."\" id='".$fieldname."_popupctrldis' src='".Yii::app()->getConfig('adminimageurl')."edithtmlpopup_disabled.png' style='display:none' $imgopts class='btneditanswerdis' />\n"
         . "</a>\n";
 
         return $htmlcode;

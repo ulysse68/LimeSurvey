@@ -17,11 +17,11 @@
 <hr />
 
 <fieldset class="content-table">
-<legend class="content-table-heading"><?php $clang->eT('Language selection'); ?></legend>
+<legend class="content-table-heading"><?php eT('Language selection'); ?></legend>
 <table style="width: 640px;">
 <tr>
-<td><b><?php $clang->eT('Please select your preferred language:'); ?></b><br />
-<div class="description-field"><?php $clang->eT('Your preferred language will be used through out the installation process.'); ?></div>
+<td><b><?php eT('Please select your preferred language:'); ?></b><br />
+<div class="description-field"><?php eT('Your preferred language will be used through out the installation process.'); ?></div>
 </td>
 <td align="right">
 <?php
@@ -44,7 +44,7 @@ echo CHtml::dropDownList('installerLang', 'en', $languages, array('style' => 'wi
    <tr>
     <td align="left" style="width: 227px;">&nbsp;</td>
     <td align="center" style="width: 227px;">&nbsp;</td>
-    <td align="right" style="width: 227px;"><input class='ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only' type="submit" value="<?php $clang->eT('Start installation'); ?>" /></td>
+    <td align="right" style="width: 227px;"><input class='ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only' type="submit" value="<?php eT('Start installation'); ?>" /></td>
    </tr>
   </tbody>
  </table>

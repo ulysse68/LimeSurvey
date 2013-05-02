@@ -35,8 +35,8 @@ class printablesurvey extends Survey_Common_Action
             $clang = $this->getController()->lang;
             $aData['surveyid'] = $surveyid;
             $this->getController()->_css_admin_includes(Yii::app()->getConfig('adminstyleurl')."superfish.css");
-            $message['title']= $clang->gT('Access denied!');
-            $message['message']= $clang->gT('You do not have sufficient rights to access this page.');
+            $message['title']= gT('Access denied!');
+            $message['message']= gT('You do not have sufficient rights to access this page.');
             $message['class']= "error";
             $this->_renderWrappedTemplate('survey', array("message"=>$message), $aData);
         }
@@ -53,9 +53,6 @@ class printablesurvey extends Survey_Common_Action
                 $surveyprintlang=getBaseLanguageFromSurveyID((int) $surveyid);
             }
             $_POST['surveyprintlang']=$surveyprintlang;
-
-            // Setting the selected language for printout
-            $clang = new limesurvey_lang($surveyprintlang);
 
             $desrow = Survey::model()->with(array('languagesettings'=>array('condition'=>'surveyls_language=:language','params'=>array(':language'=>$surveyprintlang))))->findByAttributes(array('sid' => $surveyid));
 
@@ -93,7 +90,7 @@ class printablesurvey extends Survey_Common_Action
                 {
                     $surveyexpirydate .= ' &ndash; '.$expirytimeofday_h.':'.$expirytimeofday_m;
                 };            
-                sprintf($clang->gT("Please submit by %s"), $surveyexpirydate);
+                sprintf(gT("Please submit by %s"), $surveyexpirydate);
             }
             else
             {
@@ -134,7 +131,7 @@ class printablesurvey extends Survey_Common_Action
             $showsgqacode = Yii::app()->getConfig("showsgqacode");
             if(isset($showsgqacode) && $showsgqacode == true)
             {
-                $surveyname =  $surveyname."<br />[".$clang->gT('Database')." ".$clang->gT('table').": $surveytable]";
+                $surveyname =  $surveyname."<br />[".gT('Database')." ".gT('table').": $surveytable]";
             }
             else
             {
@@ -148,9 +145,9 @@ class printablesurvey extends Survey_Common_Action
             ,'WELCOME' => $welcome
             ,'END' => $end
             ,'THEREAREXQUESTIONS' => 0
-            ,'SUBMIT_TEXT' => $clang->gT("Submit Your Survey.")
+            ,'SUBMIT_TEXT' => gT("Submit Your Survey.")
             ,'SUBMIT_BY' => $surveyexpirydate
-            ,'THANKS' => $clang->gT("Thank you for completing this survey.")
+            ,'THANKS' => gT("Thank you for completing this survey.")
             ,'HEADELEMENTS' => $headelements
             ,'TEMPLATEURL' => PRINT_TEMPLATE_URL
             ,'FAXTO' => $surveyfaxto
@@ -161,7 +158,7 @@ class printablesurvey extends Survey_Common_Action
             $survey_output['FAX_TO'] ='';
             if(!empty($surveyfaxto) && $surveyfaxto != '000-00000000') //If no fax number exists, don't display faxing information!
             {
-                $survey_output['FAX_TO'] = $clang->gT("Please fax your completed survey to:")." $surveyfaxto";
+                $survey_output['FAX_TO'] = gT("Please fax your completed survey to:")." $surveyfaxto";
             }
 
             /**
@@ -268,7 +265,7 @@ class printablesurvey extends Survey_Common_Action
 
                     if (trim($relevance) != '' && trim($relevance) != '1')
                     {
-                        $explanation = "<b>".$clang->gT('Only answer this question if the following conditions are met:')."</b>"
+                        $explanation = "<b>".gT('Only answer this question if the following conditions are met:')."</b>"
                         ."<br/> ° ".$explanation;
                     }
                     else
@@ -287,8 +284,8 @@ class printablesurvey extends Survey_Common_Action
 
                     if(isset($showsgqacode) && $showsgqacode == true)
                     {
-                        $deqrow['question'] = $deqrow['question']."<br />".$clang->gT("ID:")." $fieldname <br />".
-                                              $clang->gT("Question code:")." ".$deqrow['title'];
+                        $deqrow['question'] = $deqrow['question']."<br />".gT("ID:")." $fieldname <br />".
+                                              gT("Question code:")." ".$deqrow['title'];
                     }
 
                     $question = array(
@@ -313,7 +310,7 @@ class printablesurvey extends Survey_Common_Action
 
                     if ($deqrow['mandatory'] == 'Y')
                     {
-                        $question['QUESTION_MANDATORY'] = $clang->gT('*');
+                        $question['QUESTION_MANDATORY'] = gT('*');
                         $question['QUESTION_CLASS'] .= ' mandatory';
                     }
 
@@ -349,7 +346,7 @@ class printablesurvey extends Survey_Common_Action
                 }
             }
 
-            $survey_output['THEREAREXQUESTIONS'] =  str_replace( '{NUMBEROFQUESTIONS}' , $total_questions , $clang->gT('There are {NUMBEROFQUESTIONS} questions in this survey'));
+            $survey_output['THEREAREXQUESTIONS'] =  str_replace( '{NUMBEROFQUESTIONS}' , $total_questions , gT('There are {NUMBEROFQUESTIONS} questions in this survey'));
 
             // START recursive tag stripping.
             // PHP 5.1.0 introduced the count parameter for preg_replace() and thus allows this procedure to run with only one regular expression.
@@ -497,10 +494,10 @@ class printablesurvey extends Survey_Common_Action
         $clang = $this->getController()->lang;
         $output = "";
         if(!empty($qidattributes['min_answers'])) {
-            $output .= "\n<p class='extrahelp'>".sprintf($clang->gT("Please choose at least %s items."), $qidattributes['min_answers'])."</p>\n";
+            $output .= "\n<p class='extrahelp'>".sprintf(gT("Please choose at least %s items."), $qidattributes['min_answers'])."</p>\n";
         }
         if(!empty($qidattributes['max_answers'])) {
-            $output .= "\n<p class='extrahelp'>".sprintf($clang->gT("Please choose no more than %s items."),$qidattributes['max_answers'])."</p>\n";
+            $output .= "\n<p class='extrahelp'>".sprintf(gT("Please choose no more than %s items."),$qidattributes['max_answers'])."</p>\n";
         }
         return $output;
     }
@@ -588,7 +585,7 @@ class printablesurvey extends Survey_Common_Action
         {
             $newquestiontext = Questions::model()->findByAttributes(array('title' => $qidattributes['array_filter'], 'language' => $surveyprintlang, 'sid' => $surveyid))->getAttribute('question');
             $output .= "\n<p class='extrahelp'>
-                ".sprintf($clang->gT("Only answer this question for the items you selected in question %s ('%s')"),$qidattributes['array_filter'], flattenText(breakToNewline($newquestiontext['question'])))."
+                ".sprintf(gT("Only answer this question for the items you selected in question %s ('%s')"),$qidattributes['array_filter'], flattenText(breakToNewline($newquestiontext['question'])))."
             </p>\n";
         }
         if(!empty($qidattributes['array_filter_exclude']))
@@ -596,7 +593,7 @@ class printablesurvey extends Survey_Common_Action
             $newquestiontext = Questions::model()->findByAttributes(array('title' => $qidattributes['array_filter_exclude'], 'language' => $surveyprintlang, 'sid' => $surveyid))->getAttribute('question');
 
             $output .= "\n    <p class='extrahelp'>
-                ".sprintf($clang->gT("Only answer this question for the items you did not select in question %s ('%s')"),$qidattributes['array_filter_exclude'], breakToNewline($newquestiontext['question']))."
+                ".sprintf(gT("Only answer this question for the items you did not select in question %s ('%s')"),$qidattributes['array_filter_exclude'], breakToNewline($newquestiontext['question']))."
             </p>\n";
         }
         return $output;

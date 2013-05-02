@@ -1,8 +1,8 @@
 <div id="<?php echo $language; ?>" data-language="<?php echo $language; ?>" class="localized_language tabs">
     <ul>
     <?php
-        echo CHtml::tag('li', array(), CHtml::link($clang->gT("Basic settings"), "#basic_$language"));
-        echo CHtml::tag('li', array(), CHtml::link($clang->gT("Advanced settings"), "#advanced_$language"));
+        echo CHtml::tag('li', array(), CHtml::link(gT("Basic settings"), "#basic_$language"));
+        echo CHtml::tag('li', array(), CHtml::link(gT("Advanced settings"), "#advanced_$language"));
     ?>
     </ul>
     <?php 
@@ -11,17 +11,17 @@
    /* 
 
     <ul><li>
-            <label for='question_<?php echo $language; ?>'><?php $clang->eT("Question:"); ?></label>
+            <label for='question_<?php echo $language; ?>'><?php eT("Question:"); ?></label>
             <div class="htmleditor">
             <textarea cols='50' rows='4' id='question_<?php echo $language; ?>' name='question_<?php echo $language; ?>'><?php echo $question; ?></textarea>
             </div>
-            <?php echo getEditor("question-text","question_$language", "[".$clang->gT("Question:", "js")."](".$language.")",$surveyid,$gid,$qid,$action); ?>
+            <?php echo getEditor("question-text","question_$language", "[".gT("Question:", "js")."](".$language.")",$surveyid,$gid,$qid,$action); ?>
         </li><li>
-            <label for='help_<?php echo $language; ?>'><?php $clang->eT("Help:"); ?></label>
+            <label for='help_<?php echo $language; ?>'><?php eT("Help:"); ?></label>
             <div class="htmleditor">
             <textarea cols='50' rows='4' id='help_<?php echo $language; ?>' name='help_<?php echo $language; ?>'><?php echo $help; ?></textarea>
             </div>
-            <?php echo getEditor("question-help","help_$language", "[".$clang->gT("Help:", "js")."]($language)",$surveyid,$gid,$qid,$action); ?>
+            <?php echo getEditor("question-help","help_$language", "[".gT("Help:", "js")."]($language)",$surveyid,$gid,$qid,$action); ?>
         </li>
     </ul>
     * 

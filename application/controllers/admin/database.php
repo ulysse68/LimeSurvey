@@ -113,7 +113,7 @@ class database extends Survey_Common_Action
                     }
                 }
             }
-            Yii::app()->session['flashmessage'] = $clang->gT("Default value settings were successfully saved.");
+            Yii::app()->session['flashmessage'] = gT("Default value settings were successfully saved.");
             LimeExpressionManager::SetDirtyFlag();
 
             if ($databaseoutput != '')
@@ -186,7 +186,7 @@ class database extends Survey_Common_Action
                         'scale_id'=>$scale_id));
                         if (!$result) // Checked
                         {
-                            $databaseoutput .= "<script type=\"text/javascript\">\n<!--\n alert(\"".$clang->gT("Failed to update answers","js")."\")\n //-->\n</script>\n";
+                            $databaseoutput .= "<script type=\"text/javascript\">\n<!--\n alert(\"".gT("Failed to update answers","js")."\")\n //-->\n</script>\n";
                         }
                     } // foreach ($alllanguages as $language)
 
@@ -199,7 +199,7 @@ class database extends Survey_Common_Action
 
             LimeExpressionManager::UpgradeConditionsToRelevance($surveyid);
 
-            Yii::app()->session['flashmessage']= $clang->gT("Answer options were successfully saved.");
+            Yii::app()->session['flashmessage']= gT("Answer options were successfully saved.");
 
             if ($databaseoutput != '')
             {
@@ -241,7 +241,7 @@ class database extends Survey_Common_Action
                     $result = Questions::model()->deleteAllByAttributes(array('qid'=>$deletedqid));
                     if (!$result)
                     {
-                        $databaseoutput .= "<script type=\"text/javascript\">\n<!--\n alert(\"".$clang->gT("Failed to delete answer","js")." \")\n //-->\n</script>\n";
+                        $databaseoutput .= "<script type=\"text/javascript\">\n<!--\n alert(\"".gT("Failed to delete answer","js")." \")\n //-->\n</script>\n";
                     }
                 }
             }
@@ -309,7 +309,7 @@ class database extends Survey_Common_Action
 
             //include("surveytable_functions.php");
             //surveyFixColumns($surveyid);
-            Yii::app()->session['flashmessage'] = $clang->gT("Subquestions were successfully saved.");
+            Yii::app()->session['flashmessage'] = gT("Subquestions were successfully saved.");
 
             //$action='editsubquestions';
 
@@ -329,7 +329,7 @@ class database extends Survey_Common_Action
             if (strlen(Yii::app()->request->getPost('title')) < 1)
             {
                 $databaseoutput .= "<script type=\"text/javascript\">\n<!--\n "
-                ."alert(\"".$clang->gT("The question could not be added. You must enter at least a question code.","js")."\")\n "
+                ."alert(\"".gT("The question could not be added. You must enter at least a question code.","js")."\")\n "
                 ."//-->\n</script>\n";
             }
             else
@@ -408,7 +408,7 @@ class database extends Survey_Common_Action
                             // Checked */
                             if (!$langqid)
                             {
-                                $databaseoutput .= "<script type=\"text/javascript\">\n<!--\n alert(\"".sprintf($clang->gT("Question in language %s could not be created.","js"),$alang)."\\n\")\n //-->\n</script>\n";
+                                $databaseoutput .= "<script type=\"text/javascript\">\n<!--\n alert(\"".sprintf(gT("Question in language %s could not be created.","js"),$alang)."\\n\")\n //-->\n</script>\n";
                             }
                         }
                     }
@@ -417,7 +417,7 @@ class database extends Survey_Common_Action
 
                 if (!$qid)
                 {
-                    $databaseoutput .= "<script type=\"text/javascript\">\n<!--\n alert(\"".$clang->gT("Question could not be created.","js")."\\n\")\n //-->\n</script>\n";
+                    $databaseoutput .= "<script type=\"text/javascript\">\n<!--\n alert(\"".gT("Question could not be created.","js")."\\n\")\n //-->\n</script>\n";
 
                 } else {
                     if ($action == 'copyquestion') {
@@ -547,7 +547,7 @@ class database extends Survey_Common_Action
 
                     }
                     Questions::model()->updateQuestionOrder($gid, $surveyid);
-                    Yii::app()->session['flashmessage'] =  $clang->gT("Question was successfully added.");
+                    Yii::app()->session['flashmessage'] =  gT("Question was successfully added.");
 
                 }
 
@@ -688,7 +688,7 @@ class database extends Survey_Common_Action
             }
             if (isset($cccount) && $cccount)
             {
-                $databaseoutput .= "<script type=\"text/javascript\">\n<!--\n alert(\"".$clang->gT("Question could not be updated. There are conditions for other questions that rely on the answers to this question and changing the type will cause problems. You must delete these conditions before you can change the type of this question.","js")." ($qidlist)\")\n //-->\n</script>\n";
+                $databaseoutput .= "<script type=\"text/javascript\">\n<!--\n alert(\"".gT("Question could not be updated. There are conditions for other questions that rely on the answers to this question and changing the type will cause problems. You must delete these conditions before you can change the type of this question.","js")." ($qidlist)\")\n //-->\n</script>\n";
             }
             else
             {
@@ -772,7 +772,7 @@ class database extends Survey_Common_Action
                             $uqresult = $question->save();//($uqquery); // or safeDie ("Error Update Question: ".$uqquery."<br />");  // Checked)
                             if (!$uqresult)
                             {
-                                $databaseoutput .= "<script type=\"text/javascript\">\n<!--\n alert(\"".$clang->gT("Question could not be updated","js")."\")\n //-->\n</script>\n";
+                                $databaseoutput .= "<script type=\"text/javascript\">\n<!--\n alert(\"".gT("Question could not be updated","js")."\")\n //-->\n</script>\n";
                             }
                         }
                     }
@@ -800,11 +800,11 @@ class database extends Survey_Common_Action
                     // Remove old subquestion scales
                     Questions::model()->deleteAllByAttributes(array('parent_qid' => $qid), 'scale_id >= :scale_id', array(':scale_id' => $iSubquestionScales));
 
-                    Yii::app()->session['flashmessage'] = $clang->gT("Question was successfully saved.");
+                    Yii::app()->session['flashmessage'] = gT("Question was successfully saved.");
                 }
                 else
                 {
-                    $databaseoutput .= "<script type=\"text/javascript\">\n<!--\n alert(\"".$clang->gT("Question could not be updated","js")."\")\n //-->\n</script>\n";
+                    $databaseoutput .= "<script type=\"text/javascript\">\n<!--\n alert(\"".gT("Question could not be updated","js")."\")\n //-->\n</script>\n";
                 }
             }
             LimeExpressionManager::UpgradeConditionsToRelevance($surveyid);
@@ -866,7 +866,7 @@ class database extends Survey_Common_Action
                     $oSurveysLanguagesettings->save();
                 }
             }
-            Yii::app()->session['flashmessage'] = $clang->gT("Survey text elements successfully saved.");
+            Yii::app()->session['flashmessage'] = gT("Survey text elements successfully saved.");
 
             if ($databaseoutput != '')
             {
@@ -1047,11 +1047,11 @@ class database extends Survey_Common_Action
 
             if ($usresult)
             {
-                Yii::app()->session['flashmessage'] = $clang->gT("Survey settings were successfully saved.");
+                Yii::app()->session['flashmessage'] = gT("Survey settings were successfully saved.");
             }
             else
             {
-                Yii::app()->session['flashmessage'] = $clang->gT("Error:").'<br>'.$clang->gT("Survey could not be updated.");
+                Yii::app()->session['flashmessage'] = gT("Error:").'<br>'.gT("Survey could not be updated.");
             }
 
             if (Yii::app()->request->getPost('action') == "updatesurveysettingsandeditlocalesettings")

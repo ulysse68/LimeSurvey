@@ -119,7 +119,6 @@ class Surveys_languagesettings extends CActiveRecord
     public function lsdefault($attribute,$params)
     {
 
-        $oLanguageTranslator = new Limesurvey_lang($this->surveyls_language);
         $aDefaultTexts=templateDefaultTexts($oLanguageTranslator,'unescaped');
 
          $aDefaultTextData=array('surveyls_email_invite_subj' => $aDefaultTexts['invitation_subject'],

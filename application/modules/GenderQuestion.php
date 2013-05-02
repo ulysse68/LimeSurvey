@@ -3,7 +3,7 @@ class GenderQuestion extends QuestionModule
 {
     public function getAnswerHTML()
     {
-        $clang = Yii::app()->lang;
+        
 
         $checkconditionFunction = "checkconditions";
 
@@ -17,7 +17,7 @@ class GenderQuestion extends QuestionModule
             $answer .= CHECKED;
         }
         $answer .= " onclick=\"$checkconditionFunction(this.value, this.name, this.type)\" />\n"
-        . '     <label for="answer'.$this->fieldname.'F" class="answertext">'.$clang->gT('Female')."</label>\n\t</li>\n";
+        . '     <label for="answer'.$this->fieldname.'F" class="answertext">'.gT('Female')."</label>\n\t</li>\n";
 
         $answer .= "\t<li class=\"answer-item radio-item\">\n<input class=\"radio\" type=\"radio\" name=\"$this->fieldname\" id=\"answer".$this->fieldname.'M" value="M"';
 
@@ -25,7 +25,7 @@ class GenderQuestion extends QuestionModule
         {
             $answer .= CHECKED;
         }
-        $answer .= " onclick=\"$checkconditionFunction(this.value, this.name, this.type)\" />\n<label for=\"answer".$this->fieldname."M\" class=\"answertext\">".$clang->gT('Male')."</label>\n\t</li>\n";
+        $answer .= " onclick=\"$checkconditionFunction(this.value, this.name, this.type)\" />\n<label for=\"answer".$this->fieldname."M\" class=\"answertext\">".gT('Male')."</label>\n\t</li>\n";
 
         if ($this->mandatory != 'Y' && SHOW_NO_ANSWER == 1)
         {
@@ -35,7 +35,7 @@ class GenderQuestion extends QuestionModule
                 $answer .= CHECKED;
             }
             // --> START NEW FEATURE - SAVE
-            $answer .= " onclick=\"$checkconditionFunction(this.value, this.name, this.type)\" />\n<label for=\"answer$this->fieldname\" class=\"answertext\">".$clang->gT('No answer')."</label>\n\t</li>\n";
+            $answer .= " onclick=\"$checkconditionFunction(this.value, this.name, this.type)\" />\n<label for=\"answer$this->fieldname\" class=\"answertext\">".gT('No answer')."</label>\n\t</li>\n";
             // --> END NEW FEATURE - SAVE
 
         }
@@ -46,11 +46,11 @@ class GenderQuestion extends QuestionModule
 
     public function getDataEntry($idrow, &$fnames, $language)
     {
-        $clang = Yii::app()->lang;
+        
         $select_options = array(
-        '' => $clang->gT("Please choose").'...',
-        'F' => $clang->gT("Female"),
-        'M' => $clang->gT("Male")
+        '' => gT("Please choose").'...',
+        'F' => gT("Female"),
+        'M' => gT("Male")
         );
         return CHtml::listBox($this->fieldname, $idrow[$this->fieldname], $select_options);
     }
@@ -90,8 +90,8 @@ class GenderQuestion extends QuestionModule
 
     public function getSPSSAnswers()
     {
-        $answers[] = array('code'=>1, 'value'=>$clang->gT('Female'));
-        $answers[] = array('code'=>2, 'value'=>$clang->gT('Male'));
+        $answers[] = array('code'=>1, 'value'=>gT('Female'));
+        $answers[] = array('code'=>2, 'value'=>gT('Male'));
         return $answers;
     }
 
@@ -109,8 +109,8 @@ class GenderQuestion extends QuestionModule
 
     public function getAnswerArray($em)
     {
-        $clang = Yii::app()->lang;
-        return array('M' => $clang->gT("Male"), 'F' => $clang->gT("Female"));
+        
+        return array('M' => gT("Male"), 'F' => gT("Female"));
     }
 
     public function jsVarNameOn()
@@ -145,9 +145,9 @@ class GenderQuestion extends QuestionModule
 
     public function getQuotaAnswers($iQuotaId)
     {
-        $clang = Yii::app()->lang;
-        $aAnswerList = array('M' => array('Title' => $this->id, 'Display' => $clang->gT("Male"), 'code' => 'M'),
-            'F' => array('Title' => $this->title, 'Display' => $clang->gT("Female"), 'code' => 'F'));
+        
+        $aAnswerList = array('M' => array('Title' => $this->id, 'Display' => gT("Male"), 'code' => 'M'),
+            'F' => array('Title' => $this->title, 'Display' => gT("Female"), 'code' => 'F'));
 
         $aResults = Quota_members::model()->findAllByAttributes(array('sid' => $this->surveyid, 'qid' => $this->id, 'quota_id' => $iQuotaId));
         foreach ($aResults as $aQuotaList)
@@ -189,15 +189,15 @@ class GenderQuestion extends QuestionModule
 
     public function getConditionAnswers()
     {
-        $clang = Yii::app()->lang;
+        
         $canswers = array();
 
-        $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id, "F", $clang->gT("Female"));
-        $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id, "M", $clang->gT("Male"));
+        $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id, "F", gT("Female"));
+        $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id, "M", gT("Male"));
         // Only Show No-Answer if question is not mandatory
         if ($this->mandatory != 'Y')
         {
-            $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id, " ", $clang->gT("No answer"));
+            $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id, " ", gT("No answer"));
         }
 
         return $canswers;
@@ -222,7 +222,7 @@ class GenderQuestion extends QuestionModule
     public function questionProperties($prop = false)
     {
         $clang=Yii::app()->lang;
-        $props=array('description' => $clang->gT("Gender"),'group' => $clang->gT("Mask questions"),'subquestions' => 0,'class' => 'gender','hasdefaultvalues' => 0,'assessable' => 0,'answerscales' => 0,'enum' => 0);
+        $props=array('description' => gT("Gender"),'group' => gT("Mask questions"),'subquestions' => 0,'class' => 'gender','hasdefaultvalues' => 0,'assessable' => 0,'answerscales' => 0,'enum' => 0);
         return $prop?$props[$prop]:$props;
     }
 }

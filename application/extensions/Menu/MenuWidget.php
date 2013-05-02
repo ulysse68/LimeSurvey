@@ -20,20 +20,24 @@
         
         public function run()
         {
-            
-            $this->render('adminmenu', array('menu' => $this->menuMain()));
-            if (isset($this->surveyId))
+            /**
+             * Only render the menu if logged in.
+             */
+            if (!Yii::app()->user->getIsGuest())
             {
-                $this->render('adminmenu', array('menu' => $this->menuSurvey($this->surveyId)));
-            }
-            if (isset($this->groupId))
-            {
-                $this->render('adminmenu', array('menu' => $this->menuGroup($this->groupId)));
-            }
-            return;
-            if (isset($this->questionId))
-            {
-                $this->render('adminmenu', array('menu' => $this->menuQuestion($this->questionId)));
+                $this->render('adminmenu', array('menu' => $this->menuMain()));
+                if (isset($this->surveyId))
+                {
+                    $this->render('adminmenu', array('menu' => $this->menuSurvey($this->surveyId)));
+                }
+                if (isset($this->groupId))
+                {
+                    $this->render('adminmenu', array('menu' => $this->menuGroup($this->groupId)));
+                }
+                if (isset($this->questionId))
+                {
+                    $this->render('adminmenu', array('menu' => $this->menuQuestion($this->questionId)));
+                }
             }
         }
 
@@ -41,16 +45,11 @@
         
         protected function menuMain()
         {
-            $title = CHtml::tag('strong', array(), gT('Administration'));
-            $title .= ' -- ' . gT("Logged in as:");
-            $text = ' ' . App()->getUser()->name . ' ' . CHtml::image(Yii::app()->getConfig('adminimageurl'). 'profile_edit.png', gT("Edit your personal preferences"));
-            $title .=  CHtml::tag('strong', array(), CHtml::link($text, array("/admin/user/sa/personalsettings")));
-            $menu['title'] = CHtml::tag('div', array('class'=>'menubar-title-left'), $title);
+            $menu['title'] = App()->getConfig('sitename');
             $menu['role'] = 'main';
             $menu['imageUrl'] = App()->getConfig('adminimageurl');
             $menu['items']['left'][] = array(
                 'href' => array('admin/survey'),
-                'alt' => gT('Default administration page'),
                 'image' => 'home.png',
             );
             $menu['items']['left'][] = 'separator';
@@ -77,8 +76,9 @@
             $menu['items']['left'][] = array(
                 'href' => array('/plugins'),
                 'alt' => gT('Plugin manager'),
-                'image' => 'plugin.png'
+                'image' => 'share.png'
             );
+
             $surveys = getSurveyList(true);
             $surveyList = array();
             foreach ($surveys as $survey)
@@ -89,14 +89,14 @@
                 );
             }
             $menu['items']['right'][] = array(
-                'title' => 'Surveys:',
+                'title' => gT('Surveys') . ':',
                 'type' => 'select',
                 'name' => 'surveylist',
                 'values' => $surveyList,
                 'value' => $this->surveyId
             );
             $menu['items']['right'][] = array(
-                'href' => array('/admin/survey/sa/index'),
+                'href' => array('/surveys'),
                 'alt' => gT('Detailed list of surveys'),
                 'image' => 'surveylist.png'
             );
@@ -105,6 +105,11 @@
             $menu['items']['right'][] = 'separator';
 
             
+            $menu['items']['right'][] = array(
+                'href' => array('admin/user/sa/personalsettings'),
+                'alt' => gT('Edit your personal preferences'),
+                'image' => 'edit.png'
+            );
             $menu['items']['right'][] = array(
                 'href' => array('admin/authentication/sa/logout'),
                 'alt' => gT('Logout'),
@@ -117,7 +122,7 @@
                 'image' => 'showhelp.png'
             );
 
-            $event = new PluginEvent('afterAdminMenuLoad', $this);
+            $event = new PluginEvent('afterAdminMenuLoaded', $this);
             $event->set('menu', $menu);
             
             $result = App()->getPluginManager()->dispatchEvent($event);
@@ -128,12 +133,12 @@
 
         protected function menuQuestion($questionId)
         {
-
             $question = Questions::model()->findByPk($questionId);
             
             $menu['title'] = "Question {$question->code} (id: {$questionId})";
             $menu['role'] = 'question';
             $menu['imageUrl'] = App()->getConfig('adminimageurl');
+            
             $menu['items']['left'][] = array(
                 'alt' => gT('Preview this question'),
                 'type' => 'link',
@@ -153,9 +158,10 @@
              * @todo Remove admin specific setting; language is a property of any session.
              */
             $surveyInfo = getSurveyInfo($surveyId, Yii::app()->session['adminlang']);
-            $menu['title'] = "Survey {$surveyInfo['surveyls_title']} (id: {$surveyId})";
+            $menu['title'] = gT("Survey") . " {$surveyInfo['surveyls_title']} (id: {$surveyId})";
             $menu['role'] = 'survey';
             $menu['imageUrl'] = App()->getConfig('adminimageurl');
+            
             if ($surveyInfo['active'] == 'Y')
             {
                 $menu['items']['left'][] = array(
@@ -211,6 +217,7 @@
                     )
                 )
             );
+            
             $menu['items']['left'][] = array(
                 'type' => 'sub',
                 'href' => array('surveys/view', 'id' => $surveyId),
@@ -308,29 +315,29 @@
                     ),
                 )
             );
-            
             $menu['items']['right'][] = array(
-                'title' => 'QuestionGroup:',
+                'title' => gT('Groups') . ':',
                 'type' => 'select',
                 'name' => 'grouplist',
                 'values' => Groups::model()->findListByAttributes(array('sid' => $surveyId), 'group_name', 'gid'),
                 'value' => $this->groupId
             );
-            
             $menu['items']['right'][] = array(
                 'alt' => gT('Add new group to survey'),
                 'type' => 'link',
                 'image' => 'add.png',
-                'href' => array('groups/create', 'surveyid' => $surveyId)
+                'href' => array('admin/questiongroup', 'sa' =>  'add', 'surveyid' => $surveyId)
                 
             );
+            
+            http://ls20.befound.nl/index.php?r=admin/questiongroup/sa/add/surveyid/597865
             return $menu;
         }
         
         protected function menuGroup($groupId)
         {
             $group = Groups::model()->findByAttributes(array('gid' => $groupId));
-            $menu['title'] = "Group {$group->group_name} (id: {$groupId})";
+            $menu['title'] = gT("Group") . " {$group->group_name} (id: {$groupId})";
             $menu['role'] = 'group';
             $menu['imageUrl'] = App()->getConfig('adminimageurl');
             
@@ -346,7 +353,7 @@
                 'alt' => gT('Edit current question group'),
                 'type' => 'link',
                 'image' => 'edit.png',
-                'href' => array('admin/questiongroups', 'sa' => 'edit', 'surveyid' => $group->sid, 'gid' => $groupId)
+                'href' => array('admin/questiongroup', 'sa' => 'edit', 'surveyid' => $group->sid, 'gid' => $groupId)
             );
             $menu['items']['left'][] = 'separator';
             
@@ -354,7 +361,7 @@
 
             $menu['items']['right'][] = array(
                 'type' => 'select',
-                'title' => gT('Questions:'),
+                'title' => gT('Questions') . ':',
                 'name' => 'questionlist',
                 'values' => Questions::model()->findListByAttributes(array('sid' => $group->sid, 'gid' => $groupId), 'code', 'qid'),
                 'value' => $this->questionId
@@ -444,25 +451,12 @@
             {
                 $listData = $item['values'];
             }
-            if (!empty($listData))
-            {
-                $result .= $this->widget('ext.bootstrap.widgets.TbSelect2', array(
-                    'name' => $item['name'],
-                    'value' => $item['value'],
-                    'data' => $listData,
-                    'options' => array(
-                        'minimumResultsForSearch' => 20,
-                        'placeholder' => gT('Please choose...')
-                    ),
-                    'htmlOptions' => array(
-                        'class' => 'select',
-                        'id' => $item['name'],
-                        'prompt' => '' // Required for placeholder to work.
-                    )
-                ), true);
-                return $result;
-            }
+            $result .= CHtml::dropDownList($item['name'], $item['value'], $listData, array(
+                'id' => $item['name'],
+                'prompt' => gT('Please choose...')
+            ));
             
+            return $result;
         }
         
         protected function renderSub($item, $imageUrl, $level)
@@ -494,19 +488,19 @@
         
         protected function globalSettings()
         {
-            if (Permission::model()->hasGlobalPermission('settings','read'))
+            if ($this->hasRight('USER_RIGHT_CONFIGURATOR'))
             {
                 return array(
                     'href' => array('admin/globalsettings'),
                     'image' => 'global.png',
-                    'alt' => gT('Global settings')
+                    'alt' => gT('Global Settings')
                 );
             }
         }
 
         protected function checkIntegrity()
         {
-            if (Permission::model()->hasGlobalPermission('settings','read'))
+            if ($this->hasRight('USER_RIGHT_CONFIGURATOR'))
             {
                 return array(
                     'href' => array('admin/checkintegrity'),
@@ -519,7 +513,7 @@
         
         protected function createSurvey()
         {
-            if (Permission::model()->hasGlobalPermission('surveys','create'))
+            if ($this->hasRight('USER_RIGHT_CREATE_SURVEY'))
             {
                 return array(
                     'href' => array("admin/survey/sa/newsurvey"),
@@ -530,7 +524,7 @@
         }
         protected function dumpDatabase()
         {
-            if (Permission::model()->hasGlobalPermission('superadmin','read'))
+            if ($this->hasRight('USER_RIGHT_SUPERADMIN'))
             {
                 if (in_array(Yii::app()->db->getDriverName(), array('mysql', 'mysqli')) || Yii::app()->getConfig('demo_mode') == true)
                 {
@@ -553,7 +547,7 @@
 
         protected function editLabels()
         {
-            if (Permission::model()->hasGlobalPermission('labelsets','read'))
+            if ($this->hasRight("USER_RIGHT_MANAGE_LABEL"))
             {
                 return array(
                     'href' => array('admin/labels'),
@@ -565,7 +559,7 @@
 
         protected function editTemplates()
         {
-            if (Permission::model()->hasGlobalPermission('templates','read'))
+            if ($this->hasRight('USER_RIGHT_MANAGE_TEMPLATE'))
             {
                 return array(
                     'href' => array('admin/templates/'),
@@ -577,7 +571,7 @@
 
         protected function participantDatabase()
         {
-            if (Permission::model()->hasGlobalPermission('participantpanel','read'))
+            if ($this->hasRight('USER_RIGHT_PARTICIPANT_PANEL'))
             {
                 return array(
                     'alt' => gT('Central participant database/panel'),
@@ -587,6 +581,18 @@
             }
         }
 
+        /**
+         * Function to check for rights for the current user.
+         * Currently these rights are stored in the session directly. Since
+         * this is bad practice this function is created to easily refactor
+         * changing in the way rights are checked.
+         * 
+         * @param type $right
+         */
+        protected function hasRight($right)
+        {
+            return (Yii::app()->session[$right] == 1);
+        }
     }
 
 ?>

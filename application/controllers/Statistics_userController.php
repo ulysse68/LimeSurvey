@@ -165,16 +165,16 @@ class Statistics_userController extends LSYii_Controller {
         $oProgressBar->setFrame();    // set ProgressBar Frame
         $oProgressBar->frame['left'] = 50;    // Frame position from left
         $oProgressBar->frame['top'] =     80;    // Frame position from top
-        $oProgressBar->addLabel('text','txt1',$clang->gT("Please wait ..."));    // add Text as Label 'txt1' and value 'Please wait'
+        $oProgressBar->addLabel('text','txt1',gT("Please wait ..."));    // add Text as Label 'txt1' and value 'Please wait'
         $oProgressBar->addLabel('percent','pct1');    // add Percent as Label 'pct1'
-        $oProgressBar->addButton('btn1',$clang->gT('Go back'),'?action=statistics&amp;sid='.$iSurveyID);    // add Button as Label 'btn1' and action '?restart=1'
+        $oProgressBar->addButton('btn1',gT('Go back'),'?action=statistics&amp;sid='.$iSurveyID);    // add Button as Label 'btn1' and action '?restart=1'
 
         $oProgressBar->show();    // show the ProgressBar
 
 
         // 1: Get list of questions with answers chosen
         //"Getting Questions and Answers ..." is shown above the bar
-        $oProgressBar->setLabelValue('txt1',$clang->gT('Getting questions and answers ...'));
+        $oProgressBar->setLabelValue('txt1',gT('Getting questions and answers ...'));
         $oProgressBar->moveStep(5);
 
         // creates array of post variable names
@@ -184,7 +184,6 @@ class Statistics_userController extends LSYii_Controller {
         }
         $aData['thisSurveyTitle'] = $sSurveyTitle;
         $aData['totalrecords'] = $iTotalRecords;
-        $aData['clang'] = $clang;
         $aData['summary'] = $aSummary;
         //show some main data at the beginnung
         // CHANGE JSW_NZ - let's allow html formatted questions to show
@@ -198,7 +197,7 @@ class Statistics_userController extends LSYii_Controller {
         if (isset($aSummary) && $aSummary)
         {
             //"Generating Summaries ..." is shown above the progress bar
-            $oProgressBar->setLabelValue('txt1',$clang->gT('Generating summaries ...'));
+            $oProgressBar->setLabelValue('txt1',gT('Generating summaries ...'));
             $oProgressBar->moveStep($iProgressPercentage);
 
             //let's run through the survey // Fixed bug 3053 with array_unique
@@ -223,7 +222,7 @@ class Statistics_userController extends LSYii_Controller {
         //done! set progress bar to 100%
         if (isset($oProgressBar))
         {
-            $oProgressBar->setLabelValue('txt1',$clang->gT('Completed'));
+            $oProgressBar->setLabelValue('txt1',gT('Completed'));
             $oProgressBar->moveStep(100);
             $oProgressBar->hide();
         }

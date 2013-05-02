@@ -10,7 +10,7 @@ class DualRadioArrayQuestion extends RadioArrayQuestion
         $caption="";// Just leave empty, are replaced after
         $extraclass ="";
         $answertypeclass = ""; // Maybe not
-        $clang = Yii::app()->lang;
+        
 
         $checkconditionFunction = "checkconditions";
 
@@ -26,14 +26,14 @@ class DualRadioArrayQuestion extends RadioArrayQuestion
             $useDropdownLayout = true;
             $extraclass .=" dropdown-list";
             $answertypeclass .=" dropdown";
-            $caption=$clang->gT("An array with sub-question on each line, with 2 answers to provide on each line. You have to select the answer.");
+            $caption=gT("An array with sub-question on each line, with 2 answers to provide on each line. You have to select the answer.");
         }
         else
         {
             $useDropdownLayout = false;
             $extraclass .=" radio-list";
             $answertypeclass .=" radio";
-            $caption=$clang->gT("An array with sub-question on each line, with 2 answers to provide on each line. The answers are contained in the table header. ");
+            $caption=gT("An array with sub-question on each line, with 2 answers to provide on each line. The answers are contained in the table header. ");
         }
         if(ctype_digit(trim($aQuestionAttributes['repeat_headings'])) && trim($aQuestionAttributes['repeat_headings']!=""))
         {
@@ -41,7 +41,7 @@ class DualRadioArrayQuestion extends RadioArrayQuestion
             $minrepeatheadings = 0;
         }
         if (trim($aQuestionAttributes['dualscale_headerA'][$_SESSION['survey_'.$this->surveyid]['s_lang']])!='') {
-            $leftheader= $clang->gT($aQuestionAttributes['dualscale_headerA'][$_SESSION['survey_'.$this->surveyid]['s_lang']]);
+            $leftheader= gT($aQuestionAttributes['dualscale_headerA'][$_SESSION['survey_'.$this->surveyid]['s_lang']]);
         }
         else
         {
@@ -50,7 +50,7 @@ class DualRadioArrayQuestion extends RadioArrayQuestion
 
         if (trim($aQuestionAttributes['dualscale_headerB'][$_SESSION['survey_'.$this->surveyid]['s_lang']])!='')
         {
-            $rightheader= $clang->gT($aQuestionAttributes['dualscale_headerB'][$_SESSION['survey_'.$this->surveyid]['s_lang']]);
+            $rightheader= gT($aQuestionAttributes['dualscale_headerB'][$_SESSION['survey_'.$this->surveyid]['s_lang']]);
         }
         else
         {
@@ -88,7 +88,7 @@ class DualRadioArrayQuestion extends RadioArrayQuestion
             if ($this->mandatory != "Y" && SHOW_NO_ANSWER == 1)
             {
                 $numrows++;
-                $caption.=$clang->gT("The last cell are for no answer. ");
+                $caption.=gT("The last cell are for no answer. ");
             }
             $cellwidth=$columnswidth/$numrows;
 
@@ -99,7 +99,7 @@ class DualRadioArrayQuestion extends RadioArrayQuestion
             if ($ansresult->count()>0)
             {
                 $right_exists=true;
-                $caption.=$clang->gT("After answers, a cell give some information. ");
+                $caption.=gT("After answers, a cell give some information. ");
             }
             else
             {
@@ -176,7 +176,7 @@ class DualRadioArrayQuestion extends RadioArrayQuestion
             if ($this->mandatory != 'Y' && SHOW_NO_ANSWER == 1) //Question is not mandatory and we can show "no answer"
             {
                 $answer_head_line .= "\t<td class=\"header_separator\">&nbsp;</td>\n"; // Separator
-                $answer_head_line .= "\t<th class=\"header_no_answer\">".$clang->gT('No answer')."</th>\n";
+                $answer_head_line .= "\t<th class=\"header_no_answer\">".gT('No answer')."</th>\n";
                 $odd_even = alternation($odd_even);
                 $mycolumns .= "\n\t<col class=\"seperator\" />\n\n";
                 $mycolumns .= "\t<col class=\"col-no-answer $odd_even\" width=\"$cellwidth%\" />\n";
@@ -332,7 +332,7 @@ class DualRadioArrayQuestion extends RadioArrayQuestion
                 {
                     $answer .= "\t<td class=\"dual_scale_separator information-item\">&nbsp;</td>\n"; // separator
                     $answer .= "\t<td class=\"dual_scale_no_answer answer-item radio-item noanswer-item\">\n"
-                    . "<label for='answer$myfname-' class='hide'>{$clang->gT("No answer")}</label>\n"
+                    . "<label for='answer$myfname-' class='hide'>{gT("No answer")}</label>\n"
                     . "\t<input class='radio' type='radio' name='$myfname' value='' id='answer$myfname-' ";
                     if (!isset($_SESSION['survey_'.$this->surveyid][$myfname]) || $_SESSION['survey_'.$this->surveyid][$myfname] == "")
                     {
@@ -372,7 +372,7 @@ class DualRadioArrayQuestion extends RadioArrayQuestion
 
             if ($anscount==0)
             {
-                $answer .="\n<p class=\"error\">".$clang->gT('Error: This question has no answers.')."</p>\n";
+                $answer .="\n<p class=\"error\">".gT('Error: This question has no answers.')."</p>\n";
             }
             else
             {
@@ -501,7 +501,7 @@ class DualRadioArrayQuestion extends RadioArrayQuestion
 
                     if (!isset($_SESSION['survey_'.$this->surveyid][$myfname]) || $_SESSION['survey_'.$this->surveyid][$myfname] =='')
                     {
-                        $answer .= "\t<option value=\"\" ".SELECTED.'>'.$clang->gT('Please choose...')."</option>\n";
+                        $answer .= "\t<option value=\"\" ".SELECTED.'>'.gT('Please choose...')."</option>\n";
                     }
 
                     foreach ($labels0 as $lrow)
@@ -521,7 +521,7 @@ class DualRadioArrayQuestion extends RadioArrayQuestion
                         {
                             $answer .= SELECTED;
                         }
-                        $answer .= '>'.$clang->gT('No answer')."</option>\n";
+                        $answer .= '>'.gT('No answer')."</option>\n";
                     }
                     $answer .= "</select>\n";
 
@@ -553,7 +553,7 @@ class DualRadioArrayQuestion extends RadioArrayQuestion
 
                     if (empty($_SESSION['survey_'.$this->surveyid][$myfname]))
                     {
-                        $answer .= "\t<option value=\"\"".SELECTED.'>'.$clang->gT('Please choose...')."</option>\n";
+                        $answer .= "\t<option value=\"\"".SELECTED.'>'.gT('Please choose...')."</option>\n";
                     }
 
                     foreach ($labels1 as $lrow1)
@@ -573,7 +573,7 @@ class DualRadioArrayQuestion extends RadioArrayQuestion
                         {
                             $answer .= SELECTED;
                         }
-                        $answer .= ">".$clang->gT('No answer')."</option>\n";
+                        $answer .= ">".gT('No answer')."</option>\n";
                     }
                     $answer .= "</select>\n";
 
@@ -598,14 +598,14 @@ class DualRadioArrayQuestion extends RadioArrayQuestion
         }
         else
         {
-            $answer = "<p class='error'>".$clang->gT("Error: There are no answer options for this question and/or they don't exist in this language.")."</p>\n";
+            $answer = "<p class='error'>".gT("Error: There are no answer options for this question and/or they don't exist in this language.")."</p>\n";
         }
         return $answer;
     }
 
     public function createFieldmap()
     {
-        $clang = Yii::app()->lang;
+        
         $abrows = getSubQuestions($this);
         $map = array();
         foreach ($abrows as $abrow)
@@ -615,13 +615,13 @@ class DualRadioArrayQuestion extends RadioArrayQuestion
             $q->fieldname = $fieldname;
             $q->aid = $abrow['title'];
             $q->scale=0;
-            $q->scalename=$clang->gT('Scale 1');
+            $q->scalename=gT('Scale 1');
             $q->sq=$abrow['question'];
             $fieldname2="{$this->surveyid}X{$this->gid}X{$this->id}{$abrow['title']}#1";
             $q2 = clone $q;
             $q2->fieldname = $fieldname2;
             $q2->scale=1;
-            $q2->scalename=$clang->gT('Scale 2');
+            $q2->scalename=gT('Scale 2');
             $map[$fieldname]=$q;
             $map[$fieldname2]=$q2;
         }
@@ -752,7 +752,7 @@ class DualRadioArrayQuestion extends RadioArrayQuestion
 
     public function getDataEntryView($language)
     {
-        $clang = Yii::app()->lang;
+        
         $deaquery = "SELECT * FROM {{questions}} WHERE parent_qid={$this->id} AND language='{$language->getlangcode()}' ORDER BY question_order";
         $dearesult = dbExecuteAssoc($deaquery)->readAll();
 
@@ -762,7 +762,7 @@ class DualRadioArrayQuestion extends RadioArrayQuestion
         {
             $fother=$orow['other'];
         }
-        $output = "<table><tr><td></td><th>".sprintf($clang->gT('Label %s'),'1')."</th><th>".sprintf($clang->gT('Label %s'),'2')."</th></tr>";
+        $output = "<table><tr><td></td><th>".sprintf(gT('Label %s'),'1')."</th><th>".sprintf(gT('Label %s'),'2')."</th></tr>";
         foreach ($dearesult as $dearow)
         {
             // first scale
@@ -770,7 +770,7 @@ class DualRadioArrayQuestion extends RadioArrayQuestion
             $delresult = dbExecuteAssoc($delquery);
             $output .= "<tr><td>{$dearow['question']}</td><td>";
             $output .= "<select name='{$this->fieldname}{$dearow['title']}#0'>";
-            $output .= "<option selected='selected' value=''>{$clang->gT("Please choose...")}</option>";
+            $output .= "<option selected='selected' value=''>{gT("Please choose...")}</option>";
             foreach ($delresult as $delrow)
             {
                 $output .= "<option value='{$delrow['code']}'>{$delrow['answer']}</option>";
@@ -780,7 +780,7 @@ class DualRadioArrayQuestion extends RadioArrayQuestion
             $delresult = dbExecuteAssoc($delquery);
             $output .= "<td>";
             $output .= "<select name='{$this->fieldname}{$dearow['title']}#1'>";
-            $output .= "<option selected='selected' value=''>{$clang->gT("Please choose...")}</option>";
+            $output .= "<option selected='selected' value=''>{gT("Please choose...")}</option>";
             foreach ($delresult as $delrow)
             {
                 $output .= "<option value='{$delrow['code']}'>{$delrow['answer']}</option>";
@@ -789,8 +789,8 @@ class DualRadioArrayQuestion extends RadioArrayQuestion
         }
         if ($fother == "Y")
         {
-            $output .= "<option value='-oth-'>{$clang->gT("Other")}</option>";
-            $output .= "{$clang->gT("Other")}:<input type='text' name='{$this->fieldname}other' value='' />";
+            $output .= "<option value='-oth-'>{gT("Other")}</option>";
+            $output .= "{gT("Other")}:<input type='text' name='{$this->fieldname}other' value='' />";
         }
         $output .= "</tr></table>";
         return $output;
@@ -921,7 +921,7 @@ class DualRadioArrayQuestion extends RadioArrayQuestion
 
     public function getConditionAnswers()
     {
-        $clang = Yii::app()->lang;
+        
         $canswers = array();
 
         $aresult = Questions::model()->findAllByAttributes(array('parent_qid' => $this->id, 'language' => Survey::model()->findByPk($this->surveyid)->language), array('order' => 'question_order desc'));
@@ -950,8 +950,8 @@ class DualRadioArrayQuestion extends RadioArrayQuestion
             // Only Show No-Answer if question is not mandatory
             if ($this->mandatory != 'Y')
             {
-                $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id.$arows['title']."#0", "", $clang->gT("No answer"));
-                $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id.$arows['title']."#1", "", $clang->gT("No answer"));
+                $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id.$arows['title']."#0", "", gT("No answer"));
+                $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id.$arows['title']."#1", "", gT("No answer"));
             }
         } //while
 
@@ -1005,7 +1005,7 @@ class DualRadioArrayQuestion extends RadioArrayQuestion
     public function questionProperties($prop = false)
     {
         $clang=Yii::app()->lang;
-        $props=array('description' => $clang->gT("Array dual scale"),'group' => $clang->gT('Arrays'),'subquestions' => 1,'assessable' => 1,'class' => 'array-flexible-duel-scale','hasdefaultvalues' => 0,'answerscales' => 2);
+        $props=array('description' => gT("Array dual scale"),'group' => gT('Arrays'),'subquestions' => 1,'assessable' => 1,'class' => 'array-flexible-duel-scale','hasdefaultvalues' => 0,'answerscales' => 2);
         return $prop?$props[$prop]:$props;
     }
 }

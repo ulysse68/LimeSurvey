@@ -6,7 +6,7 @@ class MultitextQuestion extends QuestionModule
     {
         global $thissurvey;
 
-        $clang = Yii::app()->lang;
+        
         $extraclass ="";
         $answer='';
         $aQuestionAttributes = $this->getAttributeValues();
@@ -83,7 +83,7 @@ class MultitextQuestion extends QuestionModule
 
         if ($anscount==0)
         {
-            $answer_main .= '    <li>'.$clang->gT('Error: This question has no answers.')."</li>\n";
+            $answer_main .= '    <li>'.gT('Error: This question has no answers.')."</li>\n";
         }
         else
         {
@@ -362,7 +362,7 @@ class MultitextQuestion extends QuestionModule
 
     public function getConditionAnswers()
     {
-        $clang = Yii::app()->lang;
+        
         $canswers = array();
 
         $aresult = Questions::model()->findAllByAttributes(array('parent_qid' => $this->id, 'language' => Survey::model()->findByPk($this->surveyid)->language), array('order' => 'question_order desc'));
@@ -372,7 +372,7 @@ class MultitextQuestion extends QuestionModule
             // Only Show No-Answer if question is not mandatory
             if ($this->mandatory != 'Y')
             {
-                $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id.$arows['title'], "", $clang->gT("No answer"));
+                $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id.$arows['title'], "", gT("No answer"));
             }
         } //while
 
@@ -381,7 +381,7 @@ class MultitextQuestion extends QuestionModule
 
     public function getConditionQuestions()
     {
-        $clang = Yii::app()->lang;
+        
         $cquestions = array();
 
         $aresult = Questions::model()->findAllByAttributes(array('parent_qid' => $this->id, 'language' => Survey::model()->findByPk($this->surveyid)->language), array('order' => 'question_order desc'));
@@ -415,7 +415,7 @@ class MultitextQuestion extends QuestionModule
     public function questionProperties($prop = false)
     {
         $clang=Yii::app()->lang;
-        $props=array('description' => $clang->gT("Multiple Short Text"),'group' => $clang->gT("Text questions"),'subquestions' => 1,'class' => 'multiple-short-txt','hasdefaultvalues' => 1,'assessable' => 0,'answerscales' => 0,'enum' => 0);
+        $props=array('description' => gT("Multiple Short Text"),'group' => gT("Text questions"),'subquestions' => 1,'class' => 'multiple-short-txt','hasdefaultvalues' => 1,'assessable' => 0,'answerscales' => 0,'enum' => 0);
         return $prop?$props[$prop]:$props;
     }
 

@@ -1,5 +1,5 @@
 <?php
-$clang = Yii::app()->lang;
+
 ?>
 <div class='statisticscolumnid'>
     <?php
@@ -40,7 +40,7 @@ foreach ($data as $row) {
 ?>
 <div class='statisticscolumnid'>
     <a href='<?php echo Yii::app()->getController()->createUrl("admin/responses/sa/view/surveyid/".$surveyid."/id/".$row['id']); ?>' target='_blank'>
-        <img src='<?php echo Yii::app()->getConfig('adminimageurl') . "/search.gif" ?>' title='<?php $clang->eT("View response"); ?>'/>
+        <img src='<?php echo Yii::app()->getConfig('adminimageurl') . "/search.gif" ?>' title='<?php eT("View response"); ?>'/>
     </a>
 </div>
 <div class='statisticscolumndata'>

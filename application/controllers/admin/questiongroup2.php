@@ -48,12 +48,12 @@ class questiongroup2 extends Survey_Common_Action
 
             if (!@move_uploaded_file($_FILES['the_file']['tmp_name'], $sFullFilepath))
             {
-                $fatalerror = sprintf($clang->gT("An error occurred uploading your file. This may be caused by incorrect permissions in your %s folder."), $this->config->item('tempdir'));
+                $fatalerror = sprintf(gT("An error occurred uploading your file. This may be caused by incorrect permissions in your %s folder."), $this->config->item('tempdir'));
             }
 
             // validate that we have a SID
             if (!returnGlobal('sid'))
-                $fatalerror .= $clang->gT("No SID (Survey) has been provided. Cannot import question.");
+                $fatalerror .= gT("No SID (Survey) has been provided. Cannot import question.");
 
             if (isset($fatalerror))
             {
@@ -208,7 +208,7 @@ class questiongroup2 extends Survey_Common_Action
                 // This line sets the newly inserted group as the new group
                 if (isset($groupid))
                     $gid = $groupid;
-                Yii::app()->session['flashmessage'] = Yii::app()->lang->gT("New question group was saved.");
+                Yii::app()->session['flashmessage'] = gT("New question group was saved.");
             }
             $this->getController()->redirect($this->getController()->createUrl('admin/survey/sa/view/surveyid/' . $surveyid . '/gid/' . $gid));
         }
@@ -236,10 +236,10 @@ class questiongroup2 extends Survey_Common_Action
             if ($iGroupsDeleted !== 1)
             {
                 fixSortOrderGroups($iSurveyId);
-                Yii::app()->user->setFlash('flashmessage', $clang->gT('The question group was deleted.'));
+                Yii::app()->user->setFlash('flashmessage', gT('The question group was deleted.'));
             }
             else
-                Yii::app()->user->setFlash('flashmessage', $clang->gT('Group could not be deleted'));
+                Yii::app()->user->setFlash('flashmessage', gT('Group could not be deleted'));
             LimeExpressionManager::UpgradeConditionsToRelevance($iSurveyId);
             $this->getController()->redirect($this->getController()->createUrl('admin/survey/sa/view/surveyid/' . $iSurveyId));
         }
@@ -319,7 +319,7 @@ class questiongroup2 extends Survey_Common_Action
                 $aTabTitles[$sLanguage] = getLanguageNameFromCode($sLanguage, false);
                 if ($first)
                 {
-                    $aTabTitles[$sLanguage].= ' (' . $clang->gT("Base language") . ')';
+                    $aTabTitles[$sLanguage].= ' (' . gT("Base language") . ')';
                     $first = false;
                 }
             }
@@ -390,7 +390,7 @@ class questiongroup2 extends Survey_Common_Action
                 }
             }
 
-            Yii::app()->session['flashmessage'] = Yii::app()->lang->gT("Question group successfully saved.");
+            Yii::app()->session['flashmessage'] = gT("Question group successfully saved.");
             $this->getController()->redirect($this->getController()->createUrl('admin/survey/sa/view/surveyid/' . $surveyid . '/gid/' . $gid));
         }
     }

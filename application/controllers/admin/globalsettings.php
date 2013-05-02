@@ -77,7 +77,6 @@ class GlobalSettings extends Survey_Common_Action
         $refurl= str_replace(array_keys($aReplacements),array_values($aReplacements),$refurl);
         Yii::app()->session['refurl'] = htmlspecialchars($refurl); //just to be safe!
 
-        $data['clang'] = $this->getController()->lang;
         $data['title'] = "hi";
         $data['message'] = "message";
         foreach ($this->_checkSettings() as $key => $row)
@@ -191,7 +190,7 @@ class GlobalSettings extends Survey_Common_Action
         setGlobalSetting('timeadjust', $savetime);
         setGlobalSetting('usercontrolSameGroupPolicy', strip_tags($_POST['usercontrolSameGroupPolicy']));
 
-        Yii::app()->session['flashmessage'] = $clang->gT("Global settings were saved.");
+        Yii::app()->session['flashmessage'] = gT("Global settings were saved.");
 
         $url = htmlspecialchars_decode(Yii::app()->session['refurl']);
         if($url){Yii::app()->getController()->redirect($url);}
@@ -253,18 +252,4 @@ class GlobalSettings extends Survey_Common_Action
         );
     }
 
-    /**
-    * Renders template(s) wrapped in header and footer
-    *
-    * @param string $sAction Current action, the folder to fetch views from
-    * @param string|array $aViewUrls View url(s)
-    * @param array $aData Data to be passed on. Optional.
-    */
-    protected function _renderWrappedTemplate($sAction = '', $aViewUrls = array(), $aData = array())
-    {
-        $this->getController()->_js_admin_includes(Yii::app()->getConfig('generalscripts') . "jquery/jquery.selectboxes.min.js");
-        $this->getController()->_js_admin_includes(Yii::app()->getConfig('adminscripts') . "globalsettings.js");
-
-        parent::_renderWrappedTemplate($sAction, $aViewUrls, $aData);
-    }
 }

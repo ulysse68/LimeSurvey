@@ -39,8 +39,8 @@ class DateQuestion extends QuestionModule
                 {
                     // Show day select box
                     case 'j':
-                    case 'd':   $answer .= '<label for="day'.$this->fieldname.'" class="hide">'.$clang->gT('Day').'</label><select id="day'.$this->fieldname.'" name="day'.$this->fieldname.'" class="day">
-                        <option value="">'.$clang->gT('Day')."</option>\n";
+                    case 'd':   $answer .= '<label for="day'.$this->fieldname.'" class="hide">'.gT('Day').'</label><select id="day'.$this->fieldname.'" name="day'.$this->fieldname.'" class="day">
+                        <option value="">'.gT('Day')."</option>\n";
                         for ($i=1; $i<=31; $i++) {
                             if ($i == $currentdate)
                             {
@@ -56,21 +56,21 @@ class DateQuestion extends QuestionModule
                         break;
                         // Show month select box
                     case 'n':
-                    case 'm':   $answer .= '<label for="month'.$this->fieldname.'" class="hide">'.$clang->gT('Month').'</label><select id="month'.$this->fieldname.'" name="month'.$this->fieldname.'" class="month">
-                        <option value="">'.$clang->gT('Month')."</option>\n";
+                    case 'm':   $answer .= '<label for="month'.$this->fieldname.'" class="hide">'.gT('Month').'</label><select id="month'.$this->fieldname.'" name="month'.$this->fieldname.'" class="month">
+                        <option value="">'.gT('Month')."</option>\n";
                         $montharray=array(
-                        $clang->gT('Jan'),
-                        $clang->gT('Feb'),
-                        $clang->gT('Mar'),
-                        $clang->gT('Apr'),
-                        $clang->gT('May'),
-                        $clang->gT('Jun'),
-                        $clang->gT('Jul'),
-                        $clang->gT('Aug'),
-                        $clang->gT('Sep'),
-                        $clang->gT('Oct'),
-                        $clang->gT('Nov'),
-                        $clang->gT('Dec'));
+                        gT('Jan'),
+                        gT('Feb'),
+                        gT('Mar'),
+                        gT('Apr'),
+                        gT('May'),
+                        gT('Jun'),
+                        gT('Jul'),
+                        gT('Aug'),
+                        gT('Sep'),
+                        gT('Oct'),
+                        gT('Nov'),
+                        gT('Dec'));
                         for ($i=1; $i<=12; $i++) {
                             if ($i == $currentmonth)
                             {
@@ -86,8 +86,8 @@ class DateQuestion extends QuestionModule
                         $answer .= '</select>';
                         break;
                         // Show year select box
-                    case 'Y':   $answer .= '<label for="year'.$this->fieldname.'" class="hide">'.$clang->gT('Year').'</label><select id="year'.$this->fieldname.'" name="year'.$this->fieldname.'" class="year">
-                        <option value="">'.$clang->gT('Year').'</option>';
+                    case 'Y':   $answer .= '<label for="year'.$this->fieldname.'" class="hide">'.gT('Year').'</label><select id="year'.$this->fieldname.'" name="year'.$this->fieldname.'" class="year">
+                        <option value="">'.gT('Year').'</option>';
 
                         /*
                         *  New question attributes used only if question attribute
@@ -152,7 +152,7 @@ class DateQuestion extends QuestionModule
                     case 'h':
                     case 'g':
                     case 'G':
-                        $answer .= '<label for="hour'.$ia[1].'" class="hide">'.$clang->gT('Hour').'</label><select id="hour'.$ia[1].'" name="hour'.$ia[1].'" class="hour"><option value="">'.$clang->gT('Hour').'</option>';
+                        $answer .= '<label for="hour'.$ia[1].'" class="hide">'.gT('Hour').'</label><select id="hour'.$ia[1].'" name="hour'.$ia[1].'" class="hour"><option value="">'.gT('Hour').'</option>';
                         for ($i=0; $i<24; $i++) {
                             if ($i === $currenthour)
                             {
@@ -175,8 +175,8 @@ class DateQuestion extends QuestionModule
                         $answer .= '</select>';
 
                         break;
-                    case 'i':   $answer .= '<label for="minute'.$ia[1].'" class="hide">'.$clang->gT('Minute').'</label><select id="minute'.$ia[1].'" name="minute'.$ia[1].'" class="minute">
-                        <option value="">'.$clang->gT('Minute').'</option>';
+                    case 'i':   $answer .= '<label for="minute'.$ia[1].'" class="hide">'.gT('Minute').'</label><select id="minute'.$ia[1].'" name="minute'.$ia[1].'" class="minute">
+                        <option value="">'.gT('Minute').'</option>';
 
                         for ($i=0; $i<60; $i+=$aQuestionAttributes['dropdown_dates_minute_step']) {
                             if ($i === $currentminute)
@@ -204,7 +204,7 @@ class DateQuestion extends QuestionModule
                 }
             }
 
-            $answer .= '<input class="text" type="text" size="10" name="'.$this->fieldname.'" style="display: none" id="answer'.$this->fieldname.'" value="'.$_SESSION['survey_'.$this->surveyid][$this->fieldname].'" maxlength="10" alt="'.$clang->gT('Answer').'" onchange="'.$checkconditionFunction.'(this.value, this.name, this.type)" />
+            $answer .= '<input class="text" type="text" size="10" name="'.$this->fieldname.'" style="display: none" id="answer'.$this->fieldname.'" value="'.$_SESSION['survey_'.$this->surveyid][$this->fieldname].'" maxlength="10" alt="'.gT('Answer').'" onchange="'.$checkconditionFunction.'(this.value, this.name, this.type)" />
             </p>';
             $answer .= '<input type="hidden" name="qattribute_answer[]" value="'.$this->fieldname.'" />
             <input type="hidden" id="qattribute_answer'.$this->fieldname.'" name="qattribute_answer'.$this->fieldname.'" />
@@ -244,15 +244,15 @@ class DateQuestion extends QuestionModule
             $goodchars = str_replace( array("m","d","y"), "", $dateformatdetails['jsdate']);
             $goodchars = "0123456789".$goodchars[0];
 
-            $answer ="<p class='question answer-item text-item date-item'><label for='answer{$this->fieldname}' class='hide label'>{$clang->gT('Date picker')}</label>
-            <input class='popupdate' type=\"text\" size=\"10\" name=\"{$this->fieldname}\" title='".sprintf($clang->gT('Format: %s'),$dateformatdetails['dateformat'])."' id=\"answer{$this->fieldname}\" value=\"$dateoutput\" maxlength=\"10\" onkeypress=\"return goodchars(event,'".$goodchars."')\" onchange=\"$checkconditionFunction(this.value, this.name, this.type)\" />
+            $answer ="<p class='question answer-item text-item date-item'><label for='answer{$this->fieldname}' class='hide label'>{gT('Date picker')}</label>
+            <input class='popupdate' type=\"text\" size=\"10\" name=\"{$this->fieldname}\" title='".sprintf(gT('Format: %s'),$dateformatdetails['dateformat'])."' id=\"answer{$this->fieldname}\" value=\"$dateoutput\" maxlength=\"10\" onkeypress=\"return goodchars(event,'".$goodchars."')\" onchange=\"$checkconditionFunction(this.value, this.name, this.type)\" />
             <input  type='hidden' name='dateformat{$this->fieldname}' id='dateformat{$this->fieldname}' value='{$dateformatdetails['jsdate']}'  />
             <input  type='hidden' name='datelanguage{$this->fieldname}' id='datelanguage{$this->fieldname}' value='{$clang->langcode}'  />
             <input  type='hidden' name='dateyearrange{$this->fieldname}' id='dateyearrange{$this->fieldname}' value='{$minyear}:{$maxyear}'  />
 
             </p>";
             if (trim($aQuestionAttributes['hide_tip'])==1) {
-                $answer.="<p class=\"tip\">".sprintf($clang->gT('Format: %s'),$dateformatdetails['dateformat'])."</p>";
+                $answer.="<p class=\"tip\">".sprintf(gT('Format: %s'),$dateformatdetails['dateformat'])."</p>";
             }
         }
 
@@ -409,7 +409,7 @@ class DateQuestion extends QuestionModule
     public function questionProperties($prop = false)
     {
         $clang=Yii::app()->lang;
-        $props=array('description' => $clang->gT("Date/Time"),'group' => $clang->gT("Mask questions"),'subquestions' => 0,'class' => 'date','hasdefaultvalues' => 1,'assessable' => 0,'answerscales' => 0,'enum' => 0);
+        $props=array('description' => gT("Date/Time"),'group' => gT("Mask questions"),'subquestions' => 0,'class' => 'date','hasdefaultvalues' => 1,'assessable' => 0,'answerscales' => 0,'enum' => 0);
         return $prop?$props[$prop]:$props;
     }
 }

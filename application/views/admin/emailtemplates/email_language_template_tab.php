@@ -8,7 +8,7 @@
         
         <input 
             type='button' 
-            value='<?php $clang->eT("Use default"); ?>' 
+            value='<?php eT("Use default"); ?>' 
             class="fillin"
             data-target="<?php echo "email_{$tab}_subj_{$grouplang}"; ?>"
             data-value="<?php echo $details['default']['subject']; ?>"
@@ -21,7 +21,7 @@
        ?>
         <input 
             type='button' 
-            value='<?php $clang->eT("Use default"); ?>' 
+            value='<?php eT("Use default"); ?>' 
             class="fillin"
             data-target="<?php echo "email_{$tab}_{$grouplang}"; ?>"
             data-value="<?php echo htmlspecialchars(conditionalNewlineToBreak($details['default']['body'],$ishtml),ENT_QUOTES); ?>"

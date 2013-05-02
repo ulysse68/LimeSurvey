@@ -18,11 +18,6 @@ class LSYii_Application extends CWebApplication
 {
     protected $config = array();
     /**
-     * @var Limesurvey_lang 
-     */
-    public $lang = null;
-
-    /**
      *
      * @var PluginManager
      */
@@ -108,6 +103,8 @@ class LSYii_Application extends CWebApplication
         ));
 
         parent::__construct($config);
+
+        $this->language = 'nl';
         // Load the default and environmental settings from different files into self.
         Yii::setPathOfAlias('bootstrap' , Yii::getPathOfAlias('ext.bootstrap'));
         $ls_config = require(Yii::getPathOfAlias('application.config') . '/config-defaults.php');
@@ -239,19 +236,6 @@ class LSYii_Application extends CWebApplication
     public function getConfig($name)
     {
         return isset($this->config[$name]) ? $this->config[$name] : false;
-    }
-
-
-    /**
-    * For future use, cache the language app wise as well.
-    *
-    * @access public
-    * @param Limesurvey_lang
-    * @return void
-    */
-    public function setLang(Limesurvey_lang $lang)
-    {
-        $this->lang = $lang;
     }
 
     /**

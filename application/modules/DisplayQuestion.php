@@ -65,7 +65,7 @@ class DisplayQuestion extends QuestionModule
     public function questionProperties($prop = false)
     {
         $clang=Yii::app()->lang;
-        $props=array('description' => $clang->gT("Text display"),'group' => $clang->gT("Mask questions"),'subquestions' => 0,'class' => 'boilerplate','hasdefaultvalues' => 0,'assessable' => 0,'answerscales' => 0,'enum' => 0);
+        $props=array('description' => gT("Text display"),'group' => gT("Mask questions"),'subquestions' => 0,'class' => 'boilerplate','hasdefaultvalues' => 0,'assessable' => 0,'answerscales' => 0,'enum' => 0);
         return $prop?$props[$prop]:$props;
     }
 }

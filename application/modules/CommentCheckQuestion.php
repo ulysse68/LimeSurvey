@@ -5,7 +5,7 @@ class CommentCheckQuestion extends CheckQuestion
     {
         global $thissurvey;
 
-        $clang = Yii::app()->lang;
+        
         if ($thissurvey['nokeyboard']=='Y')
         {
             includeKeypad();
@@ -52,7 +52,7 @@ class CommentCheckQuestion extends CheckQuestion
         }
         else
         {
-            $othertext=$clang->gT('Other:');
+            $othertext=gT('Other:');
         }
 
         $callmaxanswscriptother = '';
@@ -117,8 +117,8 @@ class CommentCheckQuestion extends CheckQuestion
             }
             $answer_main .= "' />\n";
             $fn++;
-            $answer_main .= "</span>\n<span class=\"comment\">\n\t<label for='answer$myfname2' class=\"answer-comment hide \">".$clang->gT('Make a comment on your choice here:')."</label>\n"
-            ."<input class='text ".$kpclass."' type='text' size='40' id='answer$myfname2' name='$myfname2' title='".$clang->gT('Make a comment on your choice here:')."' value='";
+            $answer_main .= "</span>\n<span class=\"comment\">\n\t<label for='answer$myfname2' class=\"answer-comment hide \">".gT('Make a comment on your choice here:')."</label>\n"
+            ."<input class='text ".$kpclass."' type='text' size='40' id='answer$myfname2' name='$myfname2' title='".gT('Make a comment on your choice here:')."' value='";
             if (isset($_SESSION['survey_'.$this->surveyid][$myfname2])) {$answer_main .= htmlspecialchars($_SESSION['survey_'.$this->surveyid][$myfname2],ENT_QUOTES);}
             // --> START NEW FEATURE - SAVE
             $answer_main .= "' onkeyup='if (jQuery.trim($(\"#answer{$myfname2}\").val())!=\"\") { document.getElementById(\"answer{$myfname}\").checked=true;$checkconditionFunction(document.getElementById(\"answer{$myfname2}\").value,\"$myfname2\",\"text\");$checkconditionFunction(document.getElementById(\"answer{$myfname}\").value,document.getElementById(\"answer{$myfname}\").name, document.getElementById(\"answer{$myfname}\").type);}' />\n</span>\n"
@@ -133,7 +133,7 @@ class CommentCheckQuestion extends CheckQuestion
             $myfname2 = $myfname.'comment';
             $anscount = $anscount + 2;
             $answer_main .= "\t<li class=\"other question-item answer-item checkbox-text-item other-item\" id=\"javatbd$myfname\">\n<span class=\"option\">\n"
-            . "\t<label for=\"answer$myfname\" class=\"answertext\">\n".$othertext."\n<input class=\"text other ".$kpclass."\" type=\"text\" name=\"$myfname\" id=\"answer$myfname\" title=\"".$clang->gT('Other').'" size="10"';
+            . "\t<label for=\"answer$myfname\" class=\"answertext\">\n".$othertext."\n<input class=\"text other ".$kpclass."\" type=\"text\" name=\"$myfname\" id=\"answer$myfname\" title=\"".gT('Other').'" size="10"';
             $answer_main .= " onkeyup='$oth_checkconditionFunction(this.value, this.name, this.type); if($.trim(this.value)==\"\") { $(\"#answer$myfname2\").val(\"\"); $checkconditionFunction(\"\",\"$myfname2\",\"text\"); }'";
             if (isset($_SESSION['survey_'.$this->surveyid][$myfname]) && $_SESSION['survey_'.$this->surveyid][$myfname])
             {
@@ -147,10 +147,10 @@ class CommentCheckQuestion extends CheckQuestion
             $fn++;
             // --> START NEW FEATURE - SAVE
             $answer_main .= "  $callmaxanswscriptother />\n\t</label>\n</span>\n"
-            . "<span class=\"comment\">\n\t<label for=\"answer$myfname2\" class=\"answer-comment hide\">".$clang->gT('Make a comment on your choice here:')."\t</label>\n"
+            . "<span class=\"comment\">\n\t<label for=\"answer$myfname2\" class=\"answer-comment hide\">".gT('Make a comment on your choice here:')."\t</label>\n"
             . '<input class="text '.$kpclass.'" type="text" size="40" name="'.$myfname2.'" id="answer'.$myfname2.'"'
             . " onkeyup='$checkconditionFunction(this.value,this.name,this.type);'"
-            . ' title="'.$clang->gT('Make a comment on your choice here:').'" value="';
+            . ' title="'.gT('Make a comment on your choice here:').'" value="';
             // --> END NEW FEATURE - SAVE
 
             if (isset($_SESSION['survey_'.$this->surveyid][$myfname2])) {$answer_main .= htmlspecialchars($_SESSION['survey_'.$this->surveyid][$myfname2],ENT_QUOTES);}
@@ -208,14 +208,14 @@ class CommentCheckQuestion extends CheckQuestion
 
     public function createFieldmap()
     {
-        $clang = Yii::app()->lang;
+        
         $map = array();
         $tmp = parent::createFieldmap();
         foreach($tmp as $q)
         {
             $q2 = clone $q;
             $q2->fieldname .= 'comment';
-            $q2->sq=$q->aid=='other'?$clang->gT("Other comment"):$clang->gT("Comment");
+            $q2->sq=$q->aid=='other'?gT("Other comment"):gT("Comment");
             $q2->aid.='comment';
             unset($q2->default);
             unset($q2->sqid);
@@ -432,7 +432,7 @@ class CommentCheckQuestion extends CheckQuestion
     public function questionProperties($prop = false)
     {
         $clang=Yii::app()->lang;
-        $props=array('description' => $clang->gT("Multiple choice with comments"),'group' => $clang->gT("Multiple choice questions"),'subquestions' => 1,'class' => 'multiple-opt-comments','hasdefaultvalues' => 1,'assessable' => 1,'answerscales' => 0,'enum' => 1);
+        $props=array('description' => gT("Multiple choice with comments"),'group' => gT("Multiple choice questions"),'subquestions' => 1,'class' => 'multiple-opt-comments','hasdefaultvalues' => 1,'assessable' => 1,'answerscales' => 0,'enum' => 1);
         return $prop?$props[$prop]:$props;
     }
 }

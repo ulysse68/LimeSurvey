@@ -3189,7 +3189,7 @@ EOD;
         // ultimately should call i8n functiouns
         global $clang;
         if (isset($clang)) {
-            return $clang->gT($string);
+            return gT($string);
         }
         else {
             return $string;

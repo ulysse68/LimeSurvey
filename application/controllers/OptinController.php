@@ -52,24 +52,18 @@ class OptinController extends LSYii_Controller {
         if (!isset($sLanguageCode) || $sLanguageCode == "" || !$sLanguageCode)
         {
             $sBaseLanguage = Survey::model()->findByPk($iSurveyID)->language;
-            Yii::import('application.libraries.Limesurvey_lang', true);
-            $clang = new Limesurvey_lang($sBaseLanguage);
         }
         else
         {
             $sLanguageCode = sanitize_languagecode($sLanguageCode);
-            Yii::import('application.libraries.Limesurvey_lang', true);
-            $clang = new Limesurvey_lang($sLanguageCode);
             $sBaseLanguage = $sLanguageCode;
         }
-
-        Yii::app()->lang = $clang;
 
         $aSurveyInfo=getSurveyInfo($iSurveyID,$sBaseLanguage);
 
         if ($aSurveyInfo == false || !tableExists("{{tokens_{$iSurveyID}}}"))
         {
-            $sHTML = $clang->gT('This survey does not seem to exist.');
+            $sHTML = gT('This survey does not seem to exist.');
         }
         else
         {
@@ -77,22 +71,22 @@ class OptinController extends LSYii_Controller {
 
             if ($aRow == false)
             {
-                $sHTML = $clang->gT('You are not a participant in this survey.');
+                $sHTML = gT('You are not a participant in this survey.');
             }
             else
             {
                 if ($aRow['emailstatus']=='OptOut')
                 {
                     $usresult = Tokens_dynamic::model($iSurveyID)->updateEmailStatus($sToken, 'OK');
-                    $sHTML = $clang->gT('You have been successfully added back to this survey.');
+                    $sHTML = gT('You have been successfully added back to this survey.');
                 }
                 else if ($aRow['emailstatus']=='OK')
                 {
-                    $sHTML = $clang->gT('You are already a part of this survey.');
+                    $sHTML = gT('You are already a part of this survey.');
                 }
                 else
                 {
-                    $sHTML = $clang->gT('You have been already removed from this survey.');
+                    $sHTML = gT('You have been already removed from this survey.');
                 }
             }
         }
@@ -121,7 +115,6 @@ class OptinController extends LSYii_Controller {
         doHeader();
         $aData['html'] = $sHTML;
         $aData['thistpl'] = $sTemplate;
-        $aData['clang'] = $oLanguage;
         $this->render('/opt_view',$aData);
         doFooter();
     }

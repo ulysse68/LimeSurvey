@@ -6051,17 +6051,9 @@ EOD;
             }
         }
 
-        private function gT($string,  $escapemode = 'html')
+        private function gT($string)
         {
-            // eventually replace this with i8n
-            if (isset(Yii::app()->lang))
-            {
-                return Yii::app()->lang->gT($string, $escapemode);
-            }
-            else
-            {
-                return $string;
-            }
+            return gT($string);
         }
 
 

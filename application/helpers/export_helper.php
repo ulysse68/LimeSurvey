@@ -140,7 +140,7 @@ function SPSSExportData ($iSurveyID, $iLength, $na = '', $qs='\'', $header=FALSE
 */
 function SPSSGetValues ($field = array()) {
     global $iSurveyID, $language, $length_vallabel;
-    $clang = Yii::app()->lang;
+    
     $q = $field['question'];
     $answers = $q->getSPSSAnswers();
 
@@ -693,8 +693,7 @@ function QueXMLCreateFixed($qid,$rotate=false,$labels=true,$scale=0,$other=false
     global $dom;
 
     global $quexmllang;
-    $qlang = new limesurvey_lang($quexmllang);
-
+    
     if ($labels)
         $Query = "SELECT * FROM {{labels}} WHERE lid = $labels  AND language='$quexmllang' ORDER BY sortorder ASC";
     else
@@ -785,9 +784,7 @@ function quexml_create_multi(&$question,$qid,$varname,$scale_id = false,$free = 
     global $dom;
     global $quexmllang ;
     global $iSurveyID;
-    $qlang = new limesurvey_lang($quexmllang);
-
-
+    
     $Query = "SELECT * FROM {{questions}} WHERE parent_qid = $qid  AND language='$quexmllang' ";
     if ($scale_id != false) $Query .= " AND scale_id = $scale_id ";
     $Query .= " ORDER BY question_order ASC";
@@ -908,8 +905,6 @@ function quexml_export($surveyi, $quexmllan)
     global $dom, $quexmllang, $iSurveyID;
     $quexmllang = $quexmllan;
     $iSurveyID = $surveyi;
-
-    $qlang = new limesurvey_lang($quexmllang);
 
     $dom = new DOMDocument('1.0','UTF-8');
 

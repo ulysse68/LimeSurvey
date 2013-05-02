@@ -48,23 +48,20 @@ class OptoutController extends LSYii_Controller {
         if (!isset($sLanguageCode) || $sLanguageCode == "" || !$sLanguageCode)
         {
             $sBaseLanguage = Survey::model()->findByPk($iSurveyID)->language;
-            Yii::import('application.libraries.Limesurvey_lang', true);
-            $clang = new Limesurvey_lang($sBaseLanguage);
+            
+            
         }
         else
         {
             $sLanguageCode = sanitize_languagecode($sLanguageCode);
-            Yii::import('application.libraries.Limesurvey_lang', true);
-            $clang = new Limesurvey_lang($sLanguageCode);
+            
             $sBaseLanguage = $sLanguageCode;
         }
-
-        Yii::app()->lang = $clang;
 
         $aSurveyInfo=getSurveyInfo($iSurveyID,$sBaseLanguage);
 
         if ($aSurveyInfo==false || !tableExists("{{tokens_{$iSurveyID}}}")){
-            $sHTML = $clang->gT('This survey does not seem to exist.');
+            $sHTML = gT('This survey does not seem to exist.');
         }
         else
         {
@@ -72,18 +69,18 @@ class OptoutController extends LSYii_Controller {
 
             if ($aRow == false)
             {
-                $sHTML = $clang->gT('You are not a participant in this survey.');
+                $sHTML = gT('You are not a participant in this survey.');
             }
             else
             {
                 if ($aRow['emailstatus'] == 'OK')
                 {
                     Tokens_dynamic::model($iSurveyID)->updateEmailStatus($sToken, 'OptOut');
-                    $sHTML = $clang->gT('You have been successfully removed from this survey.');
+                    $sHTML = gT('You have been successfully removed from this survey.');
                 }
                 else
                 {
-                    $sHTML = $clang->gT('You have been already removed from this survey.');
+                    $sHTML = gT('You have been already removed from this survey.');
                 }
             }
         }
@@ -126,23 +123,20 @@ class OptoutController extends LSYii_Controller {
         if (!isset($sLanguageCode) || $sLanguageCode == "" || !$sLanguageCode)
         {
             $sBaseLanguage = Survey::model()->findByPk($iSurveyID)->language;
-            Yii::import('application.libraries.Limesurvey_lang', true);
-            $clang = new Limesurvey_lang($sBaseLanguage);
+            
+            
         }
         else
         {
             $sLanguageCode = sanitize_languagecode($sLanguageCode);
-            Yii::import('application.libraries.Limesurvey_lang', true);
-            $clang = new Limesurvey_lang($sLanguageCode);
+            
             $sBaseLanguage = $sLanguageCode;
         }
-
-        Yii::app()->lang = $clang;
 
         $aSurveyInfo=getSurveyInfo($iSurveyID,$sBaseLanguage);
 
         if ($aSurveyInfo==false || !tableExists("{{tokens_{$iSurveyID}}}")){
-            $sHTML = $clang->gT('This survey does not seem to exist.');
+            $sHTML = gT('This survey does not seem to exist.');
         }
         else
         {
@@ -151,18 +145,18 @@ class OptoutController extends LSYii_Controller {
 
             if ($aRow == false)
             {
-                $sHTML = $clang->gT('You are not a participant in this survey.');
+                $sHTML = gT('You are not a participant in this survey.');
             }
             else
             {
                 if ($aRow['emailstatus'] == 'OK')
                 {
                     Tokens_dynamic::model($iSurveyID)->updateEmailStatus($sToken, 'OptOut');
-                    $sHTML = $clang->gT('You have been successfully removed from this survey.');
+                    $sHTML = gT('You have been successfully removed from this survey.');
                 }
                 else
                 {
-                    $sHTML = $clang->gT('You have been already removed from this survey.');
+                    $sHTML = gT('You have been already removed from this survey.');
                 }
                 if(!empty($oToken->participant_id) && $oToken->participant_id != "")
                 {
@@ -171,13 +165,13 @@ class OptoutController extends LSYii_Controller {
                     if($cpdb->blacklisted=="Y")
                     {
                         $sHTML .= "<br />";
-                        $sHTML .= $clang->gt("You have already been removed from the central participants list for this site");
+                        $sHTML .= gT("You have already been removed from the central participants list for this site");
                     } else
                     {
                         $cpdb->blacklisted='Y';
                         $cpdb->save();
                         $sHTML .= "<br />";
-                        $sHTML .= $clang->gT("You have been removed from the central participants list for this site");
+                        $sHTML .= gT("You have been removed from the central participants list for this site");
                     }
                 }
             }

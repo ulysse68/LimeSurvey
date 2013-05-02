@@ -18,7 +18,8 @@ $internalConfig = array(
 		'application.modules.*',
 	),
     'preload' => array(
-        'limescript'
+        'limescript',
+        'bootstrap'
     ),
 	'components' => array(
         'limescript' => array(
@@ -46,7 +47,10 @@ $internalConfig = array(
             'renderers' => array(
                 'twig' => array(
                     'class' => 'ext.TwigRenderer.ETwigViewRenderer',
-                    'twigPathAlias' => 'application.third_party.Twig'
+                    'twigPathAlias' => 'application.third_party.Twig',
+                    'options' => array(
+                        'cache' => false
+                    )
                 )
             )
 
@@ -65,6 +69,14 @@ $internalConfig = array(
 
 			),
 		),
+        'messages' => array(
+            'class' => 'CGettextMessageSource',
+            'useMoFile' => true,
+            'useBigEndian' => false,
+            'language' => 'en'
+
+            
+        )
         
 	)
 );

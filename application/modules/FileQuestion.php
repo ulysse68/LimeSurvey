@@ -5,7 +5,7 @@ class FileQuestion extends QuestionModule
     {
         global $thissurvey;
 
-        $clang = Yii::app()->lang;
+        
 
         $checkconditionFunction = "checkconditions";
 
@@ -37,7 +37,7 @@ class FileQuestion extends QuestionModule
 
         $uploadbutton = "<h2><a id='upload_".$this->fieldname."' class='upload' ";
         $uploadbutton .= " href='#' onclick='javascript:upload_$this->fieldname();'";
-        $uploadbutton .=">" .$clang->gT('Upload files'). "</a></h2>";
+        $uploadbutton .=">" .gT('Upload files'). "</a></h2>";
 
         $answer = "<script type='text/javascript'>
             function upload_{$this->fieldname}() {
@@ -49,11 +49,11 @@ class FileQuestion extends QuestionModule
                 $('#upload_$this->fieldname').attr('href',uploadurl);
             }
             var translt = {
-                 title: '" . $clang->gT('Upload your files','js') . "',
-                 returnTxt: '" . $clang->gT('Return to survey','js') . "',
-                 headTitle: '" . $clang->gT('Title','js') . "',
-                 headComment: '" . $clang->gT('Comment','js') . "',
-                 headFileName: '" . $clang->gT('File name','js') . "'
+                 title: '" . gT('Upload your files','js') . "',
+                 returnTxt: '" . gT('Return to survey','js') . "',
+                 headTitle: '" . gT('Title','js') . "',
+                 headComment: '" . gT('Comment','js') . "',
+                 headFileName: '" . gT('File name','js') . "'
                 };
             var imageurl =  '".Yii::app()->getConfig('imageurl')."';
             var uploadurl =  '".$scriptloc."';
@@ -195,7 +195,7 @@ class FileQuestion extends QuestionModule
     {
         global $filenotvalidated;
 
-        $clang = Yii::app()->lang;
+        
         $qtitle = "";
         if (isset($filenotvalidated) && is_array($filenotvalidated))
         {
@@ -204,7 +204,7 @@ class FileQuestion extends QuestionModule
             foreach ($filenotvalidated as $k => $v)
             {
                 if ($this->fieldname == $k || strpos($k, "_") && $this->fieldname == substr(0, strpos($k, "_") - 1));
-                $qtitle .= '<br /><span class="errormandatory">'.$clang->gT($filenotvalidated[$k]).'</span><br />';
+                $qtitle .= '<br /><span class="errormandatory">'.gT($filenotvalidated[$k]).'</span><br />';
             }
         }
         return $qtitle;
@@ -212,7 +212,7 @@ class FileQuestion extends QuestionModule
 
     public function createFieldmap()
     {
-        $clang = Yii::app()->lang;
+        
         $qidattributes=$this->getAttributeValues();
         $fieldname="{$this->surveyid}X{$this->gid}X{$this->id}";
         $fieldname2="{$this->surveyid}X{$this->gid}X{$this->id}_filecount";
@@ -434,7 +434,7 @@ OUTPUT;
     public function questionProperties($prop = false)
     {
         $clang=Yii::app()->lang;
-        $props=array('description' => $clang->gT("File upload"),'group' => $clang->gT("Mask questions"),'subquestions' => 0,'class' => 'generic_question','hasdefaultvalues' => 0,'assessable' => 0,'answerscales' => 0,'enum' => 0);
+        $props=array('description' => gT("File upload"),'group' => gT("Mask questions"),'subquestions' => 0,'class' => 'generic_question','hasdefaultvalues' => 0,'assessable' => 0,'answerscales' => 0,'enum' => 0);
         return $prop?$props[$prop]:$props;
     }
 }

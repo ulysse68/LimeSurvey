@@ -56,8 +56,7 @@ class PrintanswersController extends LSYii_Controller {
         {
             //require_once($rootdir.'/classes/core/language.php');
             $baselang = Survey::model()->findByPk($iSurveyID)->language;
-            Yii::import('application.libraries.Limesurvey_lang', true);
-            $clang = new Limesurvey_lang($baselang);
+            
             //A nice exit
 
             sendCacheHeaders();
@@ -65,9 +64,9 @@ class PrintanswersController extends LSYii_Controller {
 
             echo templatereplace(file_get_contents(getTemplatePath(validateTemplateDir("default"))."/startpage.pstpl"),array(),array());
             echo "<center><br />\n"
-            ."\t<font color='RED'><strong>".$clang->gT("Error")."</strong></font><br />\n"
-            ."\t".$clang->gT("We are sorry but your session has expired.")."<br />".$clang->gT("Either you have been inactive for too long, you have cookies disabled for your browser, or there were problems with your connection.")."<br />\n"
-            ."\t".sprintf($clang->gT("Please contact %s ( %s ) for further assistance."),Yii::app()->getConfig("siteadminname"),Yii::app()->getConfig("siteadminemail"))."\n"
+            ."\t<font color='RED'><strong>".gT("Error")."</strong></font><br />\n"
+            ."\t".gT("We are sorry but your session has expired.")."<br />".gT("Either you have been inactive for too long, you have cookies disabled for your browser, or there were problems with your connection.")."<br />\n"
+            ."\t".sprintf(gT("Please contact %s ( %s ) for further assistance."),Yii::app()->getConfig("siteadminname"),Yii::app()->getConfig("siteadminemail"))."\n"
             ."</center><br />\n";
 
             echo templatereplace(file_get_contents(getTemplatePath(validateTemplateDir("default"))."/endpage.pstpl"),array(),array());
@@ -123,7 +122,7 @@ class PrintanswersController extends LSYii_Controller {
         //OK. IF WE GOT THIS FAR, THEN THE SURVEY EXISTS AND IT IS ACTIVE, SO LETS GET TO WORK.
         //SHOW HEADER
         $sPrintOutput = CHtml::form(array("printanswers/view/surveyid/{$surveyid}/printableexport/pdf"), 'post')
-        ."<center><input type='submit' value='".$clang->gT("PDF export")."'id=\"exportbutton\"/><input type='hidden' name='printableexport' /></center></form>";
+        ."<center><input type='submit' value='".gT("PDF export")."'id=\"exportbutton\"/><input type='hidden' name='printableexport' /></center></form>";
         if($printableexport == 'pdf')
         {
             require (Yii::app()->getConfig('rootdir').'/application/config/tcpdf.php');
@@ -132,10 +131,10 @@ class PrintanswersController extends LSYii_Controller {
             $oPDF->setConfig($tcpdf);
             //$pdf->SetFont($pdfdefaultfont,'',$pdffontsize);
             $oPDF->AddPage();
-            //$pdf->titleintopdf($clang->gT("Survey name (ID)",'unescaped').": {$surveyname} ({$surveyid})");
-            $oPDF->SetTitle($clang->gT("Survey name (ID)",'unescaped').": {$sSurveyTitle} ({$iSurveyID})");
+            //$pdf->titleintopdf(gT("Survey name (ID)",'unescaped').": {$surveyname} ({$surveyid})");
+            $oPDF->SetTitle(gT("Survey name (ID)",'unescaped').": {$sSurveyTitle} ({$iSurveyID})");
         }
-        $sPrintOutput .= "\t<div class='printouttitle'><strong>".$clang->gT("Survey name (ID):")."</strong> $sSurveyTitle ($iSurveyID)</div><p>&nbsp;\n";
+        $sPrintOutput .= "\t<div class='printouttitle'><strong>".gT("Survey name (ID):")."</strong> $sSurveyTitle ($iSurveyID)</div><p>&nbsp;\n";
 
         LimeExpressionManager::StartProcessingPage(true);  // means that all variables are on the same page
         // Since all data are loaded, and don't need JavaScript, pretend all from Group 1
@@ -154,7 +153,7 @@ class PrintanswersController extends LSYii_Controller {
         $sPrintOutput .= "<table class='printouttable' >\n";
         if($sPrintableExport == 'pdf')
         {
-            $oPDF->intopdf($clang->gT("Question",'unescaped').": ".$clang->gT("Your answer",'unescaped'));
+            $oPDF->intopdf(gT("Question",'unescaped').": ".gT("Your answer",'unescaped'));
         }
 
         foreach ($aFullResponseTable as $sFieldname=>$fname)

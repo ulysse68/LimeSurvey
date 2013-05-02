@@ -6,7 +6,7 @@
 	<td align="center">&nbsp;</td>
 	<td style="padding: 3px;" align="center">
         <?php echo CHtml::form(array("admin/quotas/sa/delans/surveyid/{$iSurveyId}"), 'post'); ?>
-			<input name="submit" type="submit" class="submit" value="<?php $clang->eT("Remove");?>" />
+			<input name="submit" type="submit" class="submit" value="<?php eT("Remove");?>" />
 			<input type="hidden" name="sid" value="<?php echo $iSurveyId;?>" />
 			<input type="hidden" name="action" value="quotas" />
 			<input type="hidden" name="quota_member_id" value="<?php echo $quota_questions['id'];?>" />

@@ -1,6 +1,6 @@
 <?php $surveyinfo = getSurveyInfo($surveyid); ?>
 <script type='text/javascript'>
-    var sReplaceTextConfirmation='<?php $clang->eT("This will replace the existing text. Continue?","js"); ?>';
+    var sReplaceTextConfirmation='<?php eT("This will replace the existing text. Continue?","js"); ?>';
     
 
 $(document).ready(function () {
@@ -44,7 +44,7 @@ ul.editor-parent {
 
 </style>
 <div class='header ui-widget-header'>
-    <?php $clang->eT("Edit email templates"); ?>
+    <?php eT("Edit email templates"); ?>
 </div>
 <?php echo CHtml::form(array('admin/emailtemplates/sa/update/surveyid/'.$surveyid), 'post', array('name'=>'emailtemplates', 'class'=>'form30newtabs'));?>
 
@@ -53,7 +53,7 @@ ul.editor-parent {
             <?php foreach ($grplangs as $grouplang): ?>
                 <li><a href='#tab-<?php echo $grouplang; ?>'><?php echo getLanguageNameFromCode($grouplang,false); ?>
                         <?php if ($grouplang == Survey::model()->findByPk($surveyid)->language): ?>
-                            <?php echo ' ('.$clang->gT("Base language").')'; ?>
+                            <?php echo ' ('.gT("Base language").')'; ?>
                             <?php endif; ?>
                     </a></li>
                 <?php endforeach; ?>
@@ -73,7 +73,7 @@ ul.editor-parent {
             ?>
     </div>
     <p>
-        <input type='submit' class='standardbtn' value='<?php $clang->eT("Save"); ?>' />
+        <input type='submit' class='standardbtn' value='<?php eT("Save"); ?>' />
         <input type='hidden' name='action' value='tokens' />
         <input type='hidden' name='language' value="<?php echo $esrow->surveyls_language; ?>" />
     </p>

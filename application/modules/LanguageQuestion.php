@@ -3,16 +3,16 @@ class LanguageQuestion extends QuestionModule
 {
     public function getAnswerHTML()
     {
-        $clang = Yii::app()->lang;
+        
 
         $checkconditionFunction = "checkconditions";
 
         $answerlangs = Survey::model()->findByPk($this->surveyid)->additionalLanguages;
         $answerlangs [] = Survey::model()->findByPk($this->surveyid)->language;
         $answer = "\n\t<p class=\"question answer-item dropdown-item langage-item\">\n"
-        ."<label for='answer{$this->fieldname}' class='hide label'>{$clang->gT('Choose your language')}</label>"
+        ."<label for='answer{$this->fieldname}' class='hide label'>{gT('Choose your language')}</label>"
         ."<select name=\"$this->fieldname\" id=\"answer$this->fieldname\" onchange=\"document.getElementById('lang').value=this.value; $checkconditionFunction(this.value, this.name, this.type);\">\n";
-        if (!$_SESSION['survey_'.$this->surveyid][$this->fieldname]) {$answer .= "\t<option value=\"\" selected=\"selected\">".$clang->gT('Please choose...')."</option>\n";}
+        if (!$_SESSION['survey_'.$this->surveyid][$this->fieldname]) {$answer .= "\t<option value=\"\" selected=\"selected\">".gT('Please choose...')."</option>\n";}
         foreach ($answerlangs as $ansrow)
         {
             $answer .= "\t<option value=\"{$ansrow}\"";
@@ -44,7 +44,7 @@ class LanguageQuestion extends QuestionModule
         $output.= "<select name='{$this->fieldname}'>\n";
         $output .= "<option value=''";
         if ($idrow[$this->fieldname] == "") {$output .= " selected='selected'";}
-        $output .= ">".$clang->gT("Please choose")."..</option>\n";
+        $output .= ">".gT("Please choose")."..</option>\n";
 
         foreach ($slangs as $lang)
         {
@@ -134,7 +134,7 @@ class LanguageQuestion extends QuestionModule
     public function questionProperties($prop = false)
     {
         $clang=Yii::app()->lang;
-        $props=array('description' => $clang->gT("Language Switch"),'group' => $clang->gT("Mask questions"),'class' => 'language','hasdefaultvalues' => 0,'subquestions' => 0,'assessable' => 0,'answerscales' => 0,'enum' => 0);
+        $props=array('description' => gT("Language Switch"),'group' => gT("Mask questions"),'class' => 'language','hasdefaultvalues' => 0,'subquestions' => 0,'assessable' => 0,'answerscales' => 0,'enum' => 0);
         return $prop?$props[$prop]:$props;
     }
 }

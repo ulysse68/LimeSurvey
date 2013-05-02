@@ -33,8 +33,15 @@
          * CClientScript will call __toString when it's rendering the script.
          * @return string
          */
-        public function __toString() {
-            $script = "$.extend(LS, " . CJavaScript::encode($this->data) . ");\n";
+        public function __toString()
+        {
+            $data = CJavaScript::encode($this->data);
+            // If debugging then add some very basic pretty printing for easier reading.
+            if (defined('YII_DEBUG'))
+            {
+                $data = str_replace('{', "{\n", $data);
+            }
+            $script = "$.extend(LS, " . $data . ");\n";
             return $script;
         }
     }

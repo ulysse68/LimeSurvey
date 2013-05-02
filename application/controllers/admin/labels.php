@@ -47,7 +47,7 @@ class labels extends Survey_Common_Action
         if (!empty($lid))
         {
             if (Yii::app()->getConfig('demo_mode'))
-                $this->getController()->error($clang->gT("Demo mode only: Uploading files is disabled in this system."), $this->getController()->createUrl("admin/labels/sa/view/lid/{$lid}"));
+                $this->getController()->error(gT("Demo mode only: Uploading files is disabled in this system."), $this->getController()->createUrl("admin/labels/sa/view/lid/{$lid}"));
 
             // Create temporary directory
             // If dangerous content is unzipped
@@ -61,7 +61,7 @@ class labels extends Survey_Common_Action
             $zip = new PclZip($zipfilename);
 
             if (!is_writeable($basedestdir))
-                $this->getController()->error(sprintf($clang->gT("Incorrect permissions in your %s folder."), $basedestdir), $this->getController()->createUrl("admin/labels/sa/view/lid/{$lid}"));
+                $this->getController()->error(sprintf(gT("Incorrect permissions in your %s folder."), $basedestdir), $this->getController()->createUrl("admin/labels/sa/view/lid/{$lid}"));
 
             if (!is_dir($destdir))
                 mkdir($destdir);
@@ -72,7 +72,7 @@ class labels extends Survey_Common_Action
             if (is_file($zipfilename))
             {
                 if ($zip->extract($extractdir) <= 0)
-                    $this->getController()->error($clang->gT("This file is not a valid ZIP file archive. Import failed. " . $zip->errorInfo(true)), $this->getController()->createUrl("admin/labels/sa/view/lid/{$lid}"));
+                    $this->getController()->error(gT("This file is not a valid ZIP file archive. Import failed. " . $zip->errorInfo(true)), $this->getController()->createUrl("admin/labels/sa/view/lid/{$lid}"));
 
                 // now read tempdir and copy authorized files only
                 $folders = array('flash', 'files', 'images');
@@ -90,10 +90,10 @@ class labels extends Survey_Common_Action
                 unlink($zipfilename);
 
                 if (is_null($aErrorFilesInfo) && is_null($aImportedFilesInfo))
-                    $this->getController()->error($clang->gT("This ZIP archive contains no valid Resources files. Import failed."), $this->getController()->createUrl("admin/labels/sa/view/lid/{$lid}"));
+                    $this->getController()->error(gT("This ZIP archive contains no valid Resources files. Import failed."), $this->getController()->createUrl("admin/labels/sa/view/lid/{$lid}"));
             }
             else
-                $this->getController()->error(sprintf($clang->gT("An error occurred uploading your file. This may be caused by incorrect permissions in your %s folder."), $basedestdir), $this->getController()->createUrl("admin/labels/sa/view/lid/{$lid}"));
+                $this->getController()->error(sprintf(gT("An error occurred uploading your file. This may be caused by incorrect permissions in your %s folder."), $basedestdir), $this->getController()->createUrl("admin/labels/sa/view/lid/{$lid}"));
 
             $aData = array(
                 'aErrorFilesInfo' => $aErrorFilesInfo,
@@ -126,7 +126,7 @@ class labels extends Survey_Common_Action
             $sExtension = !empty($aPathInfo['extension']) ? $aPathInfo['extension'] : '';
 
             if (!@move_uploaded_file($_FILES['the_file']['tmp_name'], $sFullFilepath))
-                $this->getController()->error(sprintf($clang->gT("An error occurred uploading your file. This may be caused by incorrect permissions in your %s folder."), Yii::app()->getConfig('tempdir')));
+                $this->getController()->error(sprintf(gT("An error occurred uploading your file. This may be caused by incorrect permissions in your %s folder."), Yii::app()->getConfig('tempdir')));
 
             $options['checkforduplicates'] = 'off';
             if (isset($_POST['checkforduplicates']))
@@ -137,7 +137,7 @@ class labels extends Survey_Common_Action
             elseif (strtolower($sExtension) == 'lsl')
                 $aImportResults = XMLImportLabelsets($sFullFilepath, $options);
             else
-                $this->getController()->error($clang->gT("Uploaded label set file needs to have an .lsl extension."));
+                $this->getController()->error(gT("Uploaded label set file needs to have an .lsl extension."));
 
             unlink($sFullFilepath);
 
@@ -185,10 +185,10 @@ class labels extends Survey_Common_Action
             if ($sa == "newlabelset")
             {
                 $langids = Yii::app()->session['adminlang'];
-                $tabitem = $clang->gT("Create new label set");
+                $tabitem = gT("Create new label set");
             }
             else
-                $tabitem = $clang->gT("Edit label set");
+                $tabitem = gT("Edit label set");
 
             $langidsarray = explode(" ", trim($langids)); // Make an array of it
 
@@ -246,7 +246,7 @@ class labels extends Survey_Common_Action
             {
                 // Now recieve all labelset information and display it
                 $aData['lid'] = $lid;
-                $aData['clang'] = $clang;
+                
                 $aData['row'] = $result->attributes;
 
                 // Display a specific labelbar menu
@@ -327,7 +327,7 @@ class labels extends Survey_Common_Action
             if ($action == "updateset")
             {
                 updateset($lid);
-                Yii::app()->session['flashmessage'] = Yii::app()->lang->gT("Label set properties sucessfully updated.");
+                Yii::app()->session['flashmessage'] = gT("Label set properties sucessfully updated.");
             }
             if ($action == "insertlabelset")
                 $lid = insertlabelset();
@@ -336,7 +336,7 @@ class labels extends Survey_Common_Action
             if ($action == "deletelabelset")
                 if (deletelabelset($lid))
                 {
-                    Yii::app()->session['flashmessage'] = Yii::app()->lang->gT("Label set sucessfully deleted.");
+                    Yii::app()->session['flashmessage'] = gT("Label set sucessfully deleted.");
                     $lid = 0;
                 }
 

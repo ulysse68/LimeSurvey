@@ -17,7 +17,7 @@ class SelectQuestion extends ListQuestion
         }
         else
         {
-            $othertext=$clang->gT('Other:');
+            $othertext=gT('Other:');
         }
 
         if (trim($aQuestionAttributes['category_separator'])!='')
@@ -154,7 +154,7 @@ class SelectQuestion extends ListQuestion
 
         if (!$_SESSION['survey_'.$this->surveyid][$this->fieldname])
         {
-            $answer = '                    <option value=""'.SELECTED.'>'.$clang->gT('Please choose...').'</option>'."\n".$answer;
+            $answer = '                    <option value=""'.SELECTED.'>'.gT('Please choose...').'</option>'."\n".$answer;
         }
 
         if ($this->isother=='Y')
@@ -178,7 +178,7 @@ class SelectQuestion extends ListQuestion
             if ($prefixStyle == 1) {
                 $_prefix = ++$_rowNum . ') ';
             }
-            $answer .= '<option class="noanswer-item" value="">'.$_prefix.$clang->gT('No answer')."</option>\n";
+            $answer .= '<option class="noanswer-item" value="">'.$_prefix.gT('No answer')."</option>\n";
         }
         $answer .= '                </select>
         <input type="hidden" name="java'.$this->fieldname.'" id="java'.$this->fieldname.'" value="'.$_SESSION['survey_'.$this->surveyid][$this->fieldname].'" />';
@@ -192,7 +192,7 @@ class SelectQuestion extends ListQuestion
             $sselect_show_hide = '';
         }
         $sselect = '
-        <p class="question answer-item dropdown-item"><label for="answer'.$this->fieldname.'" class="hide label">'.$clang->gT('Please choose').'</label>
+        <p class="question answer-item dropdown-item"><label for="answer'.$this->fieldname.'" class="hide label">'.gT('Please choose').'</label>
         <select name="'.$this->fieldname.'" id="answer'.$this->fieldname.'"'.$dropdownSize.' onchange="'.$checkconditionFunction.'(this.value, this.name, this.type);'.$sselect_show_hide.'">
         ';
         $answer = $sselect.$answer;
@@ -226,7 +226,7 @@ class SelectQuestion extends ListQuestion
             $answer .= '"';
 
             // --> START NEW FEATURE - SAVE
-            $answer .= "  alt='".$clang->gT('Other answer')."' onchange='$checkconditionFunction(this.value, this.name, this.type);'";
+            $answer .= "  alt='".gT('Other answer')."' onchange='$checkconditionFunction(this.value, this.name, this.type);'";
             $thisfieldname=$this->fieldname.'other';
             if (isset($_SESSION['survey_'.$this->surveyid][$thisfieldname])) { $answer .= " value='".htmlspecialchars($_SESSION['survey_'.$this->surveyid][$thisfieldname],ENT_QUOTES)."' ";}
             $answer .= ' />';
@@ -288,7 +288,7 @@ class SelectQuestion extends ListQuestion
     public function questionProperties($prop = false)
     {
         $clang=Yii::app()->lang;
-        $props=array('description' => $clang->gT("List (Dropdown)"),'group' => $clang->gT("Single choice questions"),'subquestions' => 0,'class' => 'list-dropdown','hasdefaultvalues' => 1,'assessable' => 1,'answerscales' => 1,'enum' => 1);
+        $props=array('description' => gT("List (Dropdown)"),'group' => gT("Single choice questions"),'subquestions' => 0,'class' => 'list-dropdown','hasdefaultvalues' => 1,'assessable' => 1,'answerscales' => 1,'enum' => 1);
         return $prop?$props[$prop]:$props;
     }
 }

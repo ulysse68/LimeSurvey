@@ -3,7 +3,7 @@ abstract class TextQuestion extends QuestionModule
 {
     public function getPopup($notanswered=null)
     {
-        $clang = Yii::app()->lang;
+        
 
         if (is_array($notanswered) && Yii::app()->getConfig('showpopups')) //ADD WARNINGS TO QUESTIONS IF THEY WERE MANDATORY BUT NOT ANSWERED
         {
@@ -13,13 +13,13 @@ abstract class TextQuestion extends QuestionModule
             {
                 return $popup="<script type=\"text/javascript\">\n
                 <!--\n $(document).ready(function(){
-                alert(\"".$clang->gT("You cannot proceed until you enter some text for one or more questions.", "js")."\");});\n //-->\n
+                alert(\"".gT("You cannot proceed until you enter some text for one or more questions.", "js")."\");});\n //-->\n
                 </script>\n";
             }else
             {
                 return $popup="<script type=\"text/javascript\">\n
                 <!--\n $(document).ready(function(){
-                alert(\"".$clang->gT("One or more mandatory questions have not been answered. You cannot proceed until these have been completed.", "js")."\");});\n //-->\n
+                alert(\"".gT("One or more mandatory questions have not been answered. You cannot proceed until these have been completed.", "js")."\");});\n //-->\n
                 </script>\n";
             }
         }

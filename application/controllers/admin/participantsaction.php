@@ -139,7 +139,7 @@ class participantsaction extends Survey_Common_Action
         $count = Participants::model()->getParticipantsCount($attid, $search, $iUserID);
 
         if ($count > 0) {
-            return sprintf($clang->gT("Export %s participant(s) to CSV"), $count);
+            return sprintf(gT("Export %s participant(s) to CSV"), $count);
         } else {
             return $count;
         }
@@ -362,7 +362,6 @@ class participantsaction extends Survey_Common_Action
      */
     function getAttributeInfo_json()
     {
-        $clang = Yii::app()->lang;
         $page = Yii::app()->request->getPost('page');
         $limit = Yii::app()->request->getPost('rows');
     	$limit = isset($limit) ? $limit : 50; //Stop division by zero errors
@@ -370,9 +369,9 @@ class participantsaction extends Survey_Common_Action
         $records = ParticipantAttributeNames::model()->with('participant_attribute_names_lang')->findAll();
 
         $attribute_types = array(
-            'DD' => $clang->gT("Drop-down list"),
-            'DP' => $clang->gT("Date"),
-            'TB' => $clang->gT("Text box")
+            'DD' => gT("Drop-down list"),
+            'DP' => gT("Date"),
+            'TB' => gT("Text box")
         );
         
         $aData = new stdClass();
@@ -402,7 +401,6 @@ class participantsaction extends Survey_Common_Action
      */
     function editAttributeInfo()
     {
-        $clang = Yii::app()->lang;
         $operation = Yii::app()->request->getPost('oper');
 
         if ($operation == 'del' && Yii::app()->request->getPost('id'))
@@ -434,7 +432,7 @@ class participantsaction extends Survey_Common_Action
                 'visible' => Yii::app()->request->getPost('visible') == 'TRUE' ? 'TRUE' : 'FALSE'
             );
             ParticipantAttributeNames::model()->saveAttribute($aData);
-            $clang->eT("Attribute display setting updated");
+            eT("Attribute display setting updated");
         }
 
     }
@@ -1076,7 +1074,7 @@ class participantsaction extends Survey_Common_Action
 
         if (!$bMoveFileResult)
         {
-            $templateData['error_msg'] = sprintf($clang->gT("An error occurred uploading your file. This may be caused by incorrect permissions in your %s folder."), Yii::app()->getConfig('tempdir'));
+            $templateData['error_msg'] = sprintf(gT("An error occurred uploading your file. This may be caused by incorrect permissions in your %s folder."), Yii::app()->getConfig('tempdir'));
             $errorinupload = array('error' => $this->upload->display_errors());
             Yii::app()->session['summary'] = array('errorinupload' => $errorinupload);
             $this->_renderWrappedTemplate('participants', array('participantsPanel', 'uploadSummary'));
@@ -1375,7 +1373,7 @@ class participantsaction extends Survey_Common_Action
         unlink($sFilePath);
         $clang = $this->getController()->lang;
         $aData = array();
-        $aData['clang'] = $clang;
+        
         $aData['recordcount'] = $recordcount - 1;
         $aData['duplicatelist'] = $duplicatelist;
         $aData['mincriteria'] = $mincriteria;
@@ -1445,7 +1443,7 @@ class participantsaction extends Survey_Common_Action
             $i++;
         }
 
-        printf($clang->gT("%s participants have been shared"), $i);
+        printf(gT("%s participants have been shared"), $i);
     }
 
     /*
@@ -1465,14 +1463,14 @@ class participantsaction extends Survey_Common_Action
         $response = Participants::model()->copyToCentral(Yii::app()->request->getPost('surveyid'), $newarr, $mapped, $overwriteauto, $overwriteman, $createautomap);
         $clang = $this->getController()->lang;
 
-        printf($clang->gT("%s participants have been copied to the central participants table"), $response['success']);
+        printf(gT("%s participants have been copied to the central participants table"), $response['success']);
         if($response['duplicate'] > 0) {
             echo "\r\n";
-            printf($clang->gT("%s entries were not copied because they already existed"), $response['duplicate']);
+            printf(gT("%s entries were not copied because they already existed"), $response['duplicate']);
         }
         if($response['overwriteman']=="true" || $response['overwriteauto']) {
             echo "\r\n";
-            $clang->eT("Attribute values for existing participants have been updated from the token records");
+            eT("Attribute values for existing participants have been updated from the token records");
         }
     }
 
@@ -1489,14 +1487,14 @@ class participantsaction extends Survey_Common_Action
                                                );
         $clang = $this->getController()->lang;
 
-        printf($clang->gT("%s participants have been copied to the survey token table"), $response['success']);
+        printf(gT("%s participants have been copied to the survey token table"), $response['success']);
         if($response['duplicate']>0) {
             echo "\r\n";
-            printf($clang->gT("%s entries were not copied because they already existed"), $response['duplicate']);
+            printf(gT("%s entries were not copied because they already existed"), $response['duplicate']);
         }
         if($response['overwrite']=="true") {
             echo "\r\n";
-            $clang->eT("Attribute values for existing participants have been updated from the participants records");
+            eT("Attribute values for existing participants have been updated from the participants records");
         }
     }
 
@@ -1519,14 +1517,14 @@ class participantsaction extends Survey_Common_Action
 
         $response = Participants::model()->copytosurveyatt($iSurveyId, $mapped, $newcreate, $iParticipantId, $overwriteauto, $overwriteman, $overwritest, $createautomap);
 
-        printf($clang->gT("%s participants have been copied to the survey token table"), $response['success']);
+        printf(gT("%s participants have been copied to the survey token table"), $response['success']);
         if($response['duplicate']>0) {
             echo "\r\n";
-            printf($clang->gT("%s entries were not copied because they already existed"), $response['duplicate']);
+            printf(gT("%s entries were not copied because they already existed"), $response['duplicate']);
         }
         if($response['overwriteauto']=="true" || $response['overwriteman']=="true") {
             echo "\r\n";
-            $clang->eT("Attribute values for existing participants have been updated from the participants records");
+            eT("Attribute values for existing participants have been updated from the participants records");
         }
     }
 
@@ -1684,7 +1682,6 @@ class participantsaction extends Survey_Common_Action
         $this->load->model('participants_model');
         $iParticipantId = $this->uri->segment(4);
         $iSurveyId = $this->uri->segment(5);
-        $clang = $this->limesurvey_lang;
         if (!is_numeric($iSurveyId))
         {
             $blacklist = $this->uri->segment(5);
@@ -1693,7 +1690,7 @@ class participantsaction extends Survey_Common_Action
                 $aData = array('blacklisted' => $blacklist, 'participant_id' => $iParticipantId);
                 $aData = $this->participants_model->blacklistparticipantglobal($aData);
                 $aData['global'] = 1;
-                $aData['clang'] = $clang;
+                
                 $aData['blacklist'] = $blacklist;
                 $this->load->view('admin/participants/blacklist_view', $aData);
             }
@@ -1701,7 +1698,7 @@ class participantsaction extends Survey_Common_Action
             {
                 $aData['is_participant'] = 0;
                 $aData['is_updated'] = 0;
-                $aData['clang'] = $clang;
+                
                 $this->load->view('admin/participants/blacklist_view', $aData);
             }
         }
@@ -1713,7 +1710,7 @@ class participantsaction extends Survey_Common_Action
                 $aData = array('blacklisted' => $blacklist);
                 $aData = $this->participants_model->blacklistparticipantlocal($aData, $iSurveyId, $iParticipantId);
                 $aData['global'] = 1;
-                $aData['clang'] = $clang;
+                
                 $aData['local'] = 1;
                 $aData['blacklist'] = $blacklist;
                 $this->load->view('admin/participants/blacklist_view', $aData);
@@ -1722,7 +1719,7 @@ class participantsaction extends Survey_Common_Action
             {
                 $aData['is_participant'] = 0;
                 $aData['is_updated'] = 0;
-                $aData['clang'] = $clang;
+                
                 $this->load->view('admin/participants/blacklist_view', $aData);
             }
         }

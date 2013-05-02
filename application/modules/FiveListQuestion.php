@@ -26,7 +26,7 @@ class FiveListQuestion extends QuestionModule
             {
                 $answer .= CHECKED;
             }
-            $answer .= " onclick=\"$checkconditionFunction(this.value, this.name, this.type)\" />\n<label for=\"answer".$this->fieldname."NANS\" class=\"answertext\">".$clang->gT('No answer')."</label>\n\t</li>\n";
+            $answer .= " onclick=\"$checkconditionFunction(this.value, this.name, this.type)\" />\n<label for=\"answer".$this->fieldname."NANS\" class=\"answertext\">".gT('No answer')."</label>\n\t</li>\n";
 
         }
         $answer .= "</ul>\n<input type=\"hidden\" name=\"java$this->fieldname\" id=\"java$this->fieldname\" value=\"".$_SESSION['survey_'.$this->surveyid][$this->fieldname]."\" />\n";
@@ -206,7 +206,7 @@ class FiveListQuestion extends QuestionModule
 
     public function getConditionAnswers()
     {
-        $clang = Yii::app()->lang;
+        
         $canswers = array();
 
         for ($i=1; $i<=5; $i++)
@@ -216,7 +216,7 @@ class FiveListQuestion extends QuestionModule
         // Only Show No-Answer if question is not mandatory
         if ($this->mandatory != 'Y')
         {
-            $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id, " ", $clang->gT("No answer"));
+            $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id, " ", gT("No answer"));
         }
 
         return $canswers;
@@ -240,7 +240,7 @@ class FiveListQuestion extends QuestionModule
     public function questionProperties($prop = false)
     {
         $clang=Yii::app()->lang;
-        $props=array('description' => $clang->gT("5 Point Choice"),'group' => $clang->gT("Single choice questions"),'subquestions' => 0,'class' => 'choice-5-pt-radio','hasdefaultvalues' => 0,'assessable' => 0,'answerscales' => 0,'enum' => 0);
+        $props=array('description' => gT("5 Point Choice"),'group' => gT("Single choice questions"),'subquestions' => 0,'class' => 'choice-5-pt-radio','hasdefaultvalues' => 0,'assessable' => 0,'answerscales' => 0,'enum' => 0);
         return $prop?$props[$prop]:$props;
     }
 }

@@ -53,7 +53,7 @@ class ListQuestion extends QuestionModule
         }
         else
         {
-            $othertext=$clang->gT('Other:');
+            $othertext=gT('Other:');
         }
 
         if ($this->isother=='Y') {$anscount++;} //Count up for the Other answer
@@ -167,7 +167,7 @@ class ListQuestion extends QuestionModule
             $answer .= '        <input class="radio" type="radio" value="-oth-" name="'.$this->fieldname.'" id="SOTH'.$this->fieldname.'"'.$check_ans.' onclick="'.$checkconditionFunction.'(this.value, this.name, this.type)" />
             <label for="SOTH'.$this->fieldname.'" class="answertext">'.$othertext.'</label>
             <label for="answer'.$this->fieldname.'othertext">
-            <input type="text" class="text '.$kpclass.'" id="answer'.$this->fieldname.'othertext" name="'.$this->fieldname.'other" title="'.$clang->gT('Other').'"'.$answer_other.' onkeyup="if($.trim($(this).val())!=\'\'){ $(\'#SOTH'.$this->fieldname.'\').attr(\'checked\',\'checked\'); }; '.$oth_checkconditionFunction.'(this.value, this.name, this.type);" />
+            <input type="text" class="text '.$kpclass.'" id="answer'.$this->fieldname.'othertext" name="'.$this->fieldname.'other" title="'.gT('Other').'"'.$answer_other.' onkeyup="if($.trim($(this).val())!=\'\'){ $(\'#SOTH'.$this->fieldname.'\').attr(\'checked\',\'checked\'); }; '.$oth_checkconditionFunction.'(this.value, this.name, this.type);" />
             </label>
             '.$wrapper['item-end'];
 
@@ -199,7 +199,7 @@ class ListQuestion extends QuestionModule
             }
 
             $answer .= $wrapper['item-start-noanswer'].'        <input class="radio" type="radio" name="'.$this->fieldname.'" id="answer'.$this->fieldname.'NANS" value=""'.$check_ans.' onclick="if (document.getElementById(\'answer'.$this->fieldname.'othertext\') != null) document.getElementById(\'answer'.$this->fieldname.'othertext\').value=\'\';'.$checkconditionFunction.'(this.value, this.name, this.type)" />
-            <label for="answer'.$this->fieldname.'NANS" class="answertext">'.$clang->gT('No answer').'</label>
+            <label for="answer'.$this->fieldname.'NANS" class="answertext">'.gT('No answer').'</label>
             '.$wrapper['item-end'];
             // --> END NEW FEATURE - SAVE
 
@@ -250,7 +250,7 @@ class ListQuestion extends QuestionModule
             $output .= "\t<select name='{$this->fieldname}'>\n"
             ."<option value=''";
             if ($idrow[$this->fieldname] == "") {$output .= " selected='selected'";}
-            $output .= ">".$clang->gT("Please choose")."..</option>\n";
+            $output .= ">".gT("Please choose")."..</option>\n";
 
             if (!isset($optCategorySeparator))
             {
@@ -308,7 +308,7 @@ class ListQuestion extends QuestionModule
             {
                 $output .= "<option value='-oth-'";
                 if ($idrow[$this->fieldname] == "-oth-"){$output .= " selected='selected'";}
-                $output .= ">".$clang->gT("Other")."</option>\n";
+                $output .= ">".gT("Other")."</option>\n";
             }
             $output .= "\t</select>\n";
         }
@@ -321,7 +321,7 @@ class ListQuestion extends QuestionModule
         $aQuestionAttributes=$this->getAttributeValues();
         if ($aQuestionAttributes['hide_tip']==0)
         {
-            return $this->text . "<br />\n<span class=\"questionhelp\">".$clang->gT('Choose one of the following answers').'</span>';
+            return $this->text . "<br />\n<span class=\"questionhelp\">".gT('Choose one of the following answers').'</span>';
         }
 
         return $this->text;
@@ -333,7 +333,7 @@ class ListQuestion extends QuestionModule
         $aQuestionAttributes=$this->getAttributeValues();
         if ($aQuestionAttributes['hide_tip']==0)
         {
-            return $clang->gT('Choose one of the following answers');
+            return gT('Choose one of the following answers');
         }
 
         return '';
@@ -341,7 +341,7 @@ class ListQuestion extends QuestionModule
 
     public function createFieldmap()
     {
-        $clang = Yii::app()->lang;
+        
         $map = parent::createFieldmap();
         if($this->isother=='Y')
         {
@@ -353,7 +353,7 @@ class ListQuestion extends QuestionModule
             }
             $q->fieldname .= 'other';
             $q->aid = 'other';
-            $q->sq=$clang->gT("Other");
+            $q->sq=gT("Other");
             $map[$q->fieldname]=$q;
         }
         return $map;
@@ -485,7 +485,7 @@ class ListQuestion extends QuestionModule
                 }
                 else {
                     $clang=Yii::app()->lang;
-                    $othertext = $clang->gT('Other:');
+                    $othertext = gT('Other:');
                 }
                 $ansArray['0~-oth-'] = '0|' . $othertext;
             }
@@ -648,13 +648,13 @@ class ListQuestion extends QuestionModule
                 $othertext = trim($qattr['other_replace_text']);
             }
             else {
-                $othertext = $clang->gT('Other:');
+                $othertext = gT('Other:');
             }
-            return $clang->gT('Please check at least one item.') . "<br />\n".sprintf($clang->gT("If you choose '%s' you must provide a description."), $othertext);
+            return gT('Please check at least one item.') . "<br />\n".sprintf(gT("If you choose '%s' you must provide a description."), $othertext);
         }
         else
         {
-            return $clang->gT('Please check at least one item.');
+            return gT('Please check at least one item.');
         }
     }
 
@@ -882,7 +882,7 @@ class ListQuestion extends QuestionModule
 
     public function getConditionAnswers()
     {
-        $clang = Yii::app()->lang;
+        
         $canswers = array();
 
         $aresult = Answers::model()->findAllByAttributes(array(
@@ -899,13 +899,13 @@ class ListQuestion extends QuestionModule
 
         if (isset($this->isother) && $this->isother == "Y" )
         {
-            $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id, "-oth-", $clang->gT("Other"));
+            $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id, "-oth-", gT("Other"));
         }
 
         // Only Show No-Answer if question is not mandatory
         if ($this->mandatory != 'Y')
         {
-            $canswers[] = array($this->surveyid.'X'.$this->gid.'X'.$this->id, " ", $clang->gT("No answer"));
+            $canswers[] = array($this->surveyid.'X'.$this->gid.'X'.$this->id, " ", gT("No answer"));
         }
 
         return $canswers;
@@ -929,7 +929,7 @@ class ListQuestion extends QuestionModule
     public function questionProperties($prop = false)
     {
         $clang=Yii::app()->lang;
-        $props=array('description' => $clang->gT("List (Radio)"),'group' => $clang->gT("Single choice questions"),'subquestions' => 0,'class' => 'list-radio','hasdefaultvalues' => 1,'assessable' => 1,'answerscales' => 1,'enum' => 1);
+        $props=array('description' => gT("List (Radio)"),'group' => gT("Single choice questions"),'subquestions' => 0,'class' => 'list-radio','hasdefaultvalues' => 1,'assessable' => 1,'answerscales' => 1,'enum' => 1);
         return $prop?$props[$prop]:$props;
     }
 }

@@ -4,10 +4,10 @@ class ColumnRadioArrayQuestion extends RadioArrayQuestion
     public function getAnswerHTML()
     {
         global $notanswered;
-        $clang = Yii::app()->lang;
+        
         $extraclass = "";
         $checkconditionFunction = "checkconditions";
-        $caption=$clang->gT("An array with sub-question on each column. The sub-question are on table header, the answers are in each line header. ");
+        $caption=gT("An array with sub-question on each column. The sub-question are on table header, the answers are in each line header. ");
         $aQuestionAttributes = $this->getAttributeValues();
         $qquery = "SELECT other FROM {{questions}} WHERE qid=".$this->id." AND language='".$_SESSION['survey_'.$this->surveyid]['s_lang']."'";
         $qresult = dbExecuteAssoc($qquery);    //Checked
@@ -25,8 +25,8 @@ class ColumnRadioArrayQuestion extends RadioArrayQuestion
             if ($this->mandatory != 'Y' && SHOW_NO_ANSWER == 1)
             {
                 $labelcode[]='';
-                $labelans[]=$clang->gT('No answer');
-                $labels[]=array('answer'=>$clang->gT('No answer'), 'code'=>'');
+                $labelans[]=gT('No answer');
+                $labels[]=array('answer'=>gT('No answer'), 'code'=>'');
             }
             $ansresult = $this->getChildren();
             $anscount = count($ansresult);
@@ -126,12 +126,12 @@ class ColumnRadioArrayQuestion extends RadioArrayQuestion
             }
             else
             {
-                $answer = '<p class="error">'.$clang->gT('Error: There are no answers defined for this question.')."</p>";
+                $answer = '<p class="error">'.gT('Error: There are no answers defined for this question.')."</p>";
             }
         }
         else
         {
-            $answer = "<p class='error'>".$clang->gT("Error: There are no answer options for this question and/or they don't exist in this language.")."</p>\n";
+            $answer = "<p class='error'>".gT("Error: There are no answer options for this question and/or they don't exist in this language.")."</p>\n";
         }
         return $answer;
     }
@@ -225,7 +225,7 @@ class ColumnRadioArrayQuestion extends RadioArrayQuestion
     public function questionProperties($prop = false)
     {
         $clang=Yii::app()->lang;
-        $props=array('description' => $clang->gT("Array by column"),'group' => $clang->gT('Arrays'),'class' => 'array-flexible-column','hasdefaultvalues' => 0,'subquestions' => 1,'assessable' => 1,'answerscales' => 1,'enum' => 0);
+        $props=array('description' => gT("Array by column"),'group' => gT('Arrays'),'class' => 'array-flexible-column','hasdefaultvalues' => 0,'subquestions' => 1,'assessable' => 1,'answerscales' => 1,'enum' => 0);
         return $prop?$props[$prop]:$props;
     }
 }

@@ -71,7 +71,7 @@ function fixNumbering($fixnumbering, $iSurveyID)
  */
 function checkGroup($postsid)
 {
-    $clang = Yii::app()->lang;
+    
 
     $baselang = Survey::model()->findByPk($postsid)->language;
     $groupquery = "SELECT g.gid,g.group_name,count(q.qid) as count from {{questions}} as q RIGHT JOIN {{groups}} as g ON q.gid=g.gid AND g.language=q.language WHERE g.sid=$postsid AND g.language='$baselang' group by g.gid,g.group_name;";
@@ -80,7 +80,7 @@ function checkGroup($postsid)
     { //TIBO
         if ($row['count'] == 0)
         {
-            $failedgroupcheck[]=array($row['gid'], $row['group_name'], ": ".$clang->gT("This group does not contain any question(s)."));
+            $failedgroupcheck[]=array($row['gid'], $row['group_name'], ": ".gT("This group does not contain any question(s)."));
         }
     }
     if(isset($failedgroupcheck))
@@ -97,7 +97,7 @@ function checkGroup($postsid)
  */
 function checkQuestions($postsid, $iSurveyID)
 {
-    $clang = Yii::app()->lang;
+    
 
     //CHECK TO MAKE SURE ALL QUESTION TYPES THAT REQUIRE ANSWERS HAVE ACTUALLY GOT ANSWERS
 
@@ -107,7 +107,7 @@ function checkQuestions($postsid, $iSurveyID)
     {
         if ($chkrow['tid'] == 0)
         {
-            $failedcheck[]=array($chkrow['qid'], $chkrow['question'], ": ".$clang->gT("This question does not have a question 'tid' set."), $chkrow['gid']);
+            $failedcheck[]=array($chkrow['qid'], $chkrow['question'], ": ".gT("This question does not have a question 'tid' set."), $chkrow['gid']);
             continue;
         }
 
@@ -119,7 +119,7 @@ function checkQuestions($postsid, $iSurveyID)
             $chacount = count($charesult);
             if ($chacount == 0)
             {
-                $failedcheck[] = array($chkrow['qid'], $chkrow['question'], ": ".$clang->gT("This question has no subquestions."), $chkrow['gid']);
+                $failedcheck[] = array($chkrow['qid'], $chkrow['question'], ": ".gT("This question has no subquestions."), $chkrow['gid']);
             }
         }
 
@@ -129,7 +129,7 @@ function checkQuestions($postsid, $iSurveyID)
             $chacount = count($charesult);
             if ($chacount == 0)
             {
-                $failedcheck[] = array($chkrow['qid'], $chkrow['question'], ": ".$clang->gT("This question has no answers."), $chkrow['gid']);
+                $failedcheck[] = array($chkrow['qid'], $chkrow['question'], ": ".gT("This question has no answers."), $chkrow['gid']);
             }
         }
 
@@ -139,7 +139,7 @@ function checkQuestions($postsid, $iSurveyID)
             $chacount = count($charesult);
             if ($chacount == 0)
             {
-                $failedcheck[] = array($chkrow['qid'], $chkrow['question'], ": ".$clang->gT("This question has no answers."), $chkrow['gid']);
+                $failedcheck[] = array($chkrow['qid'], $chkrow['question'], ": ".gT("This question has no answers."), $chkrow['gid']);
             }
         }
 
@@ -150,7 +150,7 @@ function checkQuestions($postsid, $iSurveyID)
                 ($conrow->groups['group_order'] == $chkrow->groups['group_order'] &&
                 $conrow->questions['question_order'] >= $chkrow['question_order']))
             {
-                $failedcheck[]=array($chkrow['qid'], $chkrow['question'], ": ".$clang->gT("This question has a condition set, however the condition is based on a question that appears after it."), $chkrow['gid']);
+                $failedcheck[]=array($chkrow['qid'], $chkrow['question'], ": ".gT("This question has a condition set, however the condition is based on a question that appears after it."), $chkrow['gid']);
             }
         }
     }

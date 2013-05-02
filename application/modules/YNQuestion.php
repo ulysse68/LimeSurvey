@@ -3,7 +3,7 @@ class YNQuestion extends QuestionModule
 {
     public function getAnswerHTML()
     {
-        $clang = Yii::app()->lang;
+        
 
         $checkconditionFunction = "checkconditions";
 
@@ -15,7 +15,7 @@ class YNQuestion extends QuestionModule
             $answer .= CHECKED;
         }
         // --> START NEW FEATURE - SAVE
-        $answer .= " onclick=\"$checkconditionFunction(this.value, this.name, this.type)\" />\n<label for=\"answer{$this->fieldname}Y\" class=\"answertext\">\n\t".$clang->gT('Yes')."\n</label>\n\t</li>\n"
+        $answer .= " onclick=\"$checkconditionFunction(this.value, this.name, this.type)\" />\n<label for=\"answer{$this->fieldname}Y\" class=\"answertext\">\n\t".gT('Yes')."\n</label>\n\t</li>\n"
         . "\t<li class=\"answer-item radio-item\">\n<input class=\"radio\" type=\"radio\" name=\"{$this->fieldname}\" id=\"answer{$this->fieldname}N\" value=\"N\"";
         // --> END NEW FEATURE - SAVE
 
@@ -24,7 +24,7 @@ class YNQuestion extends QuestionModule
             $answer .= CHECKED;
         }
         // --> START NEW FEATURE - SAVE
-        $answer .= " onclick=\"$checkconditionFunction(this.value, this.name, this.type)\" />\n<label for=\"answer{$this->fieldname}N\" class=\"answertext\" >\n\t".$clang->gT('No')."\n</label>\n\t</li>\n";
+        $answer .= " onclick=\"$checkconditionFunction(this.value, this.name, this.type)\" />\n<label for=\"answer{$this->fieldname}N\" class=\"answertext\" >\n\t".gT('No')."\n</label>\n\t</li>\n";
         // --> END NEW FEATURE - SAVE
 
         if ($this->mandatory != 'Y' && SHOW_NO_ANSWER == 1)
@@ -35,7 +35,7 @@ class YNQuestion extends QuestionModule
                 $answer .= CHECKED;
             }
             // --> START NEW FEATURE - SAVE
-            $answer .= " onclick=\"$checkconditionFunction(this.value, this.name, this.type)\" />\n<label for=\"answer{$this->fieldname}\" class=\"answertext\">\n\t".$clang->gT('No answer')."\n</label>\n\t</li>\n";
+            $answer .= " onclick=\"$checkconditionFunction(this.value, this.name, this.type)\" />\n<label for=\"answer{$this->fieldname}\" class=\"answertext\">\n\t".gT('No answer')."\n</label>\n\t</li>\n";
             // --> END NEW FEATURE - SAVE
         }
 
@@ -45,17 +45,17 @@ class YNQuestion extends QuestionModule
 
     public function getDataEntry($idrow, &$fnames, $language)
     {
-        $clang = Yii::app()->lang;
+        
         $output .= "\t<select name='{$this->fieldname}'>\n"
         ."<option value=''";
         if ($idrow[$this->fieldname] == "") {$output .= " selected='selected'";}
-        $output .= ">".$clang->gT("Please choose")."..</option>\n"
+        $output .= ">".gT("Please choose")."..</option>\n"
         ."<option value='Y'";
         if ($idrow[$this->fieldname] == "Y") {$output .= " selected='selected'";}
-        $output .= ">".$clang->gT("Yes")."</option>\n"
+        $output .= ">".gT("Yes")."</option>\n"
         ."<option value='N'";
         if ($idrow[$this->fieldname] == "N") {$output .= " selected='selected'";}
-        $output .= ">".$clang->gT("No")."</option>\n"
+        $output .= ">".gT("No")."</option>\n"
         ."\t</select>\n";
         return $output;
     }
@@ -110,8 +110,8 @@ class YNQuestion extends QuestionModule
 
     public function getSPSSAnswers()
     {
-        $answers[] = array('code'=>1, 'value'=>$clang->gT('Yes'));
-        $answers[] = array('code'=>2, 'value'=>$clang->gT('No'));
+        $answers[] = array('code'=>1, 'value'=>gT('Yes'));
+        $answers[] = array('code'=>2, 'value'=>gT('No'));
         return $answers;
     }
 
@@ -129,8 +129,8 @@ class YNQuestion extends QuestionModule
 
     public function getAnswerArray($em)
     {
-        $clang = Yii::app()->lang;
-        return array('Y' => $clang->gT("Yes"), 'N' => $clang->gT("No"));
+        
+        return array('Y' => gT("Yes"), 'N' => gT("No"));
     }
 
     public function jsVarNameOn()
@@ -165,9 +165,9 @@ class YNQuestion extends QuestionModule
 
     public function getQuotaAnswers($iQuotaId)
     {
-        $clang = Yii::app()->lang;
-        $aAnswerList = array('Y' => array('Title' => $this->title, 'Display' => $clang->gT("Yes"), 'code' => 'Y'),
-            'N' => array('Title' => $this->title, 'Display' => $clang->gT("No"), 'code' => 'N'));
+        
+        $aAnswerList = array('Y' => array('Title' => $this->title, 'Display' => gT("Yes"), 'code' => 'Y'),
+            'N' => array('Title' => $this->title, 'Display' => gT("No"), 'code' => 'N'));
 
         $aResults = Quota_members::model()->findAllByAttributes(array('sid' => $this->surveyid, 'qid' => $this->id, 'quota_id' => $iQuotaId));
         foreach ($aResults as $aQuotaList)
@@ -209,15 +209,15 @@ class YNQuestion extends QuestionModule
 
     public function getConditionAnswers()
     {
-        $clang = Yii::app()->lang;
+        
         $canswers = array();
 
-        $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id, "Y", $clang->gT("Yes"));
-        $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id, "N", $clang->gT("No"));
+        $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id, "Y", gT("Yes"));
+        $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id, "N", gT("No"));
         // Only Show No-Answer if question is not mandatory
         if ($this->mandatory != 'Y')
         {
-            $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id, " ", $clang->gT("No answer"));
+            $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id, " ", gT("No answer"));
         }
 
         return $canswers;
@@ -248,7 +248,7 @@ class YNQuestion extends QuestionModule
     public function questionProperties($prop = false)
     {
         $clang=Yii::app()->lang;
-        $props=array('description' => $clang->gT("Yes/No"),'group' => $clang->gT("Mask questions"),'subquestions' => 0,'class' => 'yes-no','hasdefaultvalues' => 0,'assessable' => 0,'answerscales' => 0,'enum' => 0);
+        $props=array('description' => gT("Yes/No"),'group' => gT("Mask questions"),'subquestions' => 0,'class' => 'yes-no','hasdefaultvalues' => 0,'assessable' => 0,'answerscales' => 0,'enum' => 0);
         return $prop?$props[$prop]:$props;
     }
 }

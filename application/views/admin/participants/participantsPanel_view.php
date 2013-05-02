@@ -2,66 +2,66 @@
 <script type="text/javascript">
     var exporttocsvcountall = "<?php echo Yii::app()->getController()->createUrl("exporttocsvcountAll"); ?>";
     var exporttocsvall = "<?php echo Yii::app()->getController()->createUrl("exporttocsvAll"); ?>";
-    var okBtn = "<?php $clang->eT("OK") ?>";
-    var error = "<?php $clang->eT("Error") ?>";
+    var okBtn = "<?php eT("OK") ?>";
+    var error = "<?php eT("Error") ?>";
 </script>
 <div class="menubar">
     <div class='menubar-title ui-widget-header'>
-            <strong><?php $clang->eT("Participant panel"); ?> </strong>
+            <strong><?php eT("Participant panel"); ?> </strong>
     </div>
     <?php
     $home = array('src' => $sImageURL.'home.png',
-        'alt' => $clang->gT("Main Admin Screen"),
-        'title' => $clang->gT("Main Admin Screen"),
+        'alt' => gT("Main Admin Screen"),
+        'title' => gT("Main Admin Screen"),
         'style' => 'margin-left:2px');
 
     $information = array('src' => $sImageURL.'summary.png',
-        'alt' => $clang->gT("Information"),
-        'title' => $clang->gT("Information"),
+        'alt' => gT("Information"),
+        'title' => gT("Information"),
         'style' => 'margin-left:2px');
 
     $import = array('src' => $sImageURL.'importcsv.png',
-        'alt' => $clang->gT("Import from CSV"),
-        'title' => $clang->gT("Import from CSV"),
+        'alt' => gT("Import from CSV"),
+        'title' => gT("Import from CSV"),
         'style' => 'margin-left:0px',
         'style' => 'margin-right:1px');
 
     $export = array('src' => $sImageURL.'exportcsv.png',
-        'alt' => $clang->gT("Export all"),
-        'title' => $clang->gT("Export all"),
+        'alt' => gT("Export all"),
+        'title' => gT("Export all"),
         'name' => 'export',
         'id' => 'export',
         'style' => 'margin-left:0px',
         'style' => 'margin-right:1px');
 
     $display = array('src' => $sImageURL.'document.png',
-        'alt' => $clang->gT("Display participants"),
-        'title' => $clang->gT("Display participants"),
+        'alt' => gT("Display participants"),
+        'title' => gT("Display participants"),
         'style' => 'margin-left:5px');
 
     $blacklist = array('src' => $sImageURL.'trafficred.png',
-        'alt' => $clang->gT("Blacklist control"),
-        'title' => $clang->gT("Blacklist control"),
+        'alt' => gT("Blacklist control"),
+        'title' => gT("Blacklist control"),
         'style' => 'margin-left:1px',
         'style' => 'margin-right:1px');
 
     $globalsettings = array('src' => $sImageURL.'global.png',
-        'alt' => $clang->gT("Global participant settings"),
-        'title' => $clang->gT("Global participant settings"),
+        'alt' => gT("Global participant settings"),
+        'title' => gT("Global participant settings"),
         'style' => 'margin-left:5px',
         'style' => 'margin-right:1px');
 
     $attributecontrol = array('src' => $sImageURL.'tag.png',
-        'alt' => $clang->gT("Attribute management"),
-        'title' => $clang->gT("Attribute management"),
+        'alt' => gT("Attribute management"),
+        'title' => gT("Attribute management"),
         'width' => 50,
         'height' => 35,
         'style' => 'margin-left:0px',
         'style' => 'margin-right:1px');
 
     $sharepanel = array('src' => $sImageURL.'share.png',
-        'alt' => $clang->gT("Share panel"),
-        'title' => $clang->gT("Share panel"),
+        'alt' => gT("Share panel"),
+        'title' => gT("Share panel"),
         'height' => 35,
         'width' => 35,
         'style' => 'margin-left:5px');
@@ -102,6 +102,6 @@
         <?php echo CHtml::image($ajaxloader['src'], $ajaxloader['alt']); ?>
     </div>
     <div id='exportcsvallnorow' title='exportcsvallnorow' style='display:none'>
-        <?php $clang->eT("There are no participants to be exported"); ?>
+        <?php eT("There are no participants to be exported"); ?>
     </div>
 </div>

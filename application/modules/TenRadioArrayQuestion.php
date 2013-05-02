@@ -5,8 +5,8 @@ class TenRadioArrayQuestion extends RadioArrayQuestion
     {
         global $notanswered, $thissurvey;
         $extraclass ="";
-        $clang = Yii::app()->lang;
-        $caption=$clang->gT("An array with sub-question on each line. The answers are value from 1 to 10 and are contained in the table header. ");
+        
+        $caption=gT("An array with sub-question on each line. The answers are value from 1 to 10 and are contained in the table header. ");
         $checkconditionFunction = "checkconditions";
 
         $qquery = "SELECT other FROM {{questions}} WHERE qid=".$this->id."  AND language='".$_SESSION['survey_'.$this->surveyid]['s_lang']."'";
@@ -26,7 +26,7 @@ class TenRadioArrayQuestion extends RadioArrayQuestion
         if ($this->mandatory != 'Y' && SHOW_NO_ANSWER == 1) //Question is not mandatory
         {
             ++$cellwidth; // add another column
-            $caption.=$clang->gT("The last cell are for no answer. ");
+            $caption.=gT("The last cell are for no answer. ");
         }
         $cellwidth = round((( 100 - $answerwidth ) / $cellwidth) , 1); // convert number of columns to percentage of table width
 
@@ -59,7 +59,7 @@ class TenRadioArrayQuestion extends RadioArrayQuestion
         }
         if ($this->mandatory != 'Y' && SHOW_NO_ANSWER == 1) //Question is not mandatory
         {
-            $answer .= "\t<th>".$clang->gT('No answer')."</th>\n";
+            $answer .= "\t<th>".gT('No answer')."</th>\n";
         }
         $answer .= "</tr>\n</thead>";
         $answer_t_content = '<tbody';
@@ -103,7 +103,7 @@ class TenRadioArrayQuestion extends RadioArrayQuestion
             }
             if ($this->mandatory != "Y" && SHOW_NO_ANSWER == 1)
             {
-                $answer_t_content .= "\t<td class=\"answer-item radio-item noanswer-item\">\n<label for=\"answer$myfname-\" class=\"hide\">{$clang->gT('No answer')}</label>\n"
+                $answer_t_content .= "\t<td class=\"answer-item radio-item noanswer-item\">\n<label for=\"answer$myfname-\" class=\"hide\">{gT('No answer')}</label>\n"
                 ."\t<input class=\"radio\" type=\"radio\" name=\"$myfname\" id=\"answer$myfname-\" value=\"\" ";
                 if (!isset($_SESSION['survey_'.$this->surveyid][$myfname]) || $_SESSION['survey_'.$this->surveyid][$myfname] == '')
                 {
@@ -319,7 +319,7 @@ class TenRadioArrayQuestion extends RadioArrayQuestion
 
     public function getConditionAnswers()
     {
-        $clang = Yii::app()->lang;
+        
         $canswers = array();
 
         $fresult = Answers::model()->findAllByAttributes(array(
@@ -337,7 +337,7 @@ class TenRadioArrayQuestion extends RadioArrayQuestion
 
             if ($this->mandatory != 'Y')
             {
-                $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id.$arows['title'], "", $clang->gT("No answer"));
+                $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id.$arows['title'], "", gT("No answer"));
             }
         }
 
@@ -363,7 +363,7 @@ class TenRadioArrayQuestion extends RadioArrayQuestion
     public function questionProperties($prop = false)
     {
         $clang=Yii::app()->lang;
-        $props=array('description' => $clang->gT("Array (10 Point Choice)"),'group' => $clang->gT('Arrays'),'subquestions' => 1,'class' => 'array-10-pt','hasdefaultvalues' => 0,'assessable' => 1,'answerscales' => 0,'enum' => 0);
+        $props=array('description' => gT("Array (10 Point Choice)"),'group' => gT('Arrays'),'subquestions' => 1,'class' => 'array-10-pt','hasdefaultvalues' => 0,'assessable' => 1,'answerscales' => 0,'enum' => 0);
         return $prop?$props[$prop]:$props;
     }
 }

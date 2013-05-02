@@ -32,9 +32,8 @@
     * @returns array
     *
     */
-    function getDateFormatData($iDateFormat=0,$sLanguageCode='en')
+    function getDateFormatData($iDateFormat=0)
     {
-        $clang = new Limesurvey_lang($sLanguageCode);
         $aDateFormats= array(
         1=> array ('phpdate' => 'd.m.Y', 'jsdate' => 'dd.mm.yy', 'dateformat' => gT('dd.mm.yyyy')),
         2=> array ('phpdate' => 'd-m-Y', 'jsdate' => 'dd-mm-yy', 'dateformat' => gT('dd-mm-yyyy')),
@@ -562,7 +561,7 @@
     */
     function getRadixPointData($format=-1)
     {
-        $clang = Yii::app()->lang;
+        
         $aRadixFormats = array (
         0=>array('seperator'=> '.', 'desc'=> gT('Dot (.)')),
         1=>array('seperator'=> ',', 'desc'=> gT('Comma (,)'))

@@ -48,19 +48,18 @@ class responses extends Survey_Common_Action
         {
             $aData['iId'] = (int) $iId;
         }
-        $aData['clang'] = $clang = $this->getController()->lang;
         $aData['imageurl'] = Yii::app()->getConfig('imageurl');
         $aData['action'] = Yii::app()->request->getParam('action');
         $aData['all']=Yii::app()->request->getParam('all');
         $aData['surveyinfo'] = getSurveyInfo($iSurveyId);
         if(!$aData['surveyinfo'])// Already done in Survey_Common_Action
         {
-            Yii::app()->session['flashmessage'] = $clang->gT("Invalid survey ID");
+            Yii::app()->session['flashmessage'] = gT("Invalid survey ID");
             $this->getController()->redirect($this->getController()->createUrl("admin/index"));
         }
         elseif($aData['surveyinfo']['active'] != 'Y')
         {
-            Yii::app()->session['flashmessage'] = $clang->gT("This survey has not been activated. There are no results to browse.");
+            Yii::app()->session['flashmessage'] = gT("This survey has not been activated. There are no results to browse.");
             $this->getController()->redirect($this->getController()->createUrl("/admin/survey/sa/view/surveyid/{$iSurveyId}"));
         }
 
@@ -99,10 +98,7 @@ class responses extends Survey_Common_Action
         if(hasSurveyPermission($iSurveyID,'responses','read'))
         {
             $aData = $this->_getData(array('iId' => $iId, 'iSurveyId' => $iSurveyID, 'browselang' => $sBrowseLang));
-            $oBrowseLanguage = new Limesurvey_lang($aData['language']);
-
             extract($aData);
-            $clang = Yii::app()->lang;
             $aViewUrls = array();
 
             $fncount = 0;
@@ -111,13 +107,13 @@ class responses extends Survey_Common_Action
             //add token to top of list if survey is not private
             if ($aData['surveyinfo']['anonymized'] == "N" && tableExists('tokens_' . $iSurveyID) && hasSurveyPermission($iSurveyID,'tokens','read'))
             {
-                $fnames[] = array("token", "Token", $clang->gT("Token ID"), 0);
-                $fnames[] = array("firstname", "First name", $clang->gT("First name"), 0);
-                $fnames[] = array("lastname", "Last name", $clang->gT("Last name"), 0);
-                $fnames[] = array("email", "Email", $clang->gT("Email"), 0);
+                $fnames[] = array("token", "Token", gT("Token ID"), 0);
+                $fnames[] = array("firstname", "First name", gT("First name"), 0);
+                $fnames[] = array("lastname", "Last name", gT("Last name"), 0);
+                $fnames[] = array("email", "Email", gT("Email"), 0);
             }
-            $fnames[] = array("submitdate", $clang->gT("Submission date"));
-            $fnames[] = array("completed", $clang->gT("Completed"));
+            $fnames[] = array("submitdate", gT("Submission date"));
+            $fnames[] = array("completed", gT("Completed"));
 
             foreach ($fieldmap as $q)
             {
@@ -267,7 +263,7 @@ class responses extends Survey_Common_Action
             }
             else
             {
-                Yii::app()->session['flashmessage'] = $clang->gT("This response ID is invalid.");
+                Yii::app()->session['flashmessage'] = gT("This response ID is invalid.");
             }
             $aViewUrls['browseidfooter_view'][] = $aData;
 
@@ -278,8 +274,8 @@ class responses extends Survey_Common_Action
             $clang = $this->getController()->lang;
             $aData['surveyid'] = $iSurveyID;
             $this->getController()->_css_admin_includes(Yii::app()->getConfig('adminstyleurl')."superfish.css");
-            $message['title']= $clang->gT('Access denied!');
-            $message['message']= $clang->gT('You do not have sufficient rights to access this page.');
+            $message['title']= gT('Access denied!');
+            $message['message']= gT('You do not have sufficient rights to access this page.');
             $message['class']= "error";
             $this->_renderWrappedTemplate('survey', array("message"=>$message), $aData);
         }
@@ -290,8 +286,6 @@ class responses extends Survey_Common_Action
         $aData = $this->_getData($iSurveyID);
         extract($aData);
         $aViewUrls = array();
-        $oBrowseLanguage = new Limesurvey_lang($aData['language']);
-
         /**
          * fnames is used as informational array
          * it containts
@@ -302,7 +296,6 @@ class responses extends Survey_Common_Action
             $aViewUrls[] = 'browseallfiltered_view';
         }
 
-            $clang = $aData['clang'];
             $aData['num_total_answers'] = Survey_dynamic::model($iSurveyID)->count();
             $aData['num_completed_answers'] = Survey_dynamic::model($iSurveyID)->count('submitdate IS NOT NULL');
             if (tableExists('{{tokens_' . $iSurveyID . '}}') )
@@ -335,9 +328,7 @@ class responses extends Survey_Common_Action
     	$aData = $this->_getData($iSurveyID);
     	extract($aData);
     	$aViewUrls = array();
-    	$oBrowseLanguage = new Limesurvey_lang($aData['language']);
-
-
+    	
     	// The column model must be built dynamically, since the columns will differ from survey to survey, depending on the questions.
     	$column_model = array();
     	// The first few colums are fixed.
@@ -478,9 +469,7 @@ class responses extends Survey_Common_Action
 
     	extract($aData);
     	$aViewUrls = array();
-    	$oBrowseLanguage = new Limesurvey_lang($aData['language']);
-
-
+    	
     	$sImageURL 	= Yii::app()->getConfig('adminimageurl');
 
 
@@ -488,10 +477,10 @@ class responses extends Survey_Common_Action
     	//add token to top of list if survey is not private
     	if ($aData['surveyinfo']['anonymized'] == "N" && tableExists('tokens_' . $iSurveyID)) //add token to top of list if survey is not private
     	{
-    		$fnames[] = array("token", "Token", $clang->gT("Token ID"), 0);
-    		$fnames[] = array("firstname", "First name", $clang->gT("First name"), 0);
-    		$fnames[] = array("lastname", "Last name", $clang->gT("Last name"), 0);
-    		$fnames[] = array("email", "Email", $clang->gT("Email"), 0);
+    		$fnames[] = array("token", "Token", gT("Token ID"), 0);
+    		$fnames[] = array("firstname", "First name", gT("First name"), 0);
+    		$fnames[] = array("lastname", "Last name", gT("Last name"), 0);
+    		$fnames[] = array("email", "Email", gT("Email"), 0);
     	}
 
     	$fields = createFieldMap($iSurveyID, true, false, $aData['language']);
@@ -548,15 +537,15 @@ class responses extends Survey_Common_Action
     	foreach ($dtresult as $row) {
 
     		// BUG: For some reason, the $action_html is placed outside the json string! //
-    		$action_html  = "<a href='" . Yii::app()->createUrl("admin/responses/view/surveyid/$surveyid/id/{$row['id']}") . "'><img src='" . $sImageURL . "/token_viewanswer.png' alt='" . $clang->gT('View response details') . "'/></a>";
+    		$action_html  = "<a href='" . Yii::app()->createUrl("admin/responses/view/surveyid/$surveyid/id/{$row['id']}") . "'><img src='" . $sImageURL . "/token_viewanswer.png' alt='" . gT('View response details') . "'/></a>";
 			if (hasSurveyPermission($surveyid, 'responses', 'update')) {
-    					$action_html .= "<a href='" . Yii::app()->createUrl("admin/dataentry/editdata/subaction/edit/surveyid/{$surveyid}/id/{$row['id']}") . "'><img src='" . $sImageURL . "/edit_16.png' alt='" . $clang->gT('Edit this response') . "'/></a>";
+    					$action_html .= "<a href='" . Yii::app()->createUrl("admin/dataentry/editdata/subaction/edit/surveyid/{$surveyid}/id/{$row['id']}") . "'><img src='" . $sImageURL . "/edit_16.png' alt='" . gT('Edit this response') . "'/></a>";
 			}
     							if (hasFileUploadQuestion($surveyid)) {
-    							$action_html .= "<a><img id='downloadfile_" . $row['id'] . "' src='" . $sImageURL . "/down.png' alt='" . $clang->gT('Download all files in this response as a zip file') . "' class='downloadfile'/></a>";
+    							$action_html .= "<a><img id='downloadfile_" . $row['id'] . "' src='" . $sImageURL . "/down.png' alt='" . gT('Download all files in this response as a zip file') . "' class='downloadfile'/></a>";
     							}
     							if (hasSurveyPermission($surveyid, 'responses', 'delete')) {
-    							$action_html .= "<a><img id='deleteresponse_" . $row['id'] . "' src='" . $sImageURL . "/token_delete.png' alt='" . $clang->gT('Delete this response') . "' class='deleteresponse'/></a>";
+    							$action_html .= "<a><img id='deleteresponse_" . $row['id'] . "' src='" . $sImageURL . "/token_delete.png' alt='" . gT('Delete this response') . "' class='deleteresponse'/></a>";
     		}
 
 
@@ -597,8 +586,6 @@ class responses extends Survey_Common_Action
         $aData = $this->_getData($iSurveyID);
         extract($aData);
         $aViewUrls = array();
-        $oBrowseLanguage = new Limesurvey_lang($aData['language']);
-
         //Delete Individual answer using inrow delete buttons/links - checked
         if (Yii::app()->request->getPost('deleteanswer') && Yii::app()->request->getPost('deleteanswer') != '' && Yii::app()->request->getPost('deleteanswer') != 'marked' && hasSurveyPermission($iSurveyID, 'responses', 'delete'))
         {
@@ -611,7 +598,7 @@ class responses extends Survey_Common_Action
             if($aData['surveyinfo']['savetimings'] == "Y"){
                 Survey_timings::model($iSurveyID)->deleteByPk($iResponseID);
             }
-            Yii::app()->session['flashmessage'] = sprintf($clang->gT("Response ID %s was successfully deleted."),$iResponseID);
+            Yii::app()->session['flashmessage'] = sprintf(gT("Response ID %s was successfully deleted."),$iResponseID);
 
         }
         // Marked responses -> deal with the whole batch of marked responses
@@ -701,13 +688,13 @@ class responses extends Survey_Common_Action
             //add token to top of list if survey is not private
             if ($aData['surveyinfo']['anonymized'] == "N" && tableExists('tokens_' . $iSurveyID) && hasSurveyPermission($iSurveyID,'tokens','read')) //add token to top of list if survey is not private
             {
-                $fnames[] = array("token", "Token", $clang->gT("Token ID"), 0);
-                $fnames[] = array("firstname", "First name", $clang->gT("First name"), 0);
-                $fnames[] = array("lastname", "Last name", $clang->gT("Last name"), 0);
-                $fnames[] = array("email", "Email", $clang->gT("Email"), 0);
+                $fnames[] = array("token", "Token", gT("Token ID"), 0);
+                $fnames[] = array("firstname", "First name", gT("First name"), 0);
+                $fnames[] = array("lastname", "Last name", gT("Last name"), 0);
+                $fnames[] = array("email", "Email", gT("Email"), 0);
             }
 
-            $fnames[] = array("submitdate", $clang->gT("Completed"), $clang->gT("Completed"), "0", 'D');
+            $fnames[] = array("submitdate", gT("Completed"), gT("Completed"), "0", 'D');
             $fields = createFieldMap($iSurveyID, false, false, $aData['language']);
 
             foreach ($fields as $q)
@@ -745,7 +732,7 @@ class responses extends Survey_Common_Action
                         }
                     }
                     else
-                        $fnames[] = array($q->fieldname, $clang->gT("File count"));
+                        $fnames[] = array($q->fieldname, gT("File count"));
                 }
             }
 
@@ -849,8 +836,8 @@ class responses extends Survey_Common_Action
             $clang = $this->getController()->lang;
             $aData['surveyid'] = $iSurveyID;
             $this->getController()->_css_admin_includes(Yii::app()->getConfig('adminstyleurl')."superfish.css");
-            $message['title']= $clang->gT('Access denied!');
-            $message['message']= $clang->gT('You do not have sufficient rights to access this page.');
+            $message['title']= gT('Access denied!');
+            $message['message']= gT('You do not have sufficient rights to access this page.');
             $message['class']= "error";
             $this->_renderWrappedTemplate('survey', array("message"=>$message), $aData);
         }
@@ -887,8 +874,7 @@ class responses extends Survey_Common_Action
 
         $fields = createFieldMap($iSurveyID, true,false,$aData['language']);
 
-        $clang = $aData['clang'];
-        $fnames = array('interviewtime' => $clang->gT('Total time'));
+        $fnames = array('interviewtime' => gT('Total time'));
         foreach ($fields as $q)
         {
             if (!empty($q->gid)) {
@@ -896,7 +882,7 @@ class responses extends Survey_Common_Action
                 $fieldname="{$q->surveyid}X{$q->gid}time";
                 if (!isset($fnames[$fieldname]))
                 {
-                    $fnames[$fieldname]=$clang->gT('Group').": ".$q->groupname;
+                    $fnames[$fieldname]=gT('Group').": ".$q->groupname;
                 }
             }
         }
@@ -1165,7 +1151,7 @@ class responses extends Survey_Common_Action
         $this->getController()->_js_admin_includes(Yii::app()->getConfig('adminscripts') . 'browse.js');
 
         $aData['display']['menu_bars'] = false;
-        $aData['display']['menu_bars']['browse'] = Yii::app()->lang->gT('Browse responses'); // browse is independent of the above
+        $aData['display']['menu_bars']['browse'] = gT('Browse responses'); // browse is independent of the above
 
         parent::_renderWrappedTemplate('responses', $aViewUrls, $aData);
     }

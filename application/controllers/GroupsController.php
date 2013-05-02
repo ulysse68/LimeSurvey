@@ -4,7 +4,6 @@
     {
         public function actionPreview($id, $language = 'en')
         {
-            App()->setLang(new Limesurvey_lang($language));
             $group = Groups::model()->findByAttributes(array(
                 'gid' => $id
             ));
@@ -53,7 +52,11 @@
                     $name = "{$group->group_name}-{$question->qid}";
                     $renderedQuestions[] = $questionObject->render($name, $language, true);
                     App()->getLimeScript()->add("p.questions.{$question->code}.type", $questionObject->getGUID());
+                    
                     App()->getLimeScript()->add("p.questions.{$question->code}.div",  "question$i");
+                    
+                    // This is used to determine forward references in expressions.
+                    App()->getLimeScript()->add("p.questions.{$question->code}.index", $i);
                     // Register variables.
                     $code = $question->code;
                     // More variables shoudl be added here.

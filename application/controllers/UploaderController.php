@@ -81,18 +81,16 @@ class UploaderController extends AdminController {
             }
             if (@unlink($sFileDir.$sFilename))
             {
-               echo sprintf($clang->gT('File %s deleted'), $sOriginalFileName);
+               echo sprintf(gT('File %s deleted'), $sOriginalFileName);
             }
             else
-                echo $clang->gT('Oops, There was an error deleting the file');
+                echo gT('Oops, There was an error deleting the file');
             exit();
         }
 
 
         if(isset($aRequest['mode']) && $aRequest['mode'] == "upload")
         {
-            $clang = Yii::app()->lang;
-
             $sTempUploadDir = $sTempDir.'/upload/';
             // Check if exists and is writable
             if (!file_exists($sTempUploadDir)) {
@@ -119,7 +117,7 @@ class UploaderController extends AdminController {
             {
                 $aReturn = array(
                                 "success" => false,
-                                "msg" => sprintf($clang->gT("Sorry, this file extension (%s) is not allowed!"),$sExtension)
+                                "msg" => sprintf(gT("Sorry, this file extension (%s) is not allowed!"),$sExtension)
                             );
                 echo ls_json_encode($aReturn);
                 exit ();
@@ -132,7 +130,7 @@ class UploaderController extends AdminController {
                 {
                     $aReturn = array(
                         "success" => false,
-                        "msg" => sprintf($clang->gT("Sorry, this file is too large. Only files upto %s KB are allowed."), $iMaximumFileSize)
+                        "msg" => sprintf(gT("Sorry, this file is too large. Only files upto %s KB are allowed."), $iMaximumFileSize)
                     );
                     echo ls_json_encode($aReturn);
                     exit ();
@@ -148,7 +146,7 @@ class UploaderController extends AdminController {
                                 "name"          => rawurlencode(basename($sFileName)),
                                 "ext"           => $sExtension,
                                 "filename"      => $sRandomFileName,
-                                "msg"           => $clang->gT("The file has been successfuly uploaded.")
+                                "msg"           => gT("The file has been successfuly uploaded.")
                             );
                     echo ls_json_encode($aReturn);
                     // TODO : unlink this file since this is just a preview
@@ -164,7 +162,7 @@ class UploaderController extends AdminController {
                 {
                     $aReturn = array(
                         "success" => false,
-                         "msg" => sprintf($clang->gT("Sorry, this file is too large. Only files up to %s KB are allowed.",'unescaped'), $iMaximumFileSize)
+                         "msg" => sprintf(gT("Sorry, this file is too large. Only files up to %s KB are allowed.",'unescaped'), $iMaximumFileSize)
                     );
                     echo ls_json_encode($aReturn);
                     exit ();
@@ -173,7 +171,7 @@ class UploaderController extends AdminController {
                 {
                     $aReturn = array(
                         "success" => false,
-                         "msg" => $clang->gT("We are sorry but there was a system error and your file was not saved. An email has been dispatched to notify the survey administrator.",'unescaped')
+                         "msg" => gT("We are sorry but there was a system error and your file was not saved. An email has been dispatched to notify the survey administrator.",'unescaped')
                     );
                     echo ls_json_encode($aReturn);
                     exit ();
@@ -188,7 +186,7 @@ class UploaderController extends AdminController {
                         "name"    => rawurlencode(basename($sFileName)),
                         "ext"     => $sExtension,
                         "filename"=> $sRandomFileName,
-                        "msg"     => $clang->gT("The file has been successfuly uploaded.")
+                        "msg"     => gT("The file has been successfuly uploaded.")
                     );
 
                     echo ls_json_encode($aReturn);
@@ -202,7 +200,7 @@ class UploaderController extends AdminController {
                     {
                         $aReturn = array(
                                         "success" => false,
-                                        "msg" => $clang->gT("Sorry, there was an error uploading your file")
+                                        "msg" => gT("Sorry, there was an error uploading your file")
                                     );
 
                         echo ls_json_encode($aReturn);
@@ -213,7 +211,7 @@ class UploaderController extends AdminController {
                     {
                         $aReturn = array(
                                         "success" => false,
-                                        "msg" => sprintf($clang->gT("Sorry, this file is too large. Only files upto %s KB are allowed."), $iMaximumFileSize)
+                                        "msg" => sprintf(gT("Sorry, this file is too large. Only files upto %s KB are allowed."), $iMaximumFileSize)
                                     );
 
                         echo ls_json_encode($aReturn);
@@ -223,7 +221,7 @@ class UploaderController extends AdminController {
                     {
                         $aReturn = array(
                                     "success" => false,
-                                    "msg" => $clang->gT("Unknown error")
+                                    "msg" => gT("Unknown error")
                                 );
                         echo ls_json_encode($aReturn);
                         exit ();
@@ -244,23 +242,21 @@ class UploaderController extends AdminController {
         <script type="text/javascript" src="'.Yii::app()->getConfig("generalscripts").'/uploader.js"></script>
         <link type="text/css" href="'.Yii::app()->getConfig("publicstyleurl").'uploader.css" rel="stylesheet" />';
 
-        $clang = Yii::app()->lang;
-
         echo getHeader($sAdditionalHeaders);
 
         echo "<script type='text/javascript'>
                 var translt = {
-                     titleFld: '" . $clang->gT('Title','js') . "',
-                     commentFld: '" . $clang->gT('Comment','js') . "',
-                     errorNoMoreFiles: '" . $clang->gT('Sorry, no more files can be uploaded!','js') . "',
-                     errorOnlyAllowed: '" . $clang->gT('Sorry, only %s files can be uploaded for this question!','js') . "',
-                     uploading: '" . $clang->gT('Uploading','js') . "',
-                     selectfile: '" . $clang->gT('Select file','js') . "',
-                     errorNeedMore: '" . $clang->gT('Please upload %s more file(s).','js') . "',
-                     errorMoreAllowed: '" . $clang->gT('If you wish, you may upload %s more file(s); else you may return back to survey.','js') . "',
-                     errorMaxReached: '" . $clang->gT('The maximum number of files has been uploaded. You may return back to survey.','js') . "',
-                     errorTooMuch: '" . $clang->gT('The maximum number of files has been uploaded. You may return back to survey.','js') . "',
-                     errorNeedMoreConfirm: '" . $clang->gT("You need to upload %s more files for this question.\nAre you sure you want to exit?",'js') . "'
+                     titleFld: '" . gT('Title','js') . "',
+                     commentFld: '" . gT('Comment','js') . "',
+                     errorNoMoreFiles: '" . gT('Sorry, no more files can be uploaded!','js') . "',
+                     errorOnlyAllowed: '" . gT('Sorry, only %s files can be uploaded for this question!','js') . "',
+                     uploading: '" . gT('Uploading','js') . "',
+                     selectfile: '" . gT('Select file','js') . "',
+                     errorNeedMore: '" . gT('Please upload %s more file(s).','js') . "',
+                     errorMoreAllowed: '" . gT('If you wish, you may upload %s more file(s); else you may return back to survey.','js') . "',
+                     errorMaxReached: '" . gT('The maximum number of files has been uploaded. You may return back to survey.','js') . "',
+                     errorTooMuch: '" . gT('The maximum number of files has been uploaded. You may return back to survey.','js') . "',
+                     errorNeedMoreConfirm: '" . gT("You need to upload %s more files for this question.\nAre you sure you want to exit?",'js') . "'
                     };
             </script>\n";
 
@@ -283,10 +279,10 @@ class UploaderController extends AdminController {
 
                 <!-- The upload button -->
                 <div align="center" class="upload-div">
-                    <button id="button1" class="upload-button" type="button" >'.$clang->gT("Select file").'</button>
+                    <button id="button1" class="upload-button" type="button" >'.gT("Select file").'</button>
                 </div>
 
-                <p class="uploadmsg">'.sprintf($clang->gT("You can upload %s under %s KB each.",'js'),$aAttributes['allowed_filetypes'],$aAttributes['max_filesize']).'</p>
+                <p class="uploadmsg">'.sprintf(gT("You can upload %s under %s KB each.",'js'),$aAttributes['allowed_filetypes'],$aAttributes['max_filesize']).'</p>
                 <div class="uploadstatus" id="uploadstatus"></div>
 
                 <!-- The list of uploaded files -->

@@ -3,6 +3,7 @@
     {
         public function run()
         {
+            App()->getClientScript()->registerPackage('jquery');
 
             $surveys = Survey::model()->with(
               array(

@@ -18,7 +18,7 @@
 
 function updateset($lid)
 {
-    $clang = Yii::app()->lang;
+    
 
     // Get added and deleted languagesid arrays
     if ($_POST['languageids'])
@@ -95,7 +95,7 @@ function insertlabelset()
 {
     //global $labelsoutput;
     // $labelsoutput.= $_POST['languageids'];  For debug purposes
-    $clang = Yii::app()->lang;
+    
 
 
     if (!empty($_POST['languageids']))
@@ -133,7 +133,7 @@ function modlabelsetanswers($lid)
 
     //global  $labelsoutput;
 
-    $clang = Yii::app()->lang;
+    
 
     $ajax = false;
 
@@ -141,7 +141,7 @@ function modlabelsetanswers($lid)
         $ajax = true;
     }
     if (!isset($_POST['method'])) {
-        $_POST['method'] = $clang->gT("Save");
+        $_POST['method'] = gT("Save");
     }
 
     $sPostData = Yii::app()->getRequest()->getPost('dataToSend');
@@ -208,12 +208,12 @@ function modlabelsetanswers($lid)
         }
 
 
-        Yii::app()->session['flashmessage'] = $clang->gT("Labels sucessfully updated");
+        Yii::app()->session['flashmessage'] = gT("Labels sucessfully updated");
 
     }
     else
     {
-        $labelsoutput= "<script type=\"text/javascript\">\n<!--\n alert(\"".$clang->gT("Can't update labels because you are using duplicated codes","js")."\")\n //-->\n</script>\n";
+        $labelsoutput= "<script type=\"text/javascript\">\n<!--\n alert(\"".gT("Can't update labels because you are using duplicated codes","js")."\")\n //-->\n</script>\n";
     }
 
     if ($ajax){ die(); }
@@ -233,7 +233,7 @@ function modlabelsetanswers($lid)
 */
 function fixorder($lid) {
 
-    $clang = Yii::app()->lang;
+    
 
     $qulabelset = "SELECT * FROM {{labelsets}} WHERE lid=$lid";
     $rslabelset = Yii::app()->db->createCommand($qulabelset)->query();

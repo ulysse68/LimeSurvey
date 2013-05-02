@@ -6,7 +6,7 @@ class MultinumericalQuestion extends QuestionModule
     {
         global $thissurvey;
 
-        $clang = Yii::app()->lang;
+        
         $extraclass ="";
         $checkconditionFunction = "fixnum_checkconditions";
         $aQuestionAttributes = $this->getAttributeValues();
@@ -149,7 +149,7 @@ class MultinumericalQuestion extends QuestionModule
 
         if ($anscount==0)
         {
-            $answer_main .= '    <li>'.$clang->gT('Error: This question has no answers.')."</li>\n";
+            $answer_main .= '    <li>'.gT('Error: This question has no answers.')."</li>\n";
         }
         else
         {
@@ -289,7 +289,7 @@ class MultinumericalQuestion extends QuestionModule
             $question_tip = '';
             if($hidetip == 0)
             {
-                $question_tip .= '<p class="tip">'.$clang->gT('Only numbers may be entered in these fields')."</p>\n";
+                $question_tip .= '<p class="tip">'.gT('Only numbers may be entered in these fields')."</p>\n";
             }
 
             if (trim($aQuestionAttributes['equals_num_value']) != ''
@@ -302,7 +302,7 @@ class MultinumericalQuestion extends QuestionModule
                 if (trim($aQuestionAttributes['equals_num_value']) != '')
                 {
                     $answer_main .= "\t<li class='multiplenumerichelp help-item'>\n"
-                    . "<span class=\"label\">".$clang->gT('Remaining: ')."</span>\n"
+                    . "<span class=\"label\">".gT('Remaining: ')."</span>\n"
                     . "<span id=\"remainingvalue_{$this->id}\" class=\"dynamic_remaining\">$prefix\n"
                     . "{" . $qinfo['sumRemainingEqn'] . "}\n"
                     . "$suffix</span>\n"
@@ -310,7 +310,7 @@ class MultinumericalQuestion extends QuestionModule
                 }
 
                 $answer_main .= "\t<li class='multiplenumerichelp  help-item'>\n"
-                . "<span class=\"label\">".$clang->gT('Total: ')."</span>\n"
+                . "<span class=\"label\">".gT('Total: ')."</span>\n"
                 . "<span id=\"totalvalue_{$this->id}\" class=\"dynamic_sum\">$prefix\n"
                 . "{" . $qinfo['sumEqn'] . "}\n"
                 . "$suffix</span>\n"
@@ -548,7 +548,7 @@ class MultinumericalQuestion extends QuestionModule
 
     public function getConditionAnswers()
     {
-        $clang = Yii::app()->lang;
+        
         $canswers = array();
 
         $aresult = Questions::model()->findAllByAttributes(array('parent_qid' => $this->id, 'language' => Survey::model()->findByPk($this->surveyid)->language), array('order' => 'question_order desc'));
@@ -558,7 +558,7 @@ class MultinumericalQuestion extends QuestionModule
             // Only Show No-Answer if question is not mandatory
             if ($this->mandatory != 'Y')
             {
-                $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id.$arows['title'], "", $clang->gT("No answer"));
+                $canswers[]=array($this->surveyid.'X'.$this->gid.'X'.$this->id.$arows['title'], "", gT("No answer"));
             }
         } //while
 
@@ -567,7 +567,7 @@ class MultinumericalQuestion extends QuestionModule
 
     public function getConditionQuestions()
     {
-        $clang = Yii::app()->lang;
+        
         $cquestions = array();
 
         $aresult = Questions::model()->findAllByAttributes(array('parent_qid' => $this->id, 'language' => Survey::model()->findByPk($this->surveyid)->language), array('order' => 'question_order desc'));
@@ -606,7 +606,7 @@ class MultinumericalQuestion extends QuestionModule
     public function questionProperties($prop = false)
     {
         $clang=Yii::app()->lang;
-        $props=array('description' => $clang->gT("Multiple Numerical Input"),'group' => $clang->gT("Mask questions"),'class' => 'numeric-multi','hasdefaultvalues' => 1,'subquestions' => 1,'assessable' => 1,'answerscales' => 0,'enum' => 0);
+        $props=array('description' => gT("Multiple Numerical Input"),'group' => gT("Mask questions"),'class' => 'numeric-multi','hasdefaultvalues' => 1,'subquestions' => 1,'assessable' => 1,'answerscales' => 0,'enum' => 0);
         return $prop?$props[$prop]:$props;
     }
 }

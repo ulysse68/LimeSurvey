@@ -44,15 +44,15 @@
                 <?php if ($copying) { ?>
 
                     <li>
-                        <label for='copysubquestions'><?php $clang->eT("Copy subquestions?"); ?></label>
+                        <label for='copysubquestions'><?php eT("Copy subquestions?"); ?></label>
                         <input type='checkbox' class='checkboxbtn' checked='checked' id='copysubquestions' name='copysubquestions' value='Y' />
                     </li>
                     <li>
-                        <label for='copyanswers'><?php $clang->eT("Copy answer options?"); ?></label>
+                        <label for='copyanswers'><?php eT("Copy answer options?"); ?></label>
                         <input type='checkbox' class='checkboxbtn' checked='checked' id='copyanswers' name='copyanswers' value='Y' />
                     </li>
                     <li>
-                        <label for='copyattributes'><?php $clang->eT("Copy advanced settings?"); ?></label>
+                        <label for='copyattributes'><?php eT("Copy advanced settings?"); ?></label>
                         <input type='checkbox' class='checkboxbtn' checked='checked' id='copyattributes' name='copyattributes' value='Y' />
                     </li>
 
@@ -64,21 +64,21 @@
                     { ?>
                     <input form="<?php echo $form; ?>" type='hidden' name='action' value='insertquestion' />
                     <input form="<?php echo $form; ?>" type='hidden' name='gid' value='<?php echo $eqrow['gid']; ?>' />
-                    <p><input form ="<?php echo $form; ?>" type='submit' value='<?php $clang->eT("Add question"); ?>' />
+                    <p><input form ="<?php echo $form; ?>" type='submit' value='<?php eT("Add question"); ?>' />
                     <?php }
                     elseif ($copying)
                     { ?>
                     <input form="<?php echo $form; ?>" type='hidden' name='action' value='copyquestion' />
                     <input form="<?php echo $form; ?>" type='hidden' id='oldqid' name='oldqid' value='<?php echo $qid; ?>' />
-                    <p><input type='submit' value='<?php $clang->eT("Copy question"); ?>' />
+                    <p><input type='submit' value='<?php eT("Copy question"); ?>' />
                     <?php }
                     else
                     { ?>
                     <input form="<?php echo $form; ?>" type='hidden' name='action' value='updatequestion' />
                     <input form="<?php echo $form; ?>" type='hidden' id='newpage' name='newpage' value='' />
                     <input form="<?php echo $form; ?>" type='hidden' id='qid' name='qid' value='<?php echo $qid; ?>' />
-                    <p><input form="<?php echo $form; ?>" type='button' class="saveandreturn" value='<?php $clang->eT("Save") ?>' />
-                    <input form="<?php echo $form; ?>" type='submit' value='<?php $clang->eT("Save and close"); ?>' />
+                    <p><input form="<?php echo $form; ?>" type='button' class="saveandreturn" value='<?php eT("Save") ?>' />
+                    <input form="<?php echo $form; ?>" type='submit' value='<?php eT("Save and close"); ?>' />
                     <?php } ?>
                 <input form="<?php echo $form; ?>" type='hidden' id='sid' name='sid' value='<?php echo $surveyid; ?>' /></p><br />
         </div></form></div>

@@ -8,8 +8,8 @@ class TextArrayQuestion extends ArrayQuestion
         $repeatheadings = Yii::app()->getConfig("repeatheadings");
         $minrepeatheadings = Yii::app()->getConfig("minrepeatheadings");
         $extraclass ="";
-        $clang = Yii::app()->lang;
-        $caption=$clang->gT("An array of sub-question on each cell. The sub-question text are in the table header and concerns line header. ");
+        
+        $caption=gT("An array of sub-question on each cell. The sub-question text are in the table header and concerns line header. ");
         if ($thissurvey['nokeyboard']=='Y')
         {
             includeKeypad();
@@ -68,7 +68,7 @@ class TextArrayQuestion extends ArrayQuestion
             $q_table_id_HTML = ' id="'.$q_table_id.'"';
             $num_class = ' numbers-only';
             $extraclass.=" numberonly";
-            $caption.=$clang->gT("Each answers are number. ");
+            $caption.=gT("Each answers are number. ");
             switch ($aQuestionAttributes['show_totals'])
             {
                 case 'R':
@@ -90,7 +90,7 @@ class TextArrayQuestion extends ArrayQuestion
                         <input type="text" size="[[INPUT_WIDTH]]" value="" disabled="disabled" class="disabled" />
                         </td>';
                     };
-                    $caption.=$clang->gT("The last row show the total for the column. ");
+                    $caption.=gT("The last row show the total for the column. ");
                     break;
                 case 'C':
                     $totals_class = $show_totals = 'col';
@@ -110,7 +110,7 @@ class TextArrayQuestion extends ArrayQuestion
                         <input type="text" size="[[INPUT_WIDTH]]" value="" disabled="disabled" class="disabled" />
                         </td>';
                     };
-                    $caption.=$clang->gT("The last column show the total for the row. ");
+                    $caption.=gT("The last column show the total for the row. ");
                     break;
                 case 'B':
                     $totals_class = $show_totals = 'both';
@@ -138,7 +138,7 @@ class TextArrayQuestion extends ArrayQuestion
                         $grand_total = '
                         <td>&nbsp;</td>';
                     };
-                    $caption.=$clang->gT("The last row show the total for the column and the last column show the total for the row. ");
+                    $caption.=gT("The last row show the total for the column and the last column show the total for the row. ");
                     break;
             };
             if(!empty($totals_class))
@@ -198,7 +198,7 @@ class TextArrayQuestion extends ArrayQuestion
             {
                 $right_exists=true;
                 $answerwidth=$answerwidth/2;
-                $caption.=$clang->gT("The last cell give some information. ");
+                $caption.=gT("The last cell give some information. ");
             }
             else
             {
@@ -368,7 +368,7 @@ EOD;
         }
         else
         {
-            $answer = "\n<p class=\"error\">".$clang->gT("Error: There are no answer options for this question and/or they don't exist in this language.")."</p>\n";
+            $answer = "\n<p class=\"error\">".gT("Error: There are no answer options for this question and/or they don't exist in this language.")."</p>\n";
         }
         return $answer;
     }
@@ -726,7 +726,7 @@ EOD;
     public function questionProperties($prop = false)
     {
         $clang=Yii::app()->lang;
-        $props=array('description' => $clang->gT("Array (Texts)"),'group' => $clang->gT('Arrays'),'subquestions' => 2,'class' => 'array-multi-flexi-text','hasdefaultvalues' => 0,'assessable' => 0,'answerscales' => 0,'enum' => 0);
+        $props=array('description' => gT("Array (Texts)"),'group' => gT('Arrays'),'subquestions' => 2,'class' => 'array-multi-flexi-text','hasdefaultvalues' => 0,'assessable' => 0,'answerscales' => 0,'enum' => 0);
         return $prop?$props[$prop]:$props;
     }
 

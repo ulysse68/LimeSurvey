@@ -41,8 +41,8 @@ function retrieveAnswers($q)
     //globalise required config variables
     global $thissurvey; //These are set by index.php
 
-    //$clang = Yii::app()->lang;
-    $clang = Yii::app()->lang;
+    //
+    
 
     // TMSW - eliminate this - get from LEM
     //A bit of housekeeping to stop PHP Notices
@@ -75,8 +75,8 @@ function retrieveAnswers($q)
 
     if ($q->mandatory == 'Y')
     {
-        $qtitle = '<span class="asterisk">'.$clang->gT('*').'</span>'.$qtitle;
-        $question_text['mandatory'] = $clang->gT('*');
+        $qtitle = '<span class="asterisk">'.gT('*').'</span>'.$qtitle;
+        $question_text['mandatory'] = gT('*');
     }
     //If this question is mandatory but wasn't answered in the last page
     //add a message HIGHLIGHTING the question
@@ -210,7 +210,7 @@ function validation_popup($notvalidated=null)
 {
     $showpopups = Yii::app()->getConfig('showpopups');
 
-    $clang = Yii::app()->lang;
+    
     //This sets the validation popup message to show if required
     //Called from question.php, group.php or survey.php
     if ($notvalidated === null) {unset($notvalidated);}
@@ -223,7 +223,7 @@ function validation_popup($notvalidated=null)
         {
             $vpopup="<script type=\"text/javascript\">\n
             <!--\n $(document).ready(function(){
-            alert(\"".$clang->gT("One or more questions have not been answered in a valid manner. You cannot proceed until these answers are valid.", "js")."\");});\n //-->\n
+            alert(\"".gT("One or more questions have not been answered in a valid manner. You cannot proceed until these answers are valid.", "js")."\");});\n //-->\n
             </script>\n";
             $validationpopup="Y";
         }
@@ -240,7 +240,7 @@ function file_validation_popup($filenotvalidated = null)
 {
     $showpopups = Yii::app()->getConfig('showpopups');
 
-    $clang = Yii::app()->lang;
+    
     if ($filenotvalidated === null) { unset($filenotvalidated); }
     if (isset($filenotvalidated) && is_array($filenotvalidated) && $showpopups)
     {
@@ -250,7 +250,7 @@ function file_validation_popup($filenotvalidated = null)
         {
             $fpopup="<script type=\"text/javascript\">\n
             <!--\n $(document).ready(function(){
-            alert(\"".$clang->gT("One or more file have either exceeded the filesize/are not in the right format or the minimum number of required files have not been uploaded. You cannot proceed until these have been completed", "js")."\");});\n //-->\n
+            alert(\"".gT("One or more file have either exceeded the filesize/are not in the right format or the minimum number of required files have not been uploaded. You cannot proceed until these have been completed", "js")."\");});\n //-->\n
             </script>\n";
             $filevalidationpopup = "Y";
         }
@@ -263,7 +263,7 @@ function file_validation_popup($filenotvalidated = null)
 function return_timer_script($aQuestionAttributes, $q, $disable=null) {
     global $thissurvey;
 
-    $clang = Yii::app()->lang;
+    
     header_includes(Yii::app()->getConfig("generalscripts").'coookies.js', 'js');
 
     /* The following lines cover for previewing questions, because no $_SESSION['survey_'.Yii::app()->getConfig('surveyID')]['fieldarray'] exists.
@@ -297,14 +297,14 @@ function return_timer_script($aQuestionAttributes, $q, $disable=null) {
     $disable_prev=trim($aQuestionAttributes['time_limit_disable_prev']) != '' ? $aQuestionAttributes['time_limit_disable_prev'] : 0;
     $time_limit_action=trim($aQuestionAttributes['time_limit_action']) != '' ? $aQuestionAttributes['time_limit_action'] : 1;
     $time_limit_message_delay=trim($aQuestionAttributes['time_limit_message_delay']) != '' ? $aQuestionAttributes['time_limit_message_delay']*1000 : 1000;
-    $time_limit_message=trim($aQuestionAttributes['time_limit_message'][$_SESSION['survey_'.Yii::app()->getConfig('surveyID')]['s_lang']]) != '' ? htmlspecialchars($aQuestionAttributes['time_limit_message'][$_SESSION['survey_'.Yii::app()->getConfig('surveyID')]['s_lang']], ENT_QUOTES) : $clang->gT("Your time to answer this question has expired");
+    $time_limit_message=trim($aQuestionAttributes['time_limit_message'][$_SESSION['survey_'.Yii::app()->getConfig('surveyID')]['s_lang']]) != '' ? htmlspecialchars($aQuestionAttributes['time_limit_message'][$_SESSION['survey_'.Yii::app()->getConfig('surveyID')]['s_lang']], ENT_QUOTES) : gT("Your time to answer this question has expired");
     $time_limit_warning=trim($aQuestionAttributes['time_limit_warning']) != '' ? $aQuestionAttributes['time_limit_warning'] : 0;
     $time_limit_warning_2=trim($aQuestionAttributes['time_limit_warning_2']) != '' ? $aQuestionAttributes['time_limit_warning_2'] : 0;
-    $time_limit_countdown_message=trim($aQuestionAttributes['time_limit_countdown_message'][$_SESSION['survey_'.Yii::app()->getConfig('surveyID')]['s_lang']]) != '' ? htmlspecialchars($aQuestionAttributes['time_limit_countdown_message'][$_SESSION['survey_'.Yii::app()->getConfig('surveyID')]['s_lang']], ENT_QUOTES) : $clang->gT("Time remaining");
-    $time_limit_warning_message=trim($aQuestionAttributes['time_limit_warning_message'][$_SESSION['survey_'.Yii::app()->getConfig('surveyID')]['s_lang']]) != '' ? htmlspecialchars($aQuestionAttributes['time_limit_warning_message'][$_SESSION['survey_'.Yii::app()->getConfig('surveyID')]['s_lang']], ENT_QUOTES) : $clang->gT("Your time to answer this question has nearly expired. You have {TIME} remaining.");
+    $time_limit_countdown_message=trim($aQuestionAttributes['time_limit_countdown_message'][$_SESSION['survey_'.Yii::app()->getConfig('surveyID')]['s_lang']]) != '' ? htmlspecialchars($aQuestionAttributes['time_limit_countdown_message'][$_SESSION['survey_'.Yii::app()->getConfig('surveyID')]['s_lang']], ENT_QUOTES) : gT("Time remaining");
+    $time_limit_warning_message=trim($aQuestionAttributes['time_limit_warning_message'][$_SESSION['survey_'.Yii::app()->getConfig('surveyID')]['s_lang']]) != '' ? htmlspecialchars($aQuestionAttributes['time_limit_warning_message'][$_SESSION['survey_'.Yii::app()->getConfig('surveyID')]['s_lang']], ENT_QUOTES) : gT("Your time to answer this question has nearly expired. You have {TIME} remaining.");
     $time_limit_warning_message=str_replace("{TIME}", "<div style='display: inline' id='LS_question".$q->id."_Warning'> </div>", $time_limit_warning_message);
     $time_limit_warning_display_time=trim($aQuestionAttributes['time_limit_warning_display_time']) != '' ? $aQuestionAttributes['time_limit_warning_display_time']+1 : 0;
-    $time_limit_warning_2_message=trim($aQuestionAttributes['time_limit_warning_2_message'][$_SESSION['survey_'.Yii::app()->getConfig('surveyID')]['s_lang']]) != '' ? htmlspecialchars($aQuestionAttributes['time_limit_warning_2_message'][$_SESSION['survey_'.Yii::app()->getConfig('surveyID')]['s_lang']], ENT_QUOTES) : $clang->gT("Your time to answer this question has nearly expired. You have {TIME} remaining.");
+    $time_limit_warning_2_message=trim($aQuestionAttributes['time_limit_warning_2_message'][$_SESSION['survey_'.Yii::app()->getConfig('surveyID')]['s_lang']]) != '' ? htmlspecialchars($aQuestionAttributes['time_limit_warning_2_message'][$_SESSION['survey_'.Yii::app()->getConfig('surveyID')]['s_lang']], ENT_QUOTES) : gT("Your time to answer this question has nearly expired. You have {TIME} remaining.");
     $time_limit_warning_2_message=str_replace("{TIME}", "<div style='display: inline' id='LS_question".$q->id."_Warning_2'> </div>", $time_limit_warning_2_message);
     $time_limit_warning_2_display_time=trim($aQuestionAttributes['time_limit_warning_2_display_time']) != '' ? $aQuestionAttributes['time_limit_warning_2_display_time']+1 : 0;
     $time_limit_message_style=trim($aQuestionAttributes['time_limit_message_style']) != '' ? $aQuestionAttributes['time_limit_message_style'] : "position: absolute;
@@ -462,9 +462,9 @@ function return_timer_script($aQuestionAttributes, $q, $disable=null) {
         var dhours=''
         var dsecs=''
         if (whours < 10) whours = '0' + whours;
-        if (whours > 0) dhours = whours + ' ".$clang->gT('hours').", ';
-        if (wmins > 0) dmins = wmins + ' ".$clang->gT('mins').", ';
-        if (wsecs > 0) dsecs = wsecs + ' ".$clang->gT('seconds')."';
+        if (whours > 0) dhours = whours + ' ".gT('hours').", ';
+        if (wmins > 0) dmins = wmins + ' ".gT('mins').", ';
+        if (wsecs > 0) dsecs = wsecs + ' ".gT('seconds')."';
         if(document.getElementById(warningtimedisplay) !== null) {
         document.getElementById(warningtimedisplay).innerHTML = dhours+dmins+dsecs;
         }
@@ -480,9 +480,9 @@ function return_timer_script($aQuestionAttributes, $q, $disable=null) {
         var d2hours=''
         var d2secs=''
         if (w2hours < 10) w2hours = '0' + w2hours;
-        if (w2hours > 0) d2hours = w2hours + ' ".$clang->gT('hours').", ';
-        if (w2mins > 0) d2mins = w2mins + ' ".$clang->gT('mins').", ';
-        if (w2secs > 0) d2secs = w2secs + ' ".$clang->gT('seconds')."';
+        if (w2hours > 0) d2hours = w2hours + ' ".gT('hours').", ';
+        if (w2mins > 0) d2mins = w2mins + ' ".gT('mins').", ';
+        if (w2secs > 0) d2secs = w2secs + ' ".gT('seconds')."';
         if(document.getElementById(warning2timedisplay) !== null) {
         document.getElementById(warning2timedisplay).innerHTML = dhours+dmins+dsecs;
         }
@@ -511,10 +511,10 @@ function return_timer_script($aQuestionAttributes, $q, $disable=null) {
         var d2hours='';
         var d2mins='';
         var d2secs='';
-        if (hours > 0) d2hours = hours+' ".$clang->gT('hours').": ';
-        if (mins > 0) d2mins = mins+' ".$clang->gT('mins').": ';
-        if (secs > 0) d2secs = secs+' ".$clang->gT('seconds')."';
-        if (secs < 1) d2secs = '0 ".$clang->gT('seconds')."';
+        if (hours > 0) d2hours = hours+' ".gT('hours').": ';
+        if (mins > 0) d2mins = mins+' ".gT('mins').": ';
+        if (secs > 0) d2secs = secs+' ".gT('seconds')."';
+        if (secs < 1) d2secs = '0 ".gT('seconds')."';
         document.getElementById(timerdisplay).innerHTML = '".$time_limit_countdown_message."<br />'+d2hours + d2mins + d2secs;
         if (timeleft>0){
         var text='countdown('+questionid+', '+timeleft+', '+action+', '+warning+', '+warning2+', '+warninghide+', '+warning2hide+', \"'+disable+'\")';

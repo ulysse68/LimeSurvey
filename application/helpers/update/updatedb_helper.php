@@ -23,8 +23,8 @@ function db_upgrade_all($oldversion) {
 
     $usertemplaterootdir = Yii::app()->getConfig('usertemplaterootdir');
     $standardtemplaterootdir = Yii::app()->getConfig('standardtemplaterootdir');
-    $clang = Yii::app()->lang;
-    echo str_pad($clang->gT('The LimeSurvey database is being upgraded').' ('.date('Y-m-d H:i:s').')',14096).".<br /><br />". $clang->gT('Please be patient...')."<br /><br />\n";
+    
+    echo str_pad(gT('The LimeSurvey database is being upgraded').' ('.date('Y-m-d H:i:s').')',14096).".<br /><br />". gT('Please be patient...')."<br /><br />\n";
 
     $sDBDriverName=setsDBDriverName();
     setVarchar($sDBDriverName);
@@ -369,7 +369,7 @@ function db_upgrade_all($oldversion) {
             Yii::app()->db->createCommand()->createIndex('sess2_expiry','{{sessions}}','expiry');
             Yii::app()->db->createCommand()->createIndex('sess2_expireref','{{sessions}}','expireref');
             // Move all user templates to the new user template directory
-            echo sprintf($clang->gT("Moving user templates to new location at %s..."),$usertemplaterootdir)."<br />";
+            echo sprintf(gT("Moving user templates to new location at %s..."),$usertemplaterootdir)."<br />";
             $myDirectory = opendir($standardtemplaterootdir);
             $aFailedTemplates=array();
             // get each entry
@@ -1115,11 +1115,11 @@ function db_upgrade_all($oldversion) {
     catch(Exception $e)
     {
        $oTransaction->rollback();
-       echo '<br /><br />'.$clang->gT('An non-recoverable error happened during the update. Error details:')."<p>".htmlspecialchars($e->getMessage()).'</p><br />';
+       echo '<br /><br />'.gT('An non-recoverable error happened during the update. Error details:')."<p>".htmlspecialchars($e->getMessage()).'</p><br />';
        return false;
     }   
     fixLanguageConsistencyAllSurveys();
-    echo '<br /><br />'.sprintf($clang->gT('Database update finished (%s)'),date('Y-m-d H:i:s')).'<br /><br />';
+    echo '<br /><br />'.sprintf(gT('Database update finished (%s)'),date('Y-m-d H:i:s')).'<br /><br />';
     return true;
 }
 
@@ -1163,8 +1163,6 @@ function upgradeSurveys156()
     foreach ( $oSurveyResult as $aSurveyRow )
     {
 
-        Yii::app()->loadLibrary('Limesurvey_lang',array("langcode"=>$aSurveyRow['surveyls_language']));
-        $oLanguage = Yii::app()->lang;
         $aDefaultTexts=templateDefaultTexts($oLanguage,'unescaped');
         unset($oLanguage);
 
@@ -1278,8 +1276,6 @@ function upgradeSurveys145()
     $oSurveyResult = Yii::app()->db->createCommand($sSurveyQuery)->queryAll();
     foreach ( $oSurveyResult as $aSurveyRow )
     {
-        $oLanguage = new Limesurvey_lang($aSurveyRow['surveyls_language']);
-        $oLanguage = Yii::app()->lang;
         $aDefaultTexts=templateDefaultTexts($oLanguage,'unescaped');
         unset($oLanguage);
         $aDefaultTexts['admin_detailed_notification']=$aDefaultTexts['admin_detailed_notification'].$aDefaultTexts['admin_detailed_notification_css'];
@@ -1929,7 +1925,7 @@ function setVarchar($sDBDriverName=null) {
 
 function replaceTemplateJS(){
     $usertemplaterootdir=Yii::app()->getConfig("usertemplaterootdir");
-    $clang = Yii::app()->lang;
+    
     if (!$usertemplaterootdir) {return false;}
     $countstartpage=0;
     $counterror=0;
@@ -1965,15 +1961,15 @@ function replaceTemplateJS(){
     }
         if($counterror)
         {
-            echo $clang->gT("Some user templates can not be updated, please add the placeholder {TEMPLATEJS} in your startpage.pstpl manually.");
+            echo gT("Some user templates can not be updated, please add the placeholder {TEMPLATEJS} in your startpage.pstpl manually.");
             echo "<br />";
-            echo $clang->gT("Template(s) to be verified :");
+            echo gT("Template(s) to be verified :");
             echo implode(",",$errortemplate);
         }
         else
         {
             if($countstartpage){
-                echo sprintf($clang->gT("All %s user templates updated."),$countstartpage);
+                echo sprintf(gT("All %s user templates updated."),$countstartpage);
             }
         }
     if($counterror){

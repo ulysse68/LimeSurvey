@@ -1,13 +1,13 @@
 <div id="nonlocalized" class="nonlocalized tabs">
     <ul>
     <?php
-        echo CHtml::tag('li', array('id' => 'basic_tabheader'), CHtml::link($clang->gT("Basic settings"), '#basic'));
-        echo CHtml::tag('li', array('id' => 'advanced_tabheader'), CHtml::link($clang->gT("Advanced settings"), '#advanced'));
+        echo CHtml::tag('li', array('id' => 'basic_tabheader'), CHtml::link(gT("Basic settings"), '#basic'));
+        echo CHtml::tag('li', array('id' => 'advanced_tabheader'), CHtml::link(gT("Advanced settings"), '#advanced'));
     ?>
     </ul>
     <div id="basic" class="">
         <ul>
-            <li><label for='question_type'><?php $clang->eT("Question Type:"); ?></label>
+            <li><label for='question_type'><?php eT("Question Type:"); ?></label>
                 <select id='question_type' form="<?php echo $form; ?>" style='margin-bottom:5px' name='type' class='<?php echo $selectormodeclass; ?>'>
                     <?php
                         foreach ($qTypeGroups as $group => $members)

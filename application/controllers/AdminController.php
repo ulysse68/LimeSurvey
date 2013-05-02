@@ -13,7 +13,6 @@
 
 class AdminController extends LSYii_Controller
 {
-    public $lang = null;
     //public $layout = false;
     protected $user_id = 0;
 
@@ -59,15 +58,13 @@ class AdminController extends LSYii_Controller
     {
         $sURL = $url;
         $sMessage= $message;
-        $clang = $this->lang;
-
-        $this->_getAdminHeader();
+        
         $sOutput = "<div class='messagebox ui-corner-all'>\n";
-        $sOutput .= '<div class="warningheader">'.$clang->gT('Error').'</div><br />'."\n";
+        $sOutput .= '<div class="warningheader">'. gT('Error').'</div><br />'."\n";
         $sOutput .= $sMessage . '<br /><br />'."\n";
         if (!empty($sURL) && !is_array($sURL))
         {
-            $sTitle = $clang->gT('Back');
+            $sTitle = gT('Back');
         }
         elseif (!empty($sURL['url']))
         {
@@ -77,13 +74,13 @@ class AdminController extends LSYii_Controller
             }
             else
             {
-                $sTitle = $clang->gT('Back');
+                $sTitle = gT('Back');
             }
             $sURL = $sURL['url'];
         }
         else
         {
-            $sTitle = $clang->gT('Main Admin Screen');
+            $sTitle = gT('Main Admin Screen');
             $sURL = $this->createUrl('/admin');
         }
         $sOutput .= '<input type="submit" value="'.$sTitle.'" onclick=\'window.open("'.$sURL.'", "_top")\' /><br /><br />'."\n";
@@ -91,7 +88,7 @@ class AdminController extends LSYii_Controller
         $sOutput .= '</div>'."\n";
         echo $sOutput;
 
-        $this->_getAdminFooter('http://docs.limesurvey.org', $clang->gT('LimeSurvey online manual'));
+        $this->_getAdminFooter('http://docs.limesurvey.org', gT('LimeSurvey online manual'));
 
         die;
     }
@@ -103,7 +100,6 @@ class AdminController extends LSYii_Controller
     */
     protected function _sessioncontrol()
     {
-        Yii::import('application.libraries.Limesurvey_lang');
         // From personal settings
         if (Yii::app()->request->getPost('action') == 'savepersonalsettings') {
             if (Yii::app()->request->getPost('lang')=='auto')
@@ -119,9 +115,6 @@ class AdminController extends LSYii_Controller
 
         if (empty(Yii::app()->session['adminlang']))
             Yii::app()->session["adminlang"] = Yii::app()->getConfig("defaultlang");
-
-        $this->lang = new Limesurvey_lang(Yii::app()->session['adminlang']);
-        Yii::app()->setLang($this->lang);
 
         if (!empty($this->user_id))
             $this->_setSessionUserRights($this->user_id);
@@ -247,110 +240,6 @@ class AdminController extends LSYii_Controller
     }
 
     /**
-    * Prints Admin Header
-    *
-    * @access protected
-    * @param string $sMetaHeaders
-    * @return mixed
-    */
-    public function _getAdminHeader($sMetaHeaders = false)
-    {
-        if (empty(Yii::app()->session['adminlang']))
-            Yii::app()->session["adminlang"] = Yii::app()->getConfig("defaultlang");
-
-        $aData = array();
-        $aData['adminlang'] = Yii::app()->session['adminlang'];
-        $aData['test'] = "t";
-        $aData['languageRTL']="";
-        $aData['styleRTL']="";
-
-        Yii::app()->loadHelper("surveytranslator");
-
-        if (getLanguageRTL(Yii::app()->session["adminlang"]))
-        {
-            $aData['languageRTL'] = " dir=\"rtl\" ";
-            $aData['bIsRTL']=true;
-        }
-        else
-        {
-            $aData['bIsRTL']=false;
-        }
-
-        $aData['meta']="";
-        if ($sMetaHeaders)
-        {
-            $aData['meta']=$sMetaHeaders;
-        }
-
-        $aData['baseurl'] = Yii::app()->baseUrl . '/';
-        $aData['datepickerlang']="";
-        if (Yii::app()->session["adminlang"] != 'en')
-            $aData['datepickerlang'] = "<script type=\"text/javascript\" src=\"".Yii::app()->getConfig('generalscripts')."jquery/locale/jquery.ui.datepicker-".Yii::app()->session["adminlang"].".js\"></script>\n";
-
-        $aData['sitename'] = Yii::app()->getConfig("sitename");
-        $aData['admintheme'] = Yii::app()->getConfig("admintheme");
-        $aData['firebug'] = useFirebug();
-
-        if (!empty(Yii::app()->session['dateformat']))
-            $aData['formatdata'] = getDateFormatData(Yii::app()->session['dateformat']);
-
-        /* Handled by a widget now so this code is obsolete
-        // Prepare flashmessage
-        if (!empty(Yii::app()->session['flashmessage']) && Yii::app()->session['flashmessage'] != '')
-        {
-            $aData['flashmessage'] = Yii::app()->session['flashmessage'];
-            unset(Yii::app()->session['flashmessage']);
-        }
-         */
-
-        $aData['css_admin_includes'] = $this->_css_admin_includes(array(), true);
-
-        return '';//$this->renderPartial("/admin/super/header", $aData);
-    }
-
-    /**
-    * Prints Admin Footer
-    *
-    * @access protected
-    * @param string $sURL
-    * @param string $sExplanation
-    * @return mixed
-    */
-    public function _getAdminFooter($sURL, $sExplanation)
-    {
-        $clang = $this->lang;
-        $data['clang'] = $clang;
-
-        $data['versionnumber'] = Yii::app()->getConfig("versionnumber");
-
-        $data['buildtext'] = "";
-        if(Yii::app()->getConfig("buildnumber")!="") {
-            $data['buildtext']= "Build ".Yii::app()->getConfig("buildnumber");
-        }
-
-        //If user is not logged in, don't print the version number information in the footer.
-        if (empty(Yii::app()->session['loginID']))
-        {
-            $data['versionnumber']="";
-            $data['versiontitle']="";
-            $data['buildtext']="";
-        }
-        else
-        {
-            $data['versiontitle'] = $clang->gT('Version');
-        }
-
-        $data['imageurl'] = Yii::app()->getConfig("imageurl");
-        $data['url'] = $sURL;
-
-        $data['js_admin_includes']  = $this->_js_admin_includes(array(), true);
-        $data['css_admin_includes'] = $this->_css_admin_includes(array(), true);
-
-        return ''; //$this->render("/admin/super/footer", $data);
-
-    }
-
-    /**
     * Shows a message box
     *
     * @access public
@@ -364,36 +253,10 @@ class AdminController extends LSYii_Controller
         $aData['title'] = $sTitle;
         $aData['message'] = $sMessage;
         $aData['class'] = $sClass;
-        $aData['clang'] = $this->lang;
-
         return $this->renderPartial('/admin/super/messagebox', $aData, $return);
     }
 
-    /**
-    * _showadminmenu() function returns html text for the administration button bar
-    *
-    * @access public
-    * @param int $iSurveyID
-    * @return void
-    */
-    public function _showadminmenu($iSurveyID = false)
-    {
-
-        $clang = $this->lang;
-        $aData['clang']= $clang;
-
-        if (Yii::app()->session['pw_notify'] && Yii::app()->getConfig("debug")<2)  {
-            Yii::app()->session['flashmessage'] = $clang->gT("Warning: You are still using the default password ('password'). Please change your password and re-login again.");
-        }
-
-        $aData['showupdate'] = (Yii::app()->session['USER_RIGHT_SUPERADMIN'] == 1 && getGlobalSetting("updatelastcheck")>0 && getGlobalSetting("updateavailable")==1 && Yii::app()->getConfig("updatable") );
-        $aData['updateversion'] = getGlobalSetting("updateversion");
-        $aData['updatebuild'] = getGlobalSetting("updatebuild");
-        $aData['surveyid'] = $iSurveyID;
-        $aData['iconsize'] = Yii::app()->getConfig('adminthemeiconsize');
-        $aData['sImageURL'] = Yii::app()->getConfig('adminimageurl');
-        //$this->render("/admin/super/adminmenu", $aData);
-    }
+    
 
     /**
     * put your comment there...
@@ -411,54 +274,5 @@ class AdminController extends LSYii_Controller
         unset(Yii::app()->session['metaHeader']);
 
         return $this->renderPartial('/admin/endScripts_view', null, $return);
-    }
-    
-    /**
-    * put your comment there...
-    * 
-    * @param array $aIncludes
-    * @param boolean $bReset
-    */
-    public function _css_admin_includes($aIncludes = array(), $bReset = false)
-    {
-        return $this->_admin_includes('css', $aIncludes, $bReset);
-    }
-
-    /**
-    * put your comment there...
-    * 
-    * @param array $aIncludes
-    * @param boolean $bReset
-    */
-    public function _js_admin_includes($aIncludes = array(), $bReset = false)
-    {
-        return $this->_admin_includes('js', $aIncludes, $bReset);
-    }
-
-    /**
-    * put your comment there...
-    * 
-    * @param string $sMethod
-    * @param array $aIncludes
-    * @param boolean $bReset
-    */
-    private function _admin_includes($sMethod, $aIncludes = array(), $bReset = false)
-    {
-        $sMethod = in_array($sMethod, array('js', 'css')) ? $sMethod : 'js';
-        $aIncludes = (array) $aIncludes;
-        $aAdminIncludes = (array) Yii::app()->getConfig("{$sMethod}_admin_includes");
-        $aAdminIncludes = array_merge($aAdminIncludes, $aIncludes);
-        $aAdminIncludes = array_filter($aAdminIncludes);
-        $aAdminIncludes = array_unique($aAdminIncludes);
-        if ($bReset)
-        {
-            Yii::app()->setConfig("{$sMethod}_admin_includes", array());
-        }
-        else
-        {
-            Yii::app()->setConfig("{$sMethod}_admin_includes", $aAdminIncludes);
-        }
-
-        return $aAdminIncludes;
     }
 }

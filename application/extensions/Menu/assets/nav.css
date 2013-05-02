@@ -29,17 +29,10 @@ nav li {
     box-sizing: border-box;
     white-space:nowrap;
     padding: 5px;
-    vertical-align: top;
-    
 }
 
 nav ol.level0 > li {
-    padding: 2px;
-    height: 36px;
-}
-
-nav ol.level0 > li > img {
-    max-height: 32px;
+    padding: 2px !important;
 }
 
 
@@ -50,7 +43,8 @@ nav a {
 }
 
 nav img {
-    float: none;
+    float: none !important;
+    vertical-align: middle;
 }
 
 nav ol.level0 {
@@ -91,19 +85,6 @@ nav li:hover{
     background-color: #e0dfde;
 }
 
-nav .select {
-    margin: 0px;
-    display: inline-block;
-    width: 200px;
-    vertical-align: middle;
-}
-
 nav label {
     display: inline-block;
-    vertical-align: middle;
-    margin: 0px;
-    
 }
-
-/* Fix bootstrap causing menu to disappear on FF */
-nav.menubar { clear: both; }

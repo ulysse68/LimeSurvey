@@ -225,14 +225,13 @@ class SurveyDao
     public function loadSurveyById($id)
     {
         $survey = new SurveyObj();
-        $clang = Yii::app()->lang;
+        
         
         $intId = sanitize_int($id);
         $survey->id = $intId;
         $survey->info = getSurveyInfo($survey->id);
         $lang = Survey::model()->findByPk($intId)->language;
-        $clang = new limesurvey_lang($lang);
-
+        
         $survey->fieldMap = createFieldMap($intId,false,false,getBaseLanguageFromSurveyID($intId));
         // Check to see if timings are present and add to fieldmap if needed
         if ($survey->info['savetimings']=="Y") {
@@ -595,7 +594,6 @@ class Translator
         $library = null;
         if (!array_key_exists($sLanguageCode, $this->translations))
         {
-            $library = new limesurvey_lang($sLanguageCode);
             $this->translations[$sLanguageCode] = $library;
         }
         else
@@ -1200,8 +1198,6 @@ class PdfWriter extends Writer
         $pdfdefaultfont=Yii::app()->getConfig('pdfdefaultfont');
         $pdffontsize=Yii::app()->getConfig('pdffontsize');
         $pdforientation=Yii::app()->getConfig('pdforientation');// Not used
-        $clang = new limesurvey_lang($sLanguageCode);
-
         if ($oOptions->output=='file') 
         {
             $this->pdfDestination = 'F';
@@ -1247,7 +1243,7 @@ class PdfWriter extends Writer
             $lg['a_meta_dir'] = 'ltr';
         }
         $lg['a_meta_language'] = $sLanguageCode;
-        $lg['w_page']=$clang->gT("page");
+        $lg['w_page']=gT("page");
         $this->pdf->setLanguageArray($lg);
         $this->separator="\t";
 

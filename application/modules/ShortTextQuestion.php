@@ -5,7 +5,7 @@ class ShortTextQuestion extends TextQuestion
     {
         global $thissurvey;
 
-        $clang = Yii::app()->lang;
+        
         $googlemaps_api_key = Yii::app()->getConfig("googlemaps_api_key");
         $extraclass ="";
         $aQuestionAttributes = $this->getAttributeValues();
@@ -82,7 +82,7 @@ class ShortTextQuestion extends TextQuestion
             //NEW: textarea instead of input=text field
 
             // --> START NEW FEATURE - SAVE
-            $answer ="<p class='question answer-item text-item {$extraclass}'><label for='answer{$this->fieldname}' class='hide label'>{$clang->gT('Answer')}</label>"
+            $answer ="<p class='question answer-item text-item {$extraclass}'><label for='answer{$this->fieldname}' class='hide label'>{gT('Answer')}</label>"
             . '<textarea class="textarea '.$kpclass.'" name="'.$this->fieldname.'" id="answer'.$this->fieldname.'" '
             .'rows="'.$drows.'" cols="'.$tiwidth.'" '.$maxlength.' onkeyup="'.$checkconditionFunction.'(this.value, this.name, this.type);">';
             // --> END NEW FEATURE - SAVE
@@ -160,15 +160,15 @@ class ShortTextQuestion extends TextQuestion
             if (isset($aQuestionAttributes['hide_tip']) && $aQuestionAttributes['hide_tip']==0)
             {
                 $answer .= "<div class=\"questionhelp\">"
-                . $clang->gT('Drag and drop the pin to the desired location. You may also right click on the map to move the pin.').'</div>';
-                $question_text['help'] = $clang->gT('Drag and drop the pin to the desired location. You may also right click on the map to move the pin.');
+                . gT('Drag and drop the pin to the desired location. You may also right click on the map to move the pin.').'</div>';
+                $question_text['help'] = gT('Drag and drop the pin to the desired location. You may also right click on the map to move the pin.');
             }
         }
         else
         {
             //no question attribute set, use common input text field
             $answer = "<p class=\"question answer-item text-item {$extraclass}\">\n"
-            ."<label for='answer{$this->fieldname}' class='hide label'>{$clang->gT('Answer')}</label>"
+            ."<label for='answer{$this->fieldname}' class='hide label'>{gT('Answer')}</label>"
             ."$prefix\t<input class=\"text $kpclass\" type=\"text\" size=\"$tiwidth\" name=\"$this->fieldname\" id=\"answer$this->fieldname\"";
 
             $dispVal = $_SESSION['survey_'.$this->surveyid][$this->fieldname];
@@ -310,7 +310,7 @@ class ShortTextQuestion extends TextQuestion
     public function questionProperties($prop = false)
     {
         $clang=Yii::app()->lang;
-        $props=array('description' => $clang->gT("Short Free Text"),'group' => $clang->gT("Text questions"),'subquestions' => 0,'class' => 'text-short','hasdefaultvalues' => 1,'assessable' => 0,'answerscales' => 0,'enum' => 0);
+        $props=array('description' => gT("Short Free Text"),'group' => gT("Text questions"),'subquestions' => 0,'class' => 'text-short','hasdefaultvalues' => 1,'assessable' => 0,'answerscales' => 0,'enum' => 0);
         return $prop?$props[$prop]:$props;
     }
 }

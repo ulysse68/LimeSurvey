@@ -38,8 +38,7 @@ abstract class LSYii_Controller extends CController
         $this->loadHelper('globalsettings');
 		$this->loadHelper('common');
         $this->loadHelper('survey');        
-        $this->loadLibrary('limesurvey_lang');
-		$this->loadHelper('replacements');
+        $this->loadHelper('replacements');
 		$this->_init();
         
 	}

@@ -5,9 +5,24 @@ class Example extends PluginBase {
     static protected $description = 'Example plugin';
     
     protected $settings = array(
-        'message' => array(
+        'test' => array(
             'type' => 'string',
             'label' => 'Message'
+        ),
+        'messages' => array(
+            'type' => 'list',
+            'label' => 'messages',
+            'items' => array(
+                'number' => array(
+                    'type' => 'int',
+                    'label' => 'Index'
+                ),
+                'message' => array(
+                    'type' => 'string',
+                    'label' => 'Message'
+                ),
+                
+            )
         )
     );
     
@@ -34,7 +49,7 @@ class Example extends PluginBase {
         $menu = $event->get('menu', array());
         $menu['left'][]=array(
                 'href' => "http://docs.limesurvey.org",
-                'alt' => $event->getSender()->gT('LimeSurvey online manual'),
+                'alt' => gT('LimeSurvey online manual'),
                 'image' => 'showhelp.png'
             );
         

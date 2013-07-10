@@ -21,7 +21,7 @@ class AuthOpenLDAP extends AuthPluginBase
         ),
         'idfield' => array(
             'type' => 'string',
-            'label' => 'Id field, e.g. cn or uid'
+            'label' => 'LDAP id attribute, e.g. cn or uid'
         ),
         'is_default' => array(
             'type' => 'checkbox',
